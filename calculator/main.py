@@ -1,5 +1,5 @@
 from src.suma import add
-from src.resta import substract
+from src.resta import subtract
 from src.multiplicacion import multiply
 
 def main():
@@ -24,7 +24,7 @@ def main():
                 if elección == '1':
                     print("Resultado:", add(num1, num2))
                 elif elección == '2':
-                    print("Resultado:", substract(num1, num2))
+                    print("Resultado:", subtract(num1, num2))
                 elif elección == '3':
                     print("Resultado", multiply(num1, num2))
             except ValueError:
