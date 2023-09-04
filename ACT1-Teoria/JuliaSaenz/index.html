@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilosIA.css">
+    <title>Your Website</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#contacto">Información de Contacto</a></li>
+                <li><a href="#nosotros">Sobre Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <h2> Link a la consigna </h2>
+        <a href="https://docs.google.com/document/d/1YtXXgFCKE9FPgnInwpHOElKE1nX-QBSUrVNzHGbqlBU/edit#heading=h.7thdb05c1731"> Link a consigna </a>
+    </section>
+
+    <section id="catalogo">
+        <h2>Catálogo</h2>
+        <label for="category">Selecciona una categoría:</label>
+        <select id="category">
+            <option value="anime">Anime</option>
+            <option value="paisaje">Paisaje</option>
+            <option value="caricaturas">Caricaturas</option>
+        </select>
+        <div id="imageGallery">
+
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2>Información de Contacto</h2>
+        <form action="send_email.php" method="post" enctype="multipart/form-data">
+            <label for="name">Nombre del remitente:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="message">Mensaje:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <label for="image">Adjuntar imagen:</label>
+            <input type="file" id="image" name="image">
+
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <section id="nosotros">
+        <h2>Sobre Nosotros</h2>
+        <p>Nombre: Julia Saenz</p>
+        <p>Cátedra: Proyecto de Software</p>
+        <p>Legajo: 16790/7 Grupo 5</p>
+    </section>
+</body>
+</html>
