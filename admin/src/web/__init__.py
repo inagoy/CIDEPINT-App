@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
-from src.web import error
+from web.controllers import error_controller
+from web.routes import user_routes
 
 def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
@@ -8,7 +9,9 @@ def create_app(env="development", static_folder="../../static"):
     @app.get("/")
     def home():
         return render_template("home.html")
+    
+    app.register_blueprint(user_routes.user_bp)
 
-    app.register_error_handler(404, error.not_found_error)
+    app.register_error_handler(404, error_controller.not_found_error)
 
     return app
