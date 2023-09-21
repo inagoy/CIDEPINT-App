@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
-from web.controllers import error_controller
-from web.routes import user_routes
+from .controllers import error_controller
+from .routes import user_routes
 
 def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
