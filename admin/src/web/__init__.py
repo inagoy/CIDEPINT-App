@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
-from web.controllers import error_controller
-from web.routes import user_routes
+from src.core.controllers import error_controller
+from src.core.routes import user_routes
 from src.core import database
 from src.web.config import config
 def create_app(env="development", static_folder="../../static"):

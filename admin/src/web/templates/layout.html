@@ -9,7 +9,11 @@
     {% endblock %}
   </head>
   <body>
-    <div id="navbar">{% block navbar %} {% endblock %}</div>
+    <!-- if auntenticado = nav 1 -->
+    <!-- if usuario = nav 2 -->
+    <!-- if superusuario = nav 3 -->
+    <!-- roles: superusuario / dueño / administrador / operador-->
+    <nav id="navbar">{% block navbar %} {% endblock %}</nav>
     <div id="main">
         {% with messages = get_flashed_messages(with_categories = true) %}
             {% if messages %}
