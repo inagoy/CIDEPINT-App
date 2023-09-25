@@ -1,14 +1,30 @@
-html{
-    font-family: 'Courier New', Courier, monospace;
+/* generales */
+html {
+	font-family: "Courier New", Courier, monospace;
 }
 
-h1{
-    text-align: center;
-    font-size: 3rem;
+h1 {
+	text-align: center;
+	font-size: 3rem;
 }
 
-p{
-    text-align: left;
-    font-size: 1rem;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+p {
+	text-align: left;
+	font-size: 1rem;
+	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+i {
+	font-size: 1.4em;
+}
+
+/* layout */
+#main {
+	min-height: 85vh;
+}
+.logo {
+	max-height: 50px;
+}
+.logo-grande {
+	max-height: 80px;
 }
