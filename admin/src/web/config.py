@@ -8,7 +8,7 @@ class Config(object):
     TESTING = False
 
 class ProductionConfig(Config):
-    
+
     DB_USER = environ.get("DB_USER")
     DB_PASS = environ.get("DB_PASS")
     DB_HOST = environ.get("DB_HOST")
