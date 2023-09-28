@@ -26,5 +26,6 @@ i {
 	max-height: 50px;
 }
 .logo-grande {
+	width: auto;
 	max-height: 80px;
 }

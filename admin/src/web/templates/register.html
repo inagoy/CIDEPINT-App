@@ -1,8 +1,35 @@
 {% extends "layout.html" %} {% block title %} CIDEPINT: Registro {% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
 <div class="card">
-	<div class="card-body text-center">
-		<h5 class="card-title">Registro</h5>
-		<h6> estoy acá yuju </h6>
+	<div class="card-body text-center row">
+		<div class="d-md-inline d-none col-3"></div>
+		<div class="col">
+			<h4 class="card-title"> Registrate con CIDEPINT</h4>
+			<div class="dropdown-divider pb-4"></div>
+			<form method="POST" action="/register">
+				<div class="form-group">
+					<label for="inputEmail"> Dirección de email</label>
+					<input required type="email" class="form-control" id="inputEmail" placeholder="nombre@ejemplo.com"/>
+				</div>
+				<div class="form-group">
+					<label for="inputName"> Nombre </label>
+					<input required type="text" class="form-control" id="inputName" placeholder="John"/>
+				</div>
+				<div class="form-group">
+					<label for="inputSurame"> Apellido </label>
+					<input required type="text" class="form-control" id="inputSurame" placeholder="Doe"/>
+				</div>
+				<div class="form-group">
+					<label for="inputUser"> Nombre de usuario </label>
+					<input required type="text" class="form-control" id="inputUser" placeholder="johndoe"/>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword1"> Contraseña</label>
+					<input required type="password" class="form-control" id="inputPassword1" />
+				</div>
+				<button type="submit" class="btn btn-primary"> Registrar usuario </button>
+			</form>
+		</div>
+		<div class="d-md-inline d-none col-3"></div>
 	</div>
 </div>
 {% endblock %}

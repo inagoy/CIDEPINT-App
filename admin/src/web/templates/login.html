@@ -1,8 +1,24 @@
 {% extends "layout.html" %} {% block title %} CIDEPINT: Registro {% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
 <div class="card">
-	<div class="card-body text-center">
-		<h5 class="card-title"> Iniciar Sesión </h5>
-		<h6> estoy acá yuju </h6>
+	<div class="card-body text-center row">
+		<div class="d-md-inline d-none col-3"></div>
+		<div class="col">
+			<h4 class="card-title"> Bienvenido a CIDEPINT</h4>
+			<div class="dropdown-divider pb-4"></div>
+			<form method="POST" action="/register">
+				<div class="form-group">
+					<label for="exampleInputEmail1"> Dirección de email</label>
+					<input required type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="nombre@ejemplo.com"/>
+					<small id="emailHelp" class="form-text text-muted"> Nunca vamos a compartir tu mail.</small>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1"> Contraseña</label>
+					<input required type="password" class="form-control" id="exampleInputPassword1" />
+				</div>
+				<button type="submit" class="btn btn-primary"> Iniciar Sesión </button>
+			</form>
+		</div>
+		<div class="d-md-inline d-none col-3"></div>
 	</div>
 </div>
 {% endblock %}
