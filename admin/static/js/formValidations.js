@@ -17,6 +17,38 @@ function validateEmail(inputId, errorId) {
 	}
 }
 
+function validateJustText(inputId, errorId) {
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+	const pattern = /^[\p{L}\s´]+$/u;
+
+	if (!pattern.test(input.value)) {
+		error.textContent = "Solo se permiten letras y espacios";
+	} else {
+		error.textContent = "";
+	}
+}
+
+function validateUsername(inputId, errorId) {
+	const usernameInput = document.getElementById(inputId);
+	const usernameError = document.getElementById(errorId);
+	const pattern = /^[A-Za-z0-9_]+$/;
+
+	if (usernameInput.value.length < 4) {
+		usernameError.textContent = "El nombre de usuario debe tener por lo menos 4 caracteres.";
+	}
+
+	if (!pattern.test(usernameInput.value)) {
+		// Display an error message
+		usernameError.textContent = "Nombre de usuario inválido. Solo letras, números y _";
+		return false; // Return false to prevent form submission
+	} else {
+		// Clear the error message
+		usernameError.textContent = "";
+		return true; // Return true to allow form submission
+	}
+}
+
 function validatePassword(inputId, errorId) {
 	const passwordInput = document.getElementById(inputId);
 	const passwordError = document.getElementById(errorId);
