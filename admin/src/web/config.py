@@ -1,4 +1,3 @@
-
 from os import environ
 
 
@@ -6,6 +5,7 @@ class Config(object):
     SECRET_KEY = "secret"
     DEBUG = False
     TESTING = False
+
 
 class ProductionConfig(Config):
 
@@ -19,6 +19,7 @@ class ProductionConfig(Config):
     )
     pass
 
+
 class DevelopmentConfig(Config):
     DEBUG = True
     DB_USER = environ.get("DB_USER")
@@ -30,13 +31,14 @@ class DevelopmentConfig(Config):
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
     )
 
+
 class TestingConfig(Config):
     TESTING = True
     pass
 
 
-config= {
-    "production" : ProductionConfig,
+config = {
+    "production": ProductionConfig,
     "development": DevelopmentConfig,
     "testing": TestingConfig
 }
