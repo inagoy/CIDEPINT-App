@@ -1,4 +1,4 @@
-from core.models.privileges import Role, Permission
+from ...core.models.privileges import Role, Permission
 from src.core.database import db
 
 

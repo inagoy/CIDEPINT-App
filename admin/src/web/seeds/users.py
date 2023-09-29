@@ -1,4 +1,4 @@
-from core.models.privileges import Role
+from ...core.models.privileges import Role
 from src.core.models.user import User
 from src.core.models.user_role_institution import UserRoleInstitution
 from src.core.database import db
