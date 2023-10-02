@@ -11,11 +11,33 @@ roles_data = [
 
 
 permissions_data = [
-    {"name": "index"},
-    {"name": "new"},
-    {"name": "destroy"},
-    {"name": "update"},
-    {"name": "show"},
+    {"name": "user_index"},
+    {"name": "user_new"},
+    {"name": "user_destroy"},
+    {"name": "user_update"},
+    {"name": "user_show"},
+
+    {"name": "institution_index"},
+    {"name": "institution_new"},
+    {"name": "institution_destroy"},
+    {"name": "institution_update"},
+    {"name": "institution_show"},
+    {"name": "institution_activate"},
+    {"name": "institution_deactivate"},
+
+    {"name": "service_index"},
+    {"name": "service_new"},
+    {"name": "service_destroy"},
+    {"name": "service_update"},
+    {"name": "service_show"},
+
+    {"name": "request_index"},
+    {"name": "request_new"},
+    {"name": "request_destroy"},
+    {"name": "request_update"},
+
+    {"name": "config_index"},
+    {"name": "config_update"},
 ]
 
 

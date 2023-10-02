@@ -2,12 +2,16 @@ from os import environ
 
 
 class Config(object):
+    """ Base configuration. """
+
     SECRET_KEY = "secret"
     DEBUG = False
     TESTING = False
+    SESSION_TYPE = "filesystem"
 
 
 class ProductionConfig(Config):
+    """ Production configuration. """
 
     DB_USER = environ.get("DB_USER")
     DB_PASS = environ.get("DB_PASS")
@@ -21,6 +25,8 @@ class ProductionConfig(Config):
 
 
 class DevelopmentConfig(Config):
+    """ Development configuration. """
+
     DEBUG = True
     DB_USER = environ.get("DB_USER")
     DB_PASS = environ.get("DB_PASS")
@@ -33,6 +39,8 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+    """ Testing configuration. """
+
     TESTING = True
     pass
 

@@ -5,19 +5,20 @@
 	</a>
 	<div class="navbar" id="navbarNav">
 		<ul class="navbar-nav align-items-center">
+			{% if is_authenticated(session) %}
 			<div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdown-instituciones" data-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-bank2"></i> 
-                    <span class="ml-2 d-none d-sm-inline">Instituciones</span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdown-instituciones">
-                    <li><a class="dropdown-item" href="instituciones/instucion1">Institución 1</a></li>
-                    <li><a class="dropdown-item" href="instituciones/institucion2">Institución 2</a></li>
-                </ul>
-            </div>
-            
+				<button class="btn dropdown-toggle" type="button" id="dropdown-instituciones" data-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-bank2"></i>
+					<span class="ml-2 d-none d-sm-inline">Instituciones</span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdown-instituciones">
+					<li><a class="dropdown-item" href="#">Institución 1</a></li>
+					<li><a class="dropdown-item" href="#">Institución 2</a></li>
+				</ul>
+			</div>
+
 			<li class="nav-item">
-				<a class="nav-link" href="seguimiento">
+				<a class="nav-link" href="#">
 					<div class="d-flex align-items-center">
 						<i class="bi bi-truck"></i>
 						<p class="mb-0 ml-2 d-none d-sm-inline">Seguimiento</p>
@@ -25,21 +26,26 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="configuracion">
+				<a class="nav-link" href="#">
 					<div class="d-flex align-items-center">
 						<i class="bi bi-gear"></i>
 						<p class="mb-0 ml-2 d-none d-sm-inline">Configuración</p>
 					</div>
 				</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="user/<int:user_id>">
-					<div class="d-flex align-items-center">
-						<i class="bi bi-person-circle"></i>
-						<p class="mb-0 ml-2 d-none d-sm-inline">Cuenta</p>
-					</div>
-				</a>
-			</li>
+
+			<div class="dropdown">
+				<button class="btn dropdown-toggle" type="button" id="dropdown-account" data-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-person-circle"></i>
+					<span class="ml-2 d-none d-sm-inline">Cuenta</span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdown-instituciones">
+					<li><a class="dropdown-item" href="#">Editar perfil</a></li>
+					<li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
+				</ul>
+			</div>
+
+			{% endif %}
 		</ul>
 	</div>
 </nav>
