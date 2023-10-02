@@ -34,7 +34,7 @@ def seed_users() -> None:
     Returns:
         None
     """
-   
+
     users_data = [
         {"first_name": "John",
          "last_name": "Doe",

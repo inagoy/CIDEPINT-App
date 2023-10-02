@@ -1,13 +1,23 @@
 /* generales */
 html {
 	font-family: "Courier New", Courier, monospace;
+/* generales */
+html {
+	font-family: "Courier New", Courier, monospace;
 }
 
 h1 {
 	text-align: center;
 	font-size: 3rem;
+h1 {
+	text-align: center;
+	font-size: 3rem;
 }
 
+p {
+	text-align: left;
+	font-size: 1rem;
+	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 p {
 	text-align: left;
 	font-size: 1rem;
@@ -28,4 +38,30 @@ i {
 .logo-grande {
 	width: auto;
 	max-height: 80px;
+}
+
+.card-login {
+	background-color: rgba(255, 255, 255, 0.764);
+	padding: 20px;
+	border-radius: 5px;
+	height: 100%;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+	.card-login {
+		max-width: 400px;
+		padding-bottom: 10px;
+	}
+}
+	
+#loginForm {
+	height: 100%;
+	flex-direction: column;
+}
+
+.form-group-login {
+	text-align: left;
+	padding-bottom: 15px;
 }

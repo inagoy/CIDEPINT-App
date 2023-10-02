@@ -38,3 +38,16 @@ class User(db.Model):
         db.session.add(user)
         db.session.commit()
         return user
+
+    @classmethod
+    def find_user_by_email(cls, email):
+        """
+        Find a user by email address.
+
+        Args:
+            email (str): The email address of the user to find.
+
+        Returns:
+            User: The user object found, or None if no user was found.
+        """
+        return cls.query.filter_by(email=email).first()

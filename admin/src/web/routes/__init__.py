@@ -1,9 +1,11 @@
-from .auth_routes import auth_bp
-from .user_routes import user_bp
-from .home_routes import set_home_route
+from src.web.routes.auth_routes import auth_bp
+from src.web.routes.user_routes import user_bp
+from src.web.routes.home_routes import home_bp
+from src.web.routes.error_routes import error_bp
 
 
 def set_routes(app) -> None:
+    app.register_blueprint(home_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(auth_bp)
-    set_home_route(app)
+    app.register_blueprint(error_bp)

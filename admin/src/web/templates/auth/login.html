@@ -1,0 +1,54 @@
+{% extends "layout.html" %} 
+{% block title %} 
+	CIDEPINT: Registro 
+{% endblock %} 
+{% block head %} 
+	{{ super() }}
+	<style>
+		body {
+			background-image: url("../../../../../static/assets/login-background.jpg");
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-position: center;
+		}
+	</style>
+	<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+{% endblock %} 
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center mt-5">
+			<div class="col-md-6">
+				<div class="card-login">
+					<div class="card-body text-center">
+						<i class="bi bi-person-circle" style="font-size: 4rem;"></i>
+						<h4 class="card-title">Bienvenido a CIDEPINT</h4>
+						<hr>
+						<form method="POST" action="{{ url_for('auth.authenticate') }}" id="loginForm">
+							<div class="form-group-login">
+								<label for="inputEmail">Dirección de email</label>
+								<input
+									name="inputEmail"
+									required
+									type="email"
+									class="form-control"
+									id="inputEmail"
+									aria-describedby="emailHelp"
+									placeholder="nombre@ejemplo.com"
+									onblur="validateEmail('inputEmail', 'emailError')"
+								/>
+								<small id="emailError" class="form-text text-danger"></small>
+							</div>
+							<div class="form-group-login">
+								<label for="inputPassword">Contraseña</label>
+								<input name="inputPassword" required type="password" class="form-control" id="inputPassword" />
+							</div>
+							<small id="loginError" class="form-text text-danger"></small>
+							<button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

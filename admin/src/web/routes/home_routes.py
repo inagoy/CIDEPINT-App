@@ -1,7 +1,10 @@
-from flask import render_template
+from src.core.controllers import home_controller
+from flask import Blueprint
 
 
-def set_home_route(app):
-    @app.route("/")
-    def home():
-        return render_template("home.html")
+home_bp = Blueprint('home', __name__)
+
+
+@home_bp.route("/")
+def home():
+    return home_controller.home()
