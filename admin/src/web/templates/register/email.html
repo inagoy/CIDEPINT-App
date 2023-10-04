@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmación de Email</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background-color: #f2f2f2; padding: 20px; border-radius: 10px;">
+            <h1 style="color: #333;">Hola {{ first_name }} {{ last_name }},</h1>
+            
+            <p style="color: #555;">Gracias por registrarte en nuestra plataforma. 
+            Por favor ingrese al siguiente enlace para confirmar su correo:
+            </p>
+            
+            <p><a href="{{ confirmation_link }}" style="background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Confirmar Correo</a></p>
+            
+            <p style="color: #555;">Si no realizó el registro, puede ignorar el mail.</p>
+            <p style="color: #777;">Muchas gracias, <br>el equipo de CIDEPINT</p>
+        </div>
+    </div>
+</body>
+</html>
+

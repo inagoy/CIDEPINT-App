@@ -1,0 +1,19 @@
+{% extends "layout.html" %} {% block title %} CIDEPINT: Primer Registro  Exitoso {% endblock %} {% block head %} {{ super() }}
+{% endblock %} {% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h1 class="card-title">¡Confirmación de Email Exitosa!</h1>
+                    <p class="lead"> {{ first_name }} {{ last_name }}!</p>
+                    <p>Tu E-Mail ({{ email }}) ha sido confirmado.</p>
+                </div>
+                <div class="text-center">
+                    <a href="{{ url_for('home.home') }}" class="btn btn-primary">Continuar con el registro</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

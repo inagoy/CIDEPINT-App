@@ -9,6 +9,14 @@ class Config(object):
     TESTING = False
     SESSION_TYPE = "filesystem"
 
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = environ.get("MAIL_PASSWORD")
+
+
 
 class ProductionConfig(Config):
     """ Production configuration. """
