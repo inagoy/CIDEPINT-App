@@ -1,16 +1,17 @@
 from src.core.models.user import User
 from flask import flash, redirect, url_for, render_template
 from flask import session
-from src.core.bcrypt import bcrypt
-from src.web.helpers.auth import is_authenticated
+# from src.core.bcrypt import bcrypt
+from src.core.common.decorators import LoginWrap
 
 
 def check_user(email, password):
 
     user = User.find_user_by_email(email)
 
-    if user and bcrypt.check_password_hash(user.password,
-                                           password.encode("utf-8")):
+    # if user and bcrypt.check_password_hash(user.password,
+    #                                       password.encode("utf-8")):
+    if user and user.password == password:
         return user
     else:
         return None
@@ -30,12 +31,16 @@ def authenticate(request):
         return redirect(url_for("auth.login"))
 
     session["user"] = user.email
+    current_institution = User.get_user_institutions(user_id=user.id)[0]
+    if current_institution:
+        session["current_institution"] = current_institution.id
+
     flash("Sesión iniciada correctamente", "success")
-    return redirect(url_for("home.home"))
+    return redirect(url_for("home.home_user"))
 
 
 def logout():
-    if is_authenticated(session):
+    if LoginWrap.evaluate_condition():
         del session["user"]
         session.clear
         flash("Sesión cerrada correctamente", "info")

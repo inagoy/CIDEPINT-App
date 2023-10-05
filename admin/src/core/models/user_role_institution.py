@@ -27,3 +27,7 @@ class UserRoleInstitution(db.Model):
                                     institution_id=institution_id)
         db.session.add(user_role_institution)
         db.session.commit()
+
+    @classmethod
+    def get_roles_institutions_of_user(cls, user_id: int):
+        return UserRoleInstitution.query.filter_by(user_id=user_id).all()

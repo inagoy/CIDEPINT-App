@@ -56,3 +56,17 @@ i {
 	text-align: left;
 	padding-bottom: 15px;
 }
+
+.close-icon {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    margin-right: 5px;
+    margin-top: 3px;
+}
+
+.dropdown-item-selected {
+	background-color: #c8bcbc; 
+    font-weight: bold;
+}

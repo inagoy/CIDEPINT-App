@@ -6,17 +6,21 @@
 	<div class="navbar" id="navbarNav">
 		<ul class="navbar-nav align-items-center">
 			{% if is_authenticated(session) %}
+			{% if current_institution %}
 			<div class="dropdown">
 				<button class="btn dropdown-toggle" type="button" id="dropdown-instituciones" data-toggle="dropdown" aria-expanded="false">
 					<i class="bi bi-bank2"></i>
 					<span class="ml-2 d-none d-sm-inline">Instituciones</span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdown-instituciones">
-					<li><a class="dropdown-item" href="#">Institución 1</a></li>
-					<li><a class="dropdown-item" href="#">Institución 2</a></li>
+					{% for institution in user_institutions %}
+						<li {% if institution.id == current_institution %}class="dropdown-item-selected"{% endif %}>
+							<a class="dropdown-item" href="#">{{institution.name}}</a>
+						</li>
+					{% endfor %}
 				</ul>
 			</div>
-
+			{% endif %}
 			<li class="nav-item">
 				<a class="nav-link" href="#">
 					<div class="d-flex align-items-center">

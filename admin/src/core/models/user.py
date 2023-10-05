@@ -1,5 +1,7 @@
 from datetime import datetime
 from src.core.database import db
+from src.core.models.user_role_institution import UserRoleInstitution
+from src.core.models.institution import Institution
 
 
 class User(db.Model):
@@ -51,3 +53,16 @@ class User(db.Model):
             User: The user object found, or None if no user was found.
         """
         return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def get_user_institutions(cls, user_id: int):
+        query = (UserRoleInstitution.get_roles_institutions_of_user(user_id))
+
+        institutions = [Institution.get_institution_by_id
+                        (role_institution.institution_id)
+                        for role_institution in query]
+
+        return institutions
+
+    def get_institution(self):
+        return self.get_user_institutions(self.id)
