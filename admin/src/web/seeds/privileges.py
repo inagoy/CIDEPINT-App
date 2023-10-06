@@ -3,22 +3,22 @@ from src.core.database import db
 
 
 roles_data = [
-    {"name": "Super Administrador"},
-    {"name": "Dueño"},
-    {"name": "Administrador"},
-    {"name": "Operador"},
+    {"name": "Super Admin"},
+    {"name": "Owner"},
+    {"name": "Administrator"},
+    {"name": "Operator"},
 ]
 
 
 permissions_data = [
     {"name": "user_index"},
-    {"name": "user_new"},
+    {"name": "user_create"},
     {"name": "user_destroy"},
     {"name": "user_update"},
     {"name": "user_show"},
 
     {"name": "institution_index"},
-    {"name": "institution_new"},
+    {"name": "institution_create"},
     {"name": "institution_destroy"},
     {"name": "institution_update"},
     {"name": "institution_show"},
@@ -26,13 +26,13 @@ permissions_data = [
     {"name": "institution_deactivate"},
 
     {"name": "service_index"},
-    {"name": "service_new"},
+    {"name": "service_create"},
     {"name": "service_destroy"},
     {"name": "service_update"},
     {"name": "service_show"},
 
     {"name": "request_index"},
-    {"name": "request_new"},
+    {"name": "request_create"},
     {"name": "request_destroy"},
     {"name": "request_update"},
 
@@ -53,33 +53,52 @@ def seed_privileges() -> None:
             db.session.add(permission)
 
     def add_role_permission_relationships():
-        role_permission_relationships = [
-            {
-                "role_name": "Super Administrador",
-                "permissions": ["user_index", "user_new",
-                                "user_destroy", "user_update", "user_show"],
-            },
-            {
-                "role_name": "Dueño",
-                "permissions": ["service_index", "service_new",
-                                "service_destroy", "service_update",
-                                "service_show"],
-            },
-            {
-                "role_name": "Administrador",
-                "permissions": ["service_index", "service_new",
-                                "service_destroy", "service_update",
-                                "service_show"],
-            },
-            {
-                "role_name": "Operador",
-                "permissions": ["service_index", "service_new",
-                                "service_update", "service_show"],
-            },
+        role_permissions = [
+            {"role": "Super Admin",
+             "permissions": [
+                "user_index", "user_create", "user_destroy", "user_update",
+                "user_show", "institution_index", "institution_create",
+                "institution_destroy", "institution_update",
+                "institution_show", "institution_activate",
+                "institution_deactivate", "user_institution_index",
+                "user_institution_create", "user_institution_destroy",
+                "user_institution_update", "service_index", "service_create",
+                "service_destroy", "service_update", "service_show",
+                "request_index", "request_create", "request_destroy",
+                "request_update", "config_index", "config_update"
+                ]
+             },
+
+            {"role": "Owner",
+             "permissions": [
+                "institution_update", "user_index", "user_institution_index",
+                "user_institution_create", "user_institution_destroy",
+                "user_institution_update", "service_index", "service_create",
+                "service_destroy", "service_update", "service_show",
+                "request_index", "request_create", "request_destroy",
+                "request_update"
+                ]
+             },
+
+            {"role": "Administrator",
+             "permissions": [
+                "service_index", "service_create", "service_destroy",
+                "service_update", "service_show", "request_index",
+                "request_create", "request_destroy", "request_update"
+                ]
+             },
+
+            {"role": "Operator",
+             "permissions": [
+                "service_index", "service_show", "service_update",
+                "service_create", "request_index", "request_show",
+                "request_update"
+                ]
+             },
         ]
 
-        for relationship in role_permission_relationships:
-            role = Role.query.filter_by(name=relationship["role_name"]).first()
+        for relationship in role_permissions:
+            role = Role.query.filter_by(name=relationship["role"]).first()
             permissions = relationship["permissions"]
             role.has_permissions.extend(
                 Permission.query.filter(Permission.name.in_(permissions)).all()

@@ -6,7 +6,7 @@
 	<div class="navbar" id="navbarNav">
 		<ul class="navbar-nav align-items-center">
 			{% if is_authenticated(session) %}
-			{% if current_institution %}
+			{% if user_institutions %}
 			<div class="dropdown">
 				<button class="btn dropdown-toggle" type="button" id="dropdown-instituciones" data-toggle="dropdown" aria-expanded="false">
 					<i class="bi bi-bank2"></i>

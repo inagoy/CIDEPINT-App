@@ -110,3 +110,19 @@ class User(db.Model):
 
     def get_institution(self):
         return self.get_user_institutions(self.id)
+
+    @classmethod
+    def get_role_in_institution(cls, user_id: int,
+                                institution_id: int = None) -> object:
+
+        roles = (UserRoleInstitution.get_roles_institutions_of_user
+                 (user_id=user_id))
+        if not roles:
+            return None
+
+        role_id = next((role.role_id for role in roles
+                        if role.institution_id == institution_id), None)
+        if role_id:
+            return role_id
+
+        return None
