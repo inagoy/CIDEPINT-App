@@ -98,6 +98,7 @@ class User(db.Model):
     def find_user_by_phone_number(cls, phone_number):
         return cls.query.filter_by(phone_number=phone_number).first()
 
+    @classmethod
     def get_user_institutions(cls, user_id: int):
         query = (UserRoleInstitution.get_roles_institutions_of_user(user_id))
 
