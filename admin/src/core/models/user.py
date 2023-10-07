@@ -1,6 +1,8 @@
 from datetime import datetime
 from src.core.database import db
 from enum import Enum as EnumBase
+from src.core.models.user_role_institution import UserRoleInstitution
+from src.core.models.institution import Institution
 
 
 class GenderEnum(EnumBase):
@@ -95,3 +97,15 @@ class User(db.Model):
     @classmethod
     def find_user_by_phone_number(cls, phone_number):
         return cls.query.filter_by(phone_number=phone_number).first()
+
+    def get_user_institutions(cls, user_id: int):
+        query = (UserRoleInstitution.get_roles_institutions_of_user(user_id))
+
+        institutions = [Institution.get_institution_by_id
+                        (role_institution.institution_id)
+                        for role_institution in query]
+
+        return institutions
+
+    def get_institution(self):
+        return self.get_user_institutions(self.id)

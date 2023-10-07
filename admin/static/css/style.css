@@ -1,23 +1,14 @@
 /* generales */
 html {
 	font-family: "Courier New", Courier, monospace;
-/* generales */
-html {
-	font-family: "Courier New", Courier, monospace;
 }
 
 h1 {
 	text-align: center;
 	font-size: 3rem;
-h1 {
-	text-align: center;
-	font-size: 3rem;
 }
 
-p {
-	text-align: left;
-	font-size: 1rem;
-	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+
 p {
 	text-align: left;
 	font-size: 1rem;
@@ -64,4 +55,18 @@ i {
 .form-group-login {
 	text-align: left;
 	padding-bottom: 15px;
+}
+
+.close-icon {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    margin-right: 5px;
+    margin-top: 3px;
+}
+
+.dropdown-item-selected {
+	background-color: #c8bcbc; 
+    font-weight: bold;
 }

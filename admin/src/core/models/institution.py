@@ -53,3 +53,7 @@ class Institution(db.Model):
         db.session.add(institution)
         db.session.commit()
         return institution
+
+    @classmethod
+    def get_institution_by_id(cls, id: int):
+        return cls.query.filter_by(id=id).first()
