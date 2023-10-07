@@ -1,5 +1,17 @@
 from datetime import datetime
 from src.core.database import db
+from enum import Enum as EnumBase
+
+
+class GenderEnum(EnumBase):
+    MASCULINO = 'Masculino'
+    FEMENINO = 'Femenino'
+    NO_BINARIO = 'No binario'
+
+
+class DocumentEnum(EnumBase):
+    DNI = 'DNI'
+    PASAPORTE = 'Pasaporte'
 
 
 class User(db.Model):
@@ -10,6 +22,16 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     username = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
+    address = db.Column(db.String(255))
+    phone_number = db.Column(db.String(31))
+    gender = db.Column(db.Enum(GenderEnum,
+                               values_callable=lambda x:
+                               [str(e.value)for e in GenderEnum]))
+    document_type = db.Column(db.Enum(DocumentEnum,
+                              values_callable=lambda x:
+                              [str(e.value)for e in DocumentEnum]))
+    document = db.Column(db.String(31))
+
     active = db.Column(db.Boolean, default=False)
 
     updated_at = db.Column(
@@ -38,6 +60,29 @@ class User(db.Model):
         db.session.add(user)
         db.session.commit()
         return user
+
+    @classmethod
+    def update(cls, user_id, **kwargs):
+        """
+        Update an existing user's attributes in the database.
+
+        Args:
+            user_id (int): The ID of the user to be updated.
+            **kwargs: Keyword arguments representing the attributes to update.
+
+        Returns:
+            User: The updated user object.
+        """
+
+        user = cls.query.get(user_id)
+        if user:
+            for key, value in kwargs.items():
+                setattr(user, key, value)
+            user.updated_at = datetime.utcnow()
+            db.session.commit()
+            return user
+        else:
+            return None
 
     @classmethod
     def find_user_by_email(cls, email):

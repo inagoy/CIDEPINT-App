@@ -13,9 +13,8 @@ class Config(object):
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = environ.get("MAIL_USERNAME")
-    MAIL_PASSWORD = environ.get("MAIL_PASSWORD")
-
+    MAIL_USERNAME = 'emiliamancini.m@gmail.com'
+    MAIL_PASSWORD = 'ihej sxxz scwj bemi '
 
 
 class ProductionConfig(Config):

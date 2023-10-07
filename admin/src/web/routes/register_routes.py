@@ -17,3 +17,8 @@ def first_form():
 @register_bp.route('/confirmation/<string:hashed_email>', methods=['GET'])
 def confirmation(hashed_email):
     return register_controller.confirmation(hashed_email)
+
+
+@register_bp.route("/second_form/<string:hashed_email>", methods=["POST"])
+def second_form(hashed_email):
+    return register_controller.second_form(request, hashed_email)

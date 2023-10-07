@@ -9,7 +9,7 @@ def init_app(app):
 
 
 def message(subject, recipients, template,
-            sender="emiliamancini.m@gmail.com", **kwargs):
+            sender="no-reply@cidepint.com", **kwargs):
     msg = Message(subject, sender=sender, recipients=recipients)
     msg.html = render_template(template, **kwargs)
     mail.send(msg)

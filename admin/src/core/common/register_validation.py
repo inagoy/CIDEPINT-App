@@ -14,6 +14,10 @@ def first_registration_validation(name: str, surname: str, email: str) -> list:
     return errors
 
 
+def second_registration_validation():
+    return []
+
+
 def is_valid_email(email):
     email_pattern = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
     return re.match(email_pattern, email) is not None
