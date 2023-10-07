@@ -31,8 +31,10 @@ def authenticate(request):
         return redirect(url_for("auth.login"))
 
     session["user"] = user.email
-    current_institution = User.get_user_institutions(user_id=user.id)[0]
-    if current_institution:
+    current_institution = User.get_user_institutions(user_id=user.id)
+
+    if not (current_institution.__len__() == 0 or
+            current_institution[0] is None):
         session["current_institution"] = current_institution.id
 
     flash("Sesión iniciada correctamente", "success")
