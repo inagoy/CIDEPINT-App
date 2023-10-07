@@ -1,7 +1,8 @@
+from src.core.bcrypt import bcrypt
+from core.common import serializers as s
 from flask import redirect, render_template, flash, url_for
 from src.core.models.hashed_email import HashedEmail
 from src.core.models.user import User
-from core.common import register_validation as validation
 from src.core import mail
 import uuid
 
@@ -11,37 +12,36 @@ def first_registration():
 
 
 def first_form(request):
-    name = request.form.get('inputName')
-    surname = request.form.get('inputSurname')
-    email = request.form.get('inputEmail')
+    form_raw = request.form.to_dict()
+    key_mapping = {'inputName': 'first_name',
+                   'inputSurname': 'last_name',
+                   'inputEmail': 'email'}
 
-    errors = validation.first_registration_validation(name, surname, email)
-    if errors:
-        for error in errors:
-            flash(error, 'error')
-        return render_template("register/first_registration.html")
+    form = {key_mapping.get(old_key, old_key):
+            value for old_key, value in form_raw.items()}
 
-    if User.find_user_by_email(email):
-        flash("Este email ya esta registrado", "error")
-        return render_template("register/first_registration.html")
+    serializer = s.FirstRegistrationSerializer().validate(form)
+    if not serializer["is_valid"]:
+        for error in serializer["errors"].values():
+            flash(error, 'danger')
+            return render_template("register/first_registration.html")
 
-    user = User.save(name, surname, email)
-    email_hash = uuid.uuid5(uuid.NAMESPACE_DNS, email)
+    user = User.save(**form)
+    email_hash = uuid.uuid5(uuid.NAMESPACE_DNS, form["email"])
     HashedEmail.save(email_hash, user.id)
 
     mail.message(
         "Confirmación de registro",
-        recipients=[email],
+        recipients=[form["email"]],
         template="register/email.html",
-        first_name=name,
-        last_name=surname,
+        first_name=form["first_name"],
+        last_name=form["last_name"],
         confirmation_link=url_for(
             "register.confirmation",
             hashed_email=email_hash,
             _external=True
         )
     )
-
     return render_template("register/first_registration_success.html")
 
 
@@ -77,15 +77,14 @@ def second_form(request, hashed_email):
                        'inputGender': 'gender'}
         form = {key_mapping.get(old_key, old_key):
                 value for old_key, value in form_raw.items()}
-        form['password'] = form['password'].encode("utf-8")
+        serializer = s.SecondRegistrationSerializer().validate(form)
+        if not serializer["is_valid"]:
+            for error in serializer["errors"].values():
+                flash(error, 'danger')
+                return redirect(url_for("register.confirmation",
+                                hashed_email=hashed_email))
 
-        errors = validation.second_registration_validation()
-        if errors:
-            for error in errors:
-                flash(error, 'error')
-            return redirect(url_for("register.confirmation",
-                                    hashed_email=hashed_email))
-
+        form['password'] = bcrypt.generate_password_hash(form['password'])
         userUpdated = User.update(user.id, active=True, **form)
         if userUpdated:
             flash("Se ha completado el registro exitosamente", "success")

@@ -8,7 +8,7 @@ from src.web.helpers.auth import is_authenticated
 def check_user(email, password):
 
     user = User.find_user_by_email(email)
-
+    print(user.password, password.encode("utf-8"))
     if user and bcrypt.check_password_hash(user.password,
                                            password.encode("utf-8")):
         return user

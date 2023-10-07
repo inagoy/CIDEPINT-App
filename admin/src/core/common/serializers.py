@@ -1,4 +1,4 @@
-from core.common.validation_plantilla import ValidationError
+from core.common.validators import ValidationError
 from core.common import validators as v
 
 
@@ -8,7 +8,11 @@ class ValidateSerializer():
     @classmethod
     def validate(self, data: dict):
         errors = {}
-        for i, campo in enumerate(data):
+        try:
+            v.validate_form_data(data, list(self.fields.keys()))
+        except ValidationError as e:
+            errors["missing_fields"] = str(e)
+        for campo in data:
             try:
                 for validation_function in self.fields.get(campo):
                     validation_function(data.get(campo))
@@ -22,5 +26,20 @@ class ValidateSerializer():
 
 class FirstRegistrationSerializer(ValidateSerializer):
     fields = {
-                "email": [v.validate_email]
+                "email": [v.validate_no_email, v.validate_email],
+                "first_name": [v.validate_just_text],
+                "last_name": [v.validate_just_text],
+    }
+
+
+class SecondRegistrationSerializer(ValidateSerializer):
+    fields = {
+                "username": [v.validate_no_username, v.validate_username],
+                "password": [v.validate_password],
+                "address": [v.validate_address],
+                "phone_number": [v.validate_no_phone_number,
+                                 v.validate_phone_number],
+                "gender": [v.validate_just_text],
+                "document_type": [v.validate_just_text],
+                "document": [v.validate_no_document, v.validate_just_number],
     }

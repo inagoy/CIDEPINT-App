@@ -21,16 +21,16 @@ class User(db.Model):
     last_name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     username = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(255))
+    password = db.Column(db.LargeBinary())
     address = db.Column(db.String(255))
-    phone_number = db.Column(db.String(31))
+    phone_number = db.Column(db.String(31), unique=True)
     gender = db.Column(db.Enum(GenderEnum,
                                values_callable=lambda x:
                                [str(e.value)for e in GenderEnum]))
     document_type = db.Column(db.Enum(DocumentEnum,
                               values_callable=lambda x:
                               [str(e.value)for e in DocumentEnum]))
-    document = db.Column(db.String(31))
+    document = db.Column(db.String(31), unique=True)
 
     active = db.Column(db.Boolean, default=False)
 
@@ -41,22 +41,18 @@ class User(db.Model):
     inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     @classmethod
-    def save(cls, first_name, last_name, email, **kwargs) -> object:
+    def save(cls, **kwargs) -> object:
         """
         Create and save a new user in the database.
 
         Args:
-            first_name (str): The user's first_name.
-            last_name (str): The user's last_name.
-            email (str): The user's email address.
-            **kwargs: Additional keyword arguments for user attributes.
+            **kwargs: Keyword arguments for user attributes.
 
         Returns:
             User: The created user object.
         """
 
-        user = User(first_name=first_name, last_name=last_name, email=email,
-                    **kwargs)
+        user = User(**kwargs)
         db.session.add(user)
         db.session.commit()
         return user
@@ -86,13 +82,16 @@ class User(db.Model):
 
     @classmethod
     def find_user_by_email(cls, email):
-        """
-        Find a user by email address.
-
-        Args:
-            email (str): The email address of the user to find.
-
-        Returns:
-            User: The user object found, or None if no user was found.
-        """
         return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def find_user_by_username(cls, username):
+        return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def find_user_by_document(cls, document):
+        return cls.query.filter_by(document=document).first()
+
+    @classmethod
+    def find_user_by_phone_number(cls, phone_number):
+        return cls.query.filter_by(phone_number=phone_number).first()
