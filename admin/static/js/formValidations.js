@@ -12,8 +12,10 @@ function validateEmail(inputId, errorId) {
 
 	if (!emailPattern.test(emailInput.value)) {
 		emailError.textContent = "Formato de mail inválido. Intente nuevamente";
+		return false;
 	} else {
 		emailError.textContent = "";
+		return true;
 	}
 }
 
@@ -24,10 +26,27 @@ function validateJustText(inputId, errorId) {
 
 	if (!pattern.test(input.value)) {
 		error.textContent = "Solo se permiten letras y espacios";
+		return false;
 	} else {
 		error.textContent = "";
+		return true;
 	}
 }
+
+function validateJustNumber(inputId, errorId) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    const pattern = /^\d+$/; // Pattern for numbers only
+
+    if (!pattern.test(input.value)) {
+        error.textContent = "Solo se permiten números";
+		return false;
+    } else {
+        error.textContent = "";
+		return true;
+	}
+}
+
 
 function validateUsername(inputId, errorId) {
 	const usernameInput = document.getElementById(inputId);
@@ -40,7 +59,7 @@ function validateUsername(inputId, errorId) {
 
 	if (!pattern.test(usernameInput.value)) {
 		// Display an error message
-		usernameError.textContent = "Nombre de usuario inválido. Solo letras, números y _";
+		usernameError.textContent = "Nombre de usuario inválido. Solo letras, números y '_'";
 		return false; // Return false to prevent form submission
 	} else {
 		// Clear the error message
@@ -56,18 +75,53 @@ function validatePassword(inputId, errorId) {
 
 	if (password.length < 6) {
 		passwordError.textContent = "La contraseña debe tener por lo menos 6 caracteres.";
-		return;
+		return false;
 	}
 
 	if (!/\d/.test(password)) {
 		passwordError.textContent = "La contraseña debe contener por lo menos un número";
-		return;
+		return false;
 	}
 
 	if (!/[A-Z]/.test(password)) {
 		passwordError.textContent = "La contraseña debe contener por lo menos una mayúscula";
-		return;
+		return false;
+	}
+	else{
+		passwordError.textContent = "";
+		return true
 	}
 
-	passwordError.textContent = "";
+	
+}
+
+function validateDireccion(inputId, errorId) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    const pattern = /^[a-zA-Z\s.,-]*\d+[a-zA-Z0-9\s.,-]*$/; // Pattern to require at least one number
+
+    if (!pattern.test(input.value)) {
+        error.textContent = "La dirección debe contener al menos un número y puede incluir letras, números y signos de puntuación comunes";
+		return false
+	} else {
+        error.textContent = "";
+		return true
+    }
+}
+
+function validatePhoneNumber(inputId, errorId) {
+	const phoneNumberInput = document.getElementById(inputId);
+	const phoneNumberError = document.getElementById(errorId);
+	const phoneNumberValue = phoneNumberInput.value.trim();
+
+	// Check if the phone number consists of digits and is a certain length
+	const phoneNumberPattern = /^\d{9,15}$/; // Change the length requirement as needed
+
+	if (!phoneNumberPattern.test(phoneNumberValue)) {
+		phoneNumberError.textContent = "Por favor ingrese un número de teléfono válido";
+		return false; // Prevent form submission
+	} else {
+		phoneNumberError.textContent = "";
+		return true; // Allow form submission
+	}
 }
