@@ -1,17 +1,15 @@
 from src.core.models.user import User
 from flask import flash, redirect, url_for, render_template
 from flask import session
-# from src.core.bcrypt import bcrypt
+from src.core.bcrypt import bcrypt
 from src.core.common.decorators import LoginWrap
 
 
 def check_user(email, password):
 
     user = User.find_user_by_email(email)
-
-    # if user and bcrypt.check_password_hash(user.password,
-    #                                       password.encode("utf-8")):
-    if user and user.password == password:
+    if user and bcrypt.check_password_hash(user.password,
+                                           password.encode("utf-8")):
         return user
     else:
         return None

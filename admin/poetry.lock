@@ -134,6 +134,20 @@ bcrypt = ">=3.1.1"
 Flask = "*"
 
 [[package]]
+name = "flask-mail"
+version = "0.9.1"
+description = "Flask extension for sending email"
+optional = false
+python-versions = "*"
+files = [
+    {file = "Flask-Mail-0.9.1.tar.gz", hash = "sha256:22e5eb9a940bf407bcf30410ecc3708f3c56cc44b29c34e1726fe85006935f41"},
+]
+
+[package.dependencies]
+blinker = "*"
+Flask = "*"
+
+[[package]]
 name = "flask-session"
 version = "0.5.0"
 description = "Server-side session support for Flask"
@@ -633,4 +647,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "dc932990b0792d77f990679bf830aeb938ee5016a8bace6df2a96a1b7d02feb2"
+content-hash = "caf0c6e95b0d2122fe63e95f869de6638dd731b773996fd9a404f1c7c9aaa24d"

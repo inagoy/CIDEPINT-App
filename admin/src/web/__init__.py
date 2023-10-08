@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_session import Session
 from src.core import database
+from src.core import mail
 from src.web.config import config
 from src.web import seeds
 from src.web.routes import set_routes
@@ -26,6 +27,7 @@ def create_app(env="development", static_folder="../../static"):
 
     database.init_app(app)
 
+    mail.init_app(app)
     # Jinja
     app.jinja_env.globals.update(is_authenticated=LoginWrap.evaluate_condition)
 
