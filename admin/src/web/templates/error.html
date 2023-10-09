@@ -26,7 +26,13 @@
 						<h3 class="card-title">{{ error_name }}</h3>
 						<h6 class="card-subtitle mb-2 pb-4">{{ error_description }}</h6>
 
-						<a href="{{url_for('home.home')}}" class="card-link"> <button class="btn btn-primary">Volver al inicio</button> </a>
+						{% if is_authenticated(session) %}
+							<a href="{{ url_for('home.home_user') }}" class="card-link">
+						{% else %}
+							<a href="{{ url_for('home.home') }}" class="card-link">
+						{% endif %}
+							<button class="btn btn-primary">Volver al inicio</button> 
+						</a>
 					</div>
 				</div>
 			</div>

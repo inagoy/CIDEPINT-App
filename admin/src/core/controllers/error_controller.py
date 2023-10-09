@@ -37,7 +37,7 @@ def unauthorized_error(e):
 
     kwargs = {
         "error_name": "401 Unauthorized Error",
-        "error_description": "Debe iniciar sesión para acceder " +
+        "error_description": "No tienes permiso para acceder " +
                              "al recurso solicitado"
     }
 

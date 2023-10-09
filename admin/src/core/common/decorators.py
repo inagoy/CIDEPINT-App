@@ -1,5 +1,7 @@
 from functools import wraps
 from flask import abort, session
+from src.core.models.user import User
+from src.core.models.privileges import Role
 
 
 class DecoratorManager:
@@ -44,3 +46,27 @@ class DecoratorManager:
 class LoginWrap(DecoratorManager):
     def evaluate_condition(*args, **kwargs):
         return session.get("user") is not None
+
+
+class PermissionWrap(DecoratorManager):
+    @classmethod
+    def evaluate_condition(*args, **kwargs):
+        if "permissions" not in kwargs:
+            return False
+
+        required_permissions = kwargs["permissions"]
+        user = User.find_user_by_email(session["user"])
+
+        institution = session.get("current_institution")
+
+        role_id = (User.get_role_in_institution(user_id=user.id,
+                                                institution_id=institution))
+
+        if not role_id:
+            return False
+
+        response = Role.check_permissions(
+                    role_id=role_id,
+                    required_permissions=required_permissions)
+
+        return response

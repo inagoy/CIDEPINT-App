@@ -8,6 +8,7 @@ from src.core.common.decorators import LoginWrap
 def check_user(email, password):
 
     user = User.find_user_by_email(email)
+
     if user and bcrypt.check_password_hash(user.password,
                                            password.encode("utf-8")):
         return user
@@ -33,7 +34,7 @@ def authenticate(request):
 
     if not (current_institution.__len__() == 0 or
             current_institution[0] is None):
-        session["current_institution"] = current_institution.id
+        session["current_institution"] = current_institution[0].id
 
     flash("Sesión iniciada correctamente", "success")
     return redirect(url_for("home.home_user"))
@@ -41,8 +42,7 @@ def authenticate(request):
 
 def logout():
     if LoginWrap.evaluate_condition():
-        del session["user"]
-        session.clear
+        session.clear()
         flash("Sesión cerrada correctamente", "info")
     else:
         flash("No hay sesión iniciada", "info")

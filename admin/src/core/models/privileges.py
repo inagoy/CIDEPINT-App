@@ -1,5 +1,5 @@
 from src.core.database import db
-
+from src.core.common.dataclasses_permissions import dataclass_model
 
 role_has_pemission = db.Table(
     "role_has_pemission",
@@ -18,6 +18,34 @@ class Role(db.Model):
     has_permissions = db.relationship("Permission",
                                       secondary=role_has_pemission,
                                       back_populates="has_roles")
+
+    @classmethod
+    def get_permissions(cls, role_id) -> list:
+        role = cls.query.filter_by(id=role_id).first()
+        permissions = role.has_permissions
+        if not permissions:
+            return False
+        response = [permission.name for permission in permissions]
+        return response
+
+    @classmethod
+    def check_permissions(cls, role_id, required_permissions: list) -> bool:
+        role_permissions = cls.get_permissions(role_id)
+        return all(permission in role_permissions
+                   for permission in required_permissions)
+
+    @classmethod
+    def evaluate_permissions_model(cls, model) -> list:
+        permissions = cls.get_permissions()
+        if not permissions:
+            return False
+        response = dict(map(lambda x: (x.split('_')[1], True),
+                            filter(lambda x: model in x, permissions)))
+        return dataclass_model[model](**response)
+
+    @classmethod
+    def get_role_by_id(cls, id: int) -> object:
+        return cls.query.filter_by(id=id).first()
 
 
 class Permission(db.Model):
