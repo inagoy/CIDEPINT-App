@@ -15,6 +15,11 @@ def home():
 
 
 def home_user():
+    """
+    Render the home page for the logged-in user.
+
+    :return: The rendered home page HTML.
+    """
     user = User.find_user_by_email(session.get("user"))
 
     context = {

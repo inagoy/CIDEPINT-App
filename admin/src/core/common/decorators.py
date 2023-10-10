@@ -7,6 +7,19 @@ from src.core.models.privileges import Role
 class DecoratorManager:
     @classmethod
     def wrap_args(cls, *args_cls, **kwargs_cls):
+        """
+        A decorator that wraps a function and evaluates a class 
+        method before calling it.
+
+        Parameters:
+            *args_cls (tuple): The arguments to evaluate the class method with.
+            **kwargs_cls (dict): The keyword arguments to evaluate the 
+            class method with.
+
+        Returns:
+            function: The wrapped function that calls the class method and 
+            the original function.
+        """
         def decorator(func):
             @wraps(func)
             def decorator_function(*args, **kwargs):

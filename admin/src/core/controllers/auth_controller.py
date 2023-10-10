@@ -6,6 +6,15 @@ from src.core.common.decorators import LoginWrap
 
 
 def check_user(email, password):
+    """
+    Check if a user exists with the given email and password.
+     :param email: The email of the user.
+     :type email: str
+     :param password: The password of the user.
+     :type password: str
+     :return: The user object if the email and password match, None otherwise.
+     :rtype: User or None
+     """
 
     user = User.find_user_by_email(email)
 
@@ -17,10 +26,26 @@ def check_user(email, password):
 
 
 def login():
+    """
+    Login function that renders the login template.
+
+    Returns:
+        The rendered login template.
+    """
     return render_template("auth/login.html")
 
 
 def authenticate(request):
+    """
+    Authenticates a user based on the provided request.
+
+    Args:
+        request (Request): The request object containing the user's input data.
+
+    Returns:
+        redirect: A redirection to the login page if the authentication fails,
+            or a redirection to the home page if the authentication succeeds.
+    """
     params = request.form
 
     user = check_user(params["inputEmail"], params["inputPassword"])
@@ -41,6 +66,17 @@ def authenticate(request):
 
 
 def logout():
+    """
+    Logout the user from the session.
+
+    This function clears the session and displays a flash message indicating the successful logout. If there is no session started, it displays a flash message indicating that there is no session to logout from.
+
+    Returns:
+        redirect: A redirect response to the login page.
+
+    Raises:
+        None
+    """
     if LoginWrap.evaluate_condition():
         session.clear()
         flash("Sesión cerrada correctamente", "info")

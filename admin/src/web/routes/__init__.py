@@ -7,6 +7,15 @@ from src.web.routes.superuser_routes import super_bp
 
 
 def set_routes(app) -> None:
+    """
+    Register the blueprints for the different routes of the application.
+
+    Args:
+        app: The Flask application instance.
+
+    Returns:
+        None
+    """
     app.register_blueprint(home_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(auth_bp)

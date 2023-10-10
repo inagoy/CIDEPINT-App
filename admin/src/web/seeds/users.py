@@ -6,6 +6,12 @@ from src.core.bcrypt import bcrypt
 
 
 def create_admins():
+    """
+    Creates a new admin user with super admin privileges.
+
+    Returns:
+        None
+    """
     super_admin_role = Role.query.filter_by(name="Super Admin").first()
     data = {
         "first_name": "Super",

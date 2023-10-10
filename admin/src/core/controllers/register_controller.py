@@ -8,10 +8,27 @@ import uuid
 
 
 def first_registration():
+    """
+    Renders the "first_registration.html" template.
+
+    :return: The rendered template.
+    """
     return render_template("register/first_registration.html")
 
 
 def first_form(request):
+    """
+    Processes the form submission from the first registration form.
+
+    Args:
+        request: The HTTP request object containing the form data.
+
+    Returns:
+        A rendered HTML template or a redirect response.
+
+    Raises:
+        None.
+    """
     form_raw = request.form.to_dict()
     key_mapping = {'inputName': 'first_name',
                    'inputSurname': 'last_name',
@@ -46,7 +63,23 @@ def first_form(request):
 
 
 def confirmation(hashed_email):
+    """
+    Find a user by their hashed email and check if they are active.
 
+    If the user is active, display a Flash message instructing them to
+    log in and redirect them to the home page.
+
+    If the user is not active, render the confirmation template with the
+    user's first name, last name, email, and hashed email as context
+    variables. If no user is found, render the error template.
+
+    Parameters:
+    - hashed_email (str): The hashed email of the user to be found.
+
+    Returns:
+    - (str): If the user is active, a redirect to the home page. Otherwise,
+    the rendered confirmation template or the error template.
+    """
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user.active:
         flash(""" Ya haz completado el registro,
@@ -64,6 +97,17 @@ def confirmation(hashed_email):
 
 
 def second_form(request, hashed_email):
+    """
+    The `second_form` function processes the second form submission
+    of a registration process.
+
+    :param request: The Flask request object containing the form data.
+    :type request: flask.Request
+    :param hashed_email: The hashed email of the user.
+    :type hashed_email: str
+    :return: None
+    :rtype: None
+    """
 
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user:

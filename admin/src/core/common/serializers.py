@@ -7,6 +7,18 @@ class ValidateSerializer():
 
     @classmethod
     def validate(self, data: dict):
+        """
+        Validates the given data dictionary.
+
+        Args:
+            data (dict): The data dictionary to be validated.
+
+        Returns:
+            dict: A dictionary containing the validation result.
+                  - is_valid (bool): True if the data is valid,
+                  False otherwise.
+                  - errors (dict): A dictionary of validation errors, if any.
+        """
         errors = {}
         try:
             v.validate_form_data(data, list(self.fields.keys()))

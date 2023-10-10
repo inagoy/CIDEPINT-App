@@ -2,6 +2,13 @@ from flask import render_template
 
 
 def users():
+    """
+    Generates a function comment for the given function body in a markdown
+    code block with the correct language syntax.
+
+    Returns:
+        str: The function comment for the given function body.
+    """
     title = "Administración de usuarios"
     users = [
         {
