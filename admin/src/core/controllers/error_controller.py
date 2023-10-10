@@ -19,7 +19,7 @@ def not_found_error(e):
         "error_description": "La url a la que se quiere acceder no existe"
     }
 
-    return render_template("error.html", **kwargs), 404
+    return render_template("pages/error.html", **kwargs), 404
 
 
 def unauthorized_error(e):
@@ -41,4 +41,4 @@ def unauthorized_error(e):
                              "al recurso solicitado"
     }
 
-    return render_template("error.html", **kwargs), 401
+    return render_template("pages/error.html", **kwargs), 401

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %} Configuración {% endblock %}
+{% block head %}{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    hola soy la Configuración. Debería haber acá:
+
+    <ul class="list">
+        <li> Cantidad de elementos por página en los listados del sistema (todos los listados
+            deberán respetar este valor para el paginado).
+        </li>
+        <li> Información de contacto se mostrará en la app pública.
+        </li>
+        <li> Posibilidad de deshabilitar el sitio para mantenimiento
+        </li>
+        <li>
+            Mensaje de mantenimiento de sitio
+        </li>
+    </ul>
+</div>
+{% endblock %}

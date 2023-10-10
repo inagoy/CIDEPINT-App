@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %} Instituciones {% endblock %}
+{% block head %}{{ super() }}
+<script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+{% endblock %}
+{% block content %}
+{% include "components/modals/institution_view.html" %}
+{% include "components/modals/institution_edit.html" %}
+{% include "components/modals/confirmation_modal.html" %}
+{% include "components/list.html" %}
+{% endblock %}

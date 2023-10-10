@@ -11,7 +11,7 @@ def home():
         The rendered home.html template.
     """
 
-    return render_template("home.html")
+    return render_template("pages/home.html")
 
 
 def home_user():
@@ -22,4 +22,4 @@ def home_user():
         **session
     }
 
-    return render_template("home.html", **context)
+    return render_template("pages/home.html", **context)
