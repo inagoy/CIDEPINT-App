@@ -1,0 +1,15 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}confirm_modal{% endblock %}
+{% block header %} Confirmar acción {% endblock %}
+{% block cuerpo %}
+<div id="confirm-message" class="modal-body">
+    ¿Estás seguro de que deseas eliminar este elemento? Esta acción no puede deshacerse.
+    </div>
+{% endblock %}
+{% block footer %}
+<button id="confirm-action" type="button" class="btn btn-primary confirm-button"> Confirmar
+</button>
+
+<button id="dismiss-action" type="button" class="btn btn-secondary close-button"
+        data-dismiss="modal"> Cerrar </button>
+{% endblock %}

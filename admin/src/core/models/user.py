@@ -1,4 +1,5 @@
 from datetime import datetime
+from src.core.bcrypt import bcrypt
 from src.core.database import db
 from enum import Enum as EnumBase
 from src.core.models.user_role_institution import UserRoleInstitution

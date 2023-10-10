@@ -19,6 +19,10 @@ i {
 	font-size: 1.4em;
 }
 
+ul {
+	list-style: none;
+  }
+
 /* layout */
 #main {
 	min-height: 85vh;

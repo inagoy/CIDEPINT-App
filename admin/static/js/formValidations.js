@@ -19,6 +19,13 @@ function validateEmail(inputId, errorId) {
 	}
 }
 
+/**
+ * Validates if the input value contains only letters and spaces.
+ *
+ * @param {string} inputId - The ID of the input element.
+ * @param {string} errorId - The ID of the error element.
+ * @return {void} This function does not return anything.
+ */
 function validateJustText(inputId, errorId) {
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);
@@ -33,6 +40,13 @@ function validateJustText(inputId, errorId) {
 	}
 }
 
+/**
+ * Validates if the input value contains only numbers.
+ *
+ * @param {string} inputId - The id of the input element.
+ * @param {string} errorId - The id of the error element.
+ * @returns {boolean} Returns true if the input value contains only numbers, otherwise false.
+ */
 function validateJustNumber(inputId, errorId) {
     const input = document.getElementById(inputId);
     const error = document.getElementById(errorId);
@@ -48,6 +62,14 @@ function validateJustNumber(inputId, errorId) {
 }
 
 
+/**
+ * Validates the username input and displays an error message if the input is
+ * invalid. Returns true if the input is valid and false otherwise.
+ *
+ * @param {string} inputId - The id of the username input element.
+ * @param {string} errorId - The id of the element where the error message will be displayed.
+ * @return {boolean} - True if the username is valid, false otherwise.
+ */
 function validateUsername(inputId, errorId) {
 	const usernameInput = document.getElementById(inputId);
 	const usernameError = document.getElementById(errorId);
@@ -68,6 +90,12 @@ function validateUsername(inputId, errorId) {
 	}
 }
 
+/**
+ * Validates a password input and displays an error message if the password does not meet the criteria.
+ *
+ * @param {string} inputId - The ID of the password input element.
+ * @param {string} errorId - The ID of the error message element.
+ */
 function validatePassword(inputId, errorId) {
 	const passwordInput = document.getElementById(inputId);
 	const passwordError = document.getElementById(errorId);
@@ -95,6 +123,13 @@ function validatePassword(inputId, errorId) {
 	
 }
 
+/**
+ * Validates the direccion input field by checking if it contains at least one number
+ *
+ * @param {string} inputId - the id of the direccion input field
+ * @param {string} errorId - the id of the error element to display the error message
+ * @return {boolean} true if the direccion is valid, false otherwise
+ */
 function validateDireccion(inputId, errorId) {
     const input = document.getElementById(inputId);
     const error = document.getElementById(errorId);
@@ -109,6 +144,13 @@ function validateDireccion(inputId, errorId) {
     }
 }
 
+/**
+ * Validates a phone number input and displays an error message if the phone number is not valid.
+ *
+ * @param {string} inputId - The ID of the phone number input element.
+ * @param {string} errorId - The ID of the error message element.
+ * @return {boolean} Returns true if the phone number is valid and allows form submission. Returns false if the phone number is not valid and prevents form submission.
+ */
 function validatePhoneNumber(inputId, errorId) {
 	const phoneNumberInput = document.getElementById(inputId);
 	const phoneNumberError = document.getElementById(errorId);
