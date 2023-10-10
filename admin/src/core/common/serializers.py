@@ -1,5 +1,5 @@
-from core.common.validators import ValidationError
-from core.common import validators as v
+from src.core.common.validators import ValidationError
+from src.core.common import validators as v
 
 
 class ValidateSerializer():
@@ -54,4 +54,13 @@ class SecondRegistrationSerializer(ValidateSerializer):
                 "gender": [v.validate_just_text],
                 "document_type": [v.validate_just_text],
                 "document": [v.validate_no_document, v.validate_just_number],
+    }
+
+
+class SiteConfigValidator(ValidateSerializer):
+    fields = {
+        "items_per_page": [v.validate_just_number],
+        "maintenance_mode": [v.validate_string_as_boolean],
+        "maintenance_message": [v.validate_string],
+        "contact_info": [v.validate_string],
     }

@@ -69,3 +69,7 @@ ul {
     margin-right: 5px;
     margin-top: 3px;
 }
+
+.list-group-item span {
+    font-size: 1rem;
+}

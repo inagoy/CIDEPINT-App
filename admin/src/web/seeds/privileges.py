@@ -36,7 +36,7 @@ permissions_data = [
     {"name": "request_destroy"},
     {"name": "request_update"},
 
-    {"name": "config_index"},
+    {"name": "config_show"},
     {"name": "config_update"},
 ]
 
@@ -79,13 +79,13 @@ def seed_privileges() -> None:
                 "user_institution_update", "service_index", "service_create",
                 "service_destroy", "service_update", "service_show",
                 "request_index", "request_create", "request_destroy",
-                "request_update", "config_index", "config_update"
+                "request_update", "config_show", "config_update"
                 ]
              },
 
             {"role": "Owner",
              "permissions": [
-                "institution_update", "user_index", "user_institution_index",
+                "institution_update", "user_institution_index",
                 "user_institution_create", "user_institution_destroy",
                 "user_institution_update", "service_index", "service_create",
                 "service_destroy", "service_update", "service_show",
