@@ -42,6 +42,20 @@ permissions_data = [
 
 
 def seed_privileges() -> None:
+    """
+    Seeds the privileges in the database.
+
+    This function adds roles, permissions, and role-permission relationships
+    to the database.
+    It uses the data provided in the `roles_data` and
+    `permissions_data` variables.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
     def add_roles():
         for role_info in roles_data:
             role = Role(**role_info)

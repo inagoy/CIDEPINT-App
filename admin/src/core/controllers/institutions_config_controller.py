@@ -2,6 +2,12 @@ from flask import render_template
 
 
 def institutions():
+    """
+    Retrieves a list of institutions and renders the institutions page.
+
+    Returns:
+        str: The rendered HTML page for the institutions.
+    """
     title = "Administración de instituciones"
     institutions = [
         {
