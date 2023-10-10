@@ -8,7 +8,7 @@ from src.web.routes import set_routes
 from src.core.controllers import set_controllers
 from src.core.bcrypt import bcrypt
 from src.core.common.decorators import LoginWrap
-from src.web.helpers import roles
+from src.web.helpers import set_helpers
 
 session = Session()
 
@@ -28,11 +28,10 @@ def create_app(env="development", static_folder="../../static"):
     database.init_app(app)
 
     mail.init_app(app)
+
     # Jinja
     app.jinja_env.globals.update(is_authenticated=LoginWrap.evaluate_condition)
-    app.jinja_env.globals.update(is_superuser=roles.is_superuser)
-    app.jinja_env.globals.update(is_owner=roles.is_owner)
-    app.jinja_env.globals.update(has_role=roles.has_role)
+    set_helpers(app)
 
     # Commands
     @app.cli.command(name="resetdb")
