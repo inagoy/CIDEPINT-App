@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between sticky-top">
+	<a class="navbar-brand" href="/">
+		<img src="../../../../static/assets/logo-completo.png" alt="CIDEPINT" class="img-fluid logo d-none d-md-inline" />
+		<img src="../../../../static/assets/logo.png" alt="CIDEPINT" class="img-fluid logo d-md-none d-inline" />
+	</a>
+	<div class="navbar" id="navbarNav">
+		<ul class="navbar-nav align-items-center">
+			{% if is_authenticated(session) %}
+			{% if user_institutions %}
+			<div class="dropdown">
+				<button class="btn dropdown-toggle" type="button" id="dropdown-instituciones" data-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-bank2"></i>
+					<span class="ml-2 d-none d-sm-inline">Instituciones</span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdown-instituciones">
+					{% for institution in user_institutions %}
+						<li {% if institution.id == current_institution %}class="dropdown-item-selected"{% endif %}>
+							<a class="dropdown-item" href="#">{{institution.name}}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
+			<li class="nav-item">
+				<a class="nav-link" href="#">
+					<div class="d-flex align-items-center">
+						<i class="bi bi-truck"></i>
+						<p class="mb-0 ml-2 d-none d-sm-inline">Seguimiento</p>
+					</div>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">
+					<div class="d-flex align-items-center">
+						<i class="bi bi-gear"></i>
+						<p class="mb-0 ml-2 d-none d-sm-inline">Configuración</p>
+					</div>
+				</a>
+			</li>
+
+			<div class="dropdown">
+				<button class="btn dropdown-toggle" type="button" id="dropdown-account" data-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-person-circle"></i>
+					<span class="ml-2 d-none d-sm-inline">Cuenta</span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdown-instituciones">
+					<li><a class="dropdown-item" href="#">Editar perfil</a></li>
+					<li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
+				</ul>
+			</div>
+
+			{% endif %}
+		</ul>
+	</div>
+</nav>

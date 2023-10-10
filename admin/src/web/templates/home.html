@@ -1,9 +1,11 @@
-{% extends "layout.html" %}
-{% block title %}Home{% endblock %}
-{% block head %}
-    {{ super() }}
-{% endblock %}
-{% block content %}
-<h1>Inicio</h1>
-<p>Página de inicio de la aplicación</p>
+{% extends "layout.html" %} {% block title %} CIDEPINT: Administración {% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
+<div class="card">
+	<div class="card-body text-center">
+		<h5 class="card-title">Bienvenido</h5>
+		<h6 class="card-subtitle mb-2 text-muted pb-4">Sitio de administración de CIDEPINT</h6>
+
+		<a href="register" class="card-link"> <button class="btn btn-primary">Registrarme</button> </a>
+		<a href="auth" class="card-link"> <button class="btn btn-primary">Iniciar Sesión</button> </a>
+	</div>
+</div>
 {% endblock %}

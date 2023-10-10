@@ -1,0 +1,22 @@
+{% extends "layout.html" %} {% block title %} CIDEPINT: Primer Registro  Exitoso {% endblock %} {% block head %} {{ super() }}
+{% endblock %} {% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h1 class="card-title">¡Registro Exitoso!</h1>
+                    <p class="card-text">
+                        Gracias por registrarte en CIDEPINT. Hemos enviado un correo de confirmación a tu dirección de email.
+                        Por favor, verifica tu casilla de email y sigue las instrucciones para activar tu cuenta.
+                    </p>
+                    <p class="card-text">
+                        Si no recibes el correo de confirmación en unos minutos, verifica tu carpeta de correo no deseado (spam).
+                    </p>
+                    <a href="{{ url_for('home.home') }}" class="btn btn-primary">Ir a la página de inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
