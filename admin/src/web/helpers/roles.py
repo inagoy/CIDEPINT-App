@@ -1,3 +1,9 @@
+from src.core.models.user import User
+from src.core.models.privileges import Role
+from src.core.models.user_role_institution import UserRoleInstitution
+from flask import session
+
+
 def is_superuser() -> bool:
     """
     Check if a session is a superuser.
@@ -8,7 +14,11 @@ def is_superuser() -> bool:
     Returns:
         bool: True if the session is a superuser, False otherwise.
     """
-    return False
+    user = User.find_user_by_email(session.get("user"))
+    role = User.get_role_in_institution(user_id=user.id)
+    if not role:
+        return False
+    return Role.get_role_by_id(id=role).name == "Super Admin"
 
 
 def is_owner() -> bool:
@@ -21,17 +31,24 @@ def is_owner() -> bool:
     Returns:
         bool: True if the session is an owner, False otherwise.
     """
-    return False
+    user = User.find_user_by_email(session.get("user"))
+    institution = session.get("current_institution")
+    role = User.get_role_in_institution(user_id=user.id,
+                                        institution_id=institution)
+    if not role:
+        return False
+    return Role.get_role_by_id(id=role).name == "Dueño"
 
 
 def has_role() -> bool:
     """
-    Check if a session is not assigned to a role.
+    Check if the user has a role in the institution.
 
-    Args:
-        session: The session object.
+    Parameters:
+        None
 
     Returns:
-        bool: True if the session is not assigned to a role, False otherwise.
+        bool: True if the user has a role, False otherwise.
     """
-    return True
+    user = User.find_user_by_email(session.get("user"))
+    return UserRoleInstitution.get_roles_institutions_of_user(user_id=user.id)
