@@ -69,8 +69,3 @@ ul {
     margin-right: 5px;
     margin-top: 3px;
 }
-
-.dropdown-item-selected {
-	background-color: #c8bcbc; 
-    font-weight: bold;
-}

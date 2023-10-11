@@ -69,7 +69,9 @@ def logout():
     """
     Logout the user from the session.
 
-    This function clears the session and displays a flash message indicating the successful logout. If there is no session started, it displays a flash message indicating that there is no session to logout from.
+    This function clears the session and displays a flash message indicating
+    the successful logout. If there is no session started, it displays a
+    flash message indicating that there is no session to logout from.
 
     Returns:
         redirect: A redirect response to the login page.
@@ -83,4 +85,4 @@ def logout():
     else:
         flash("No hay sesión iniciada", "info")
 
-    return redirect(url_for("auth.login"))
+    return redirect(url_for("home.home"))

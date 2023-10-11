@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="/">
+	<a class="navbar-brand"
+	   href="{% if is_authenticated(session) %}{{ url_for('home.home_user') }}{% else %}{{ url_for('home.home') }}{% endif %}">
 		<img src="../../../../static/assets/logo-completo.png" alt="CIDEPINT"
 			 class="img-fluid logo d-none d-md-inline" />
 		<img src="../../../../static/assets/logo.png" alt="CIDEPINT"
@@ -37,7 +38,9 @@
 				</a>
 				<div class="dropdown-menu">
 					{% for institution in user_institutions %}
-					<a class="dropdown-item" href="#">{{institution.name}}</a>
+					<a class="dropdown-item {% if institution.id == current_institution %}active{% endif %}"
+					   href="{{ url_for('institution.institution', institution_id=institution.id) }}"
+					   id="{{institution.id}}">{{institution.name}}</a>
 					{% endfor %}
 				</div>
 			</li>
@@ -54,6 +57,11 @@
 			<li id="menu-usuario-institucion" class="nav-item active">
 				<a class="nav-link d-flex align-items-center" href="#"> <i class="bi bi-people"></i>
 					<span class="ml-2"> Usuarios</span></a>
+			</li>
+			<li id="menu-editar-institucion" class="nav-item active">
+				<a class="nav-link d-flex align-items-center" href="#"> <i
+					   class="bi bi-arrow-down-right-square"></i>
+					<span class="ml-2"> Editar Institucion </span></a>
 			</li>
 			{% endif %}
 			{% endif %}

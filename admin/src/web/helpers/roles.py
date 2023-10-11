@@ -37,7 +37,7 @@ def is_owner() -> bool:
                                         institution_id=institution)
     if not role:
         return False
-    return Role.get_role_by_id(id=role).name == "Dueño"
+    return Role.get_role_by_id(id=role).name == "Owner"
 
 
 def has_role() -> bool:
