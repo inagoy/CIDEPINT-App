@@ -30,13 +30,13 @@ def validate_email(email):
 def validate_just_text(text):
     """
     Validate if the given text contains only alphabetic characters.
-    
+
     Args:
         text (str): The text to be validated.
-        
+
     Returns:
         str: The validated text.
-        
+
     Raises:
         ValidationError: If the text contains non-alphabetic characters.
     """
@@ -170,7 +170,6 @@ def validate_form_data(form_data, expected_parameters):
     missing_parameters = [
         param for param in expected_parameters if param not in form_data
     ]
-
     if missing_parameters:
         raise ValidationError(
             "Hay campos faltantes"
@@ -182,13 +181,13 @@ def validate_form_data(form_data, expected_parameters):
 def validate_no_username(text):
     """
     Validates that the given text does not match an existing username.
-    
+
     Parameters:
         text (str): The text to be validated.
-    
+
     Returns:
         str: The validated text.
-    
+
     Raises:
         ValidationError: If the given text matches an existing username.
     """
@@ -255,3 +254,43 @@ def validate_no_phone_number(phone_number):
         raise ValidationError(
             f"El número de teléfono '{phone_number}' ya está registrado")
     return phone_number
+
+
+def validate_string_as_boolean(value):
+    """
+    Validates that the given value is a True or False string.
+
+    Parameters:
+        field (str): The value to be validated.
+
+    Raises:
+        ValidationError: If the value is neither True nor False.
+
+    Returns:
+        True if a string with the value "True" or "False", False otherwise.
+    """
+    if value == "True" or value == "False":
+        return True
+    else:
+        raise ValidationError(
+            f"El valor '{value}' no es un verdadero o falso")
+
+
+def validate_string(value):
+    """
+    Validates that the given value is a string.
+
+    Parameters:
+        field (str): The value to be validated.
+
+    Raises:
+        ValidationError: If the value is not a string.
+
+    Returns:
+        True if the value is a string, False otherwise.
+    """
+    if isinstance(value, str) and len(value) <= 255:
+        return True
+    else:
+        raise ValidationError(
+            f"El valor '{value}' no es un texto válido")

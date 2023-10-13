@@ -3,6 +3,8 @@ from flask import flash, redirect, url_for, render_template
 from flask import session
 from src.core.bcrypt import bcrypt
 from src.core.common.decorators import LoginWrap
+from src.core.models.site_config import SiteConfig
+from src.web.helpers.roles import is_superuser
 
 
 def check_user(email, password):
@@ -54,15 +56,25 @@ def authenticate(request):
         flash("Mail o contraseña inválidos. Intente nuevamente", "danger")
         return redirect(url_for("auth.login"))
 
-    session["user"] = user.email
-    current_institution = User.get_user_institutions(user_id=user.id)
+    else:
+        session["user"] = user.email
+        if SiteConfig.in_maintenance_mode():
+            if is_superuser():
+                flash("Sesión iniciada correctamente", "success")
+                return redirect(url_for("home.home_user"))
+            else:
+                session.clear()
+                flash("Mail o contraseña inválidos. Intente nuevamente",
+                      "danger")
+                return redirect(url_for("auth.login"))
+        else:
+            current_institution = User.get_user_institutions(user_id=user.id)
+            if not (current_institution.__len__() == 0 or
+                    current_institution[0] is None):
+                session["current_institution"] = current_institution[0].id
 
-    if not (current_institution.__len__() == 0 or
-            current_institution[0] is None):
-        session["current_institution"] = current_institution[0].id
-
-    flash("Sesión iniciada correctamente", "success")
-    return redirect(url_for("home.home_user"))
+            flash("Sesión iniciada correctamente", "success")
+            return redirect(url_for("home.home_user"))
 
 
 def logout():
@@ -70,8 +82,8 @@ def logout():
     Logout the user from the session.
 
     This function clears the session and displays a flash message indicating
-    the successful logout. If there is no session started, it displays a
-    flash message indicating that there is no session to logout from.
+    the successful logout. If there is no session started, it displays a flash
+    message indicating that there is no session to logout from.
 
     Returns:
         redirect: A redirect response to the login page.

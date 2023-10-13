@@ -1,5 +1,5 @@
 from src.core.bcrypt import bcrypt
-from core.common import serializers as s
+from src.core.common import serializers as s
 from flask import redirect, render_template, flash, url_for
 from src.core.models.hashed_email import HashedEmail
 from src.core.models.user import User

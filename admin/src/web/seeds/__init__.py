@@ -2,6 +2,7 @@ from . import institutions
 from . import privileges
 from . import users
 from . import services
+from . import config
 
 
 def run_seeds():
@@ -19,6 +20,7 @@ def run_seeds():
         None
     """
     print("Running seeds...")
+    config.seed_site_config()
     privileges.seed_privileges()
     institutions.seed_institutions()
     services.seed_services()

@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %} Editar Configuraci&oacute;n {% endblock %}
+{% block head %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/configFormValidation.js') }}"></script>
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Editar Configuraci&oacute;n</h1>
+    <form method="POST" action="{{ url_for('super.edit_config') }}" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label for="items_per_page">Elementos por P&aacute;gina:</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                id="inputItemsPage" 
+                name="items_per_page" 
+                value="{{ items_per_page }}" 
+            />
+            <small id="pageError" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="maintenance_mode">Modo Mantenimiento:</label>
+            <select class="form-control" id="selectMode" name="maintenance_mode">
+                <option value="True" {% if maintenance_mode %}selected{% endif %}>Activo</option>
+                <option value="False" {% if not maintenance_mode %}selected{% endif %}>Inactivo</option>
+            </select>
+            <small id="modeError" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="maintenance_message">Mensaje de Mantenimiento del Sitio:</label>
+            <textarea 
+                    class="form-control" 
+                    id="inputMessage" 
+                    name="maintenance_message"
+                    placeholder="Ingrese un mensaje de mantenimiento" 
+            />{% if maintenance_message %}{{ maintenance_message }}{% endif %}</textarea>
+            <small id="messageError" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="contact_info">Informaci&oacute;n de Contacto:</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                id="inputContact" 
+                name="contact_info" 
+                placeholder="Información de contacto"
+                {% if contact_info %} value={{ contact_info }}{% endif %} 
+            />
+            <small id="contactError" class="form-text text-danger"></small>
+        </div>
+        <a href="{{ url_for('super.view_config') }}" class="card-link">
+            <button type="button" class="btn btn-primary close-button mt-3">
+                Cancelar
+            </button>
+        </a>
+        <button type="submit" class="btn btn-success confirm-button mt-3">
+            Guardar Cambios
+        </button>
+    </form>
+</div>
+{% endblock %}
