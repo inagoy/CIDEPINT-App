@@ -60,17 +60,11 @@ class Institution(BaseModel):
         return cls.query.filter_by(id=institution_id).first().enabled
 
     @classmethod
-    def get_enabled_institutions_for_user(cls, user_id):
-        institutions = Institution.query.join(UserRoleInstitution).filter(
-            UserRoleInstitution.user_id == user_id,
-            Institution.enabled
-        ).all()
-        return institutions
+    def get_all_institutions(cls):
+        return cls.query.all()
 
     @classmethod
-    def get_institutions_owned_by_user(cls, user_id):
-        institutions = Institution.query.join(UserRoleInstitution).filter(
-            UserRoleInstitution.user_id == user_id,
-            UserRoleInstitution.role_id == 2
-        ).all()
-        return institutions
+    def get_institutions_paginated(cls, page, per_page=None):
+        if per_page is None:
+            per_page = SiteConfig.get_items_per_page()
+        return cls.query.paginate(page=page, per_page=per_page)

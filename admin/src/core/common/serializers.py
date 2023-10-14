@@ -1,5 +1,5 @@
-from src.core.common.validators import ValidationError
-from src.core.common import validators as v
+from core.common.validators import ValidationError
+from core.common import validators as v
 
 
 class ValidateSerializer():

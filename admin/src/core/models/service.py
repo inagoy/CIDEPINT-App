@@ -1,5 +1,7 @@
 from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
+
+from sqlalchemy import or_
 from src.core.database import db
 from src.core.models.base_model import BaseModel
 from sqlalchemy import and_
@@ -80,6 +82,31 @@ class Service(BaseModel):
     ):
         query = cls.query.filter_by(institution_id=institution_id)
         return cls.get_query_paginated(query, page)
+    
+    @classmethod
+    def search_by_keyword(
+        cls, q, page=1, per_page=10, type=None
+    ):
+        base_query = cls.query.filter(
+            or_(
+                cls.name.ilike(f"%{q}%"),
+                cls.keywords.ilike(f"%{q}%"),
+                cls.description.ilike(f"%{q}%")
+            )
+        )
+        if type is not None:
+            base_query = base_query.filter(
+                cls.service_type == type
+            )
+        try:
+            result = base_query.paginate(page=page, per_page=per_page)
+        except Exception:
+            return None
+        return result
+
+    @classmethod
+    def count(cls):
+        return cls.query.count()
 
 
 class StatusEnum(EnumBase):

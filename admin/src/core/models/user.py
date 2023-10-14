@@ -9,14 +9,15 @@ from sqlalchemy import and_
 
 
 class GenderEnum(EnumBase):
-    MASCULINO = 'Masculino'
-    FEMENINO = 'Femenino'
-    NO_BINARIO = 'No binario'
+    MASCULINO = 'masculino'
+    FEMENINO = 'femenino'
+    NO_BINARIO = 'no_binario'
 
 
 class DocumentEnum(EnumBase):
-    DNI = 'DNI'
-    PASAPORTE = 'Pasaporte'
+    DNI = 'dni'
+    LIBRETA_CIVICA = 'libreta_civica'
+    LIBRETA_ENROLAMIENTO = 'libreta_enrolamiento'
 
 
 class User(BaseModel):

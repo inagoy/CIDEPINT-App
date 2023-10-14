@@ -1,14 +1,10 @@
 import re
 import datetime
 from src.core.models.service import StatusEnum
-from src.core.models.user import User
+from src.core.models.service import ServiceTypeEnum
+from src.core.models.user import DocumentEnum, GenderEnum, User
 from src.core.models.institution import Institution
-
-
-class ValidationError(Exception):
-
-    def __init__(self, msg="", *args: object) -> None:
-        super().__init__(msg, *args)
+from marshmallow import ValidationError
 
 
 def validate_not_empty(text):
@@ -51,12 +47,11 @@ def validate_just_text(text):
     """
     Validate if the given text contains only alphabetic characters.
 
+
     Args:
         text (str): The text to be validated.
-
     Returns:
         str: The validated text.
-
     Raises:
         ValidationError: If the text contains non-alphabetic characters.
     """
@@ -206,12 +201,11 @@ def validate_no_username(text):
     """
     Validates that the given text does not match an existing username.
 
+
     Parameters:
         text (str): The text to be validated.
-
     Returns:
         str: The validated text.
-
     Raises:
         ValidationError: If the given text matches an existing username.
     """
@@ -278,6 +272,29 @@ def validate_no_phone_number(phone_number):
         raise ValidationError(
             f"El número de teléfono '{phone_number}' ya está registrado")
     return phone_number
+
+
+def validate_document_type(document_type):
+    if document_type not in DocumentEnum:
+        raise ValidationError(
+            f"El tipo de documento '{document_type}' no es válido")
+    return document_type
+
+
+def validate_gender(gender):
+    if gender not in GenderEnum:
+        raise ValidationError(
+            f"El genero '{gender}' no es valido")
+    return gender
+
+
+def validate_service_type(input_str):
+    try:
+        service_type = ServiceTypeEnum(input_str)
+        return service_type
+    except ValueError:
+        raise ValidationError(
+            f"El tipo de servicio '{input_str}' no es valido")
 
 
 def validate_string_as_boolean(value):
