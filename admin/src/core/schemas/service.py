@@ -1,3 +1,4 @@
+from src.core.schemas import PaginatedSchema
 from src.core.common import validators as v
 from marshmallow import Schema, fields, validates
 
@@ -16,17 +17,23 @@ class ServiceSchema(Schema):
 
 
 services_schema = ServiceSchema(many=True)
+service_schema = ServiceSchema()
 
 
-class SearchServiceSchema(Schema):
+class SearchServicesSchema(PaginatedSchema):
     q = fields.Str(required=True)
     type = fields.Str(allow_none=True)
-    page = fields.Int(missing=1)
-    per_page = fields.Int(missing=10)
 
     @validates("type")
     def validate_type(self, value):
         v.validate_service_type(value)
 
 
-search_service_schema = SearchServiceSchema()
+search_services_schema = SearchServicesSchema()
+
+
+class ServicesTypesSchema(Schema):
+    data = fields.List(fields.String(), required=True)
+
+
+services_types_schema = ServicesTypesSchema()

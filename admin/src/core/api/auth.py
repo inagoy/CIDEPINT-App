@@ -16,5 +16,5 @@ def api_auth():
         return response_error()
     user = check_user(parsed.get("email"), parsed.get("password"))
     if not user:
-        return {"error": "No se encontró el usuario"}, 400
+        return response_error()
     return {"result": "success"}, 200

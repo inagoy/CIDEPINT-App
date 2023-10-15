@@ -85,8 +85,10 @@ class Service(BaseModel):
     
     @classmethod
     def search_by_keyword(
-        cls, q, page=1, per_page=10, type=None
+        cls, q, page=1, per_page=None, type=None
     ):
+        if per_page is None:
+            per_page = SiteConfig.get_items_per_page()
         base_query = cls.query.filter(
             or_(
                 cls.name.ilike(f"%{q}%"),
@@ -98,15 +100,22 @@ class Service(BaseModel):
             base_query = base_query.filter(
                 cls.service_type == type
             )
-        try:
-            result = base_query.paginate(page=page, per_page=per_page)
-        except Exception:
-            return None
-        return result
+        services = base_query.paginate(page=page, per_page=per_page)
+        return {
+            "data": services,
+            "page": services.page,
+            "per_page": services.per_page,
+            "total": services.total
+        }
 
     @classmethod
-    def count(cls):
-        return cls.query.count()
+    def get(cls, id):
+        return cls.query.get(id)
+
+    @classmethod
+    def get_all_service_types(cls):
+        service_types = db.session.query(cls.service_type).distinct().all()
+        return [type_[0].value for type_ in service_types]
 
 
 class StatusEnum(EnumBase):

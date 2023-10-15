@@ -62,9 +62,3 @@ class Institution(BaseModel):
     @classmethod
     def get_all_institutions(cls):
         return cls.query.all()
-
-    @classmethod
-    def get_institutions_paginated(cls, page, per_page=None):
-        if per_page is None:
-            per_page = SiteConfig.get_items_per_page()
-        return cls.query.paginate(page=page, per_page=per_page)
