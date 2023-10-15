@@ -3,6 +3,7 @@ from src.core.database import db
 from enum import Enum as EnumBase
 from src.core.models.user_role_institution import UserRoleInstitution
 from src.core.models.institution import Institution
+from src.core.models.site_config import SiteConfig
 
 
 class GenderEnum(EnumBase):
@@ -126,3 +127,13 @@ class User(db.Model):
             return role_id
 
         return None
+
+    @classmethod
+    def get_all_users(cls):
+        return cls.query.all()
+
+    @classmethod
+    def get_users_paginated(cls, page, per_page=None):
+        if per_page is None:
+            per_page = SiteConfig.get_items_per_page()
+        return cls.query.paginate(page=page, per_page=per_page)
