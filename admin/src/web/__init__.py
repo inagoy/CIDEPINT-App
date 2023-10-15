@@ -5,7 +5,6 @@ from src.core import mail
 from src.web.config import config
 from src.web import seeds
 from src.web.routes import set_routes
-from src.core.controllers import set_controllers
 from src.core.bcrypt import bcrypt
 from src.core.common.decorators import LoginWrap
 from src.web.helpers import set_helpers
@@ -19,7 +18,6 @@ def create_app(env="development", static_folder="../../static"):
     app.config.from_object(config[env])
 
     set_routes(app)
-    set_controllers(app)
 
     session.init_app(app)
 

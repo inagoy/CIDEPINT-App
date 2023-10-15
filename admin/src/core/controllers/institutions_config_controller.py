@@ -1,4 +1,5 @@
-from flask import render_template
+from flask import render_template, request
+from src.core.models.institution import Institution
 
 
 def institutions():
@@ -9,17 +10,9 @@ def institutions():
         str: The rendered HTML page for the institutions.
     """
     title = "Administración de instituciones"
-    institutions = [
-        {
-            "name": "la unlp",
-        },
-        {
-            "name": "institución 2",
-        },
-        {
-            "name": "institución 3",
-        }
-    ]
+    page = request.args.get("page", 1, type=int)
+    institutions = Institution.get_institutions_paginated(page)
+
     add_function = "add_institution()"
     edit_function = "editInstitution()"
     view_function = "viewInstitution()"
