@@ -5,9 +5,12 @@ from src.web.routes.home_routes import home_bp
 from src.web.routes.error_routes import error_bp
 from src.web.routes.superuser_routes import super_bp
 from src.web.routes.institution_routes import institution_bp
-from src.core.api import api_bp
 from src.web.routes.services_routes import services_bp
 from src.web.routes.service_requests_routes import service_requests_bp
+from src.core.api.auth import api_auth_bp
+from src.core.api.user import api_user_bp
+from src.core.api.service import api_service_bp
+from src.core.api.institution import api_institution_bp
 
 
 def set_routes(app) -> None:
@@ -32,5 +35,8 @@ def set_routes(app) -> None:
     app.register_blueprint(services_bp)
 
     # API JSON
-    app.register_blueprint(api_bp)
+    app.register_blueprint(api_auth_bp)
+    app.register_blueprint(api_user_bp)
+    app.register_blueprint(api_institution_bp)
+    app.register_blueprint(api_service_bp)
     app.register_blueprint(service_requests_bp)
