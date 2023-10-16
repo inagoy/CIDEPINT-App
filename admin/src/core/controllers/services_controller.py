@@ -15,7 +15,7 @@ def services():
         page, session['current_institution'])
     add_function = "addUser()"
     edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
+    view_function = "viewService(this)"
     delete_function = "deleteUser(this)"
     
     return render_template("pages/services.html",

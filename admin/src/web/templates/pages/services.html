@@ -2,8 +2,10 @@
 {% block title %} Servicios {% endblock %}
 {% block head %}{{ super() }}
 <script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/serviceModals.js') }}"></script>
 {% endblock %}
 {% block content %}
-{% include "components/lists/list.html" %}
+{% include "modules/services/services_list.html" %}
+{% include "modules/services/modals/service_view.html" %}
 {% include "components/pagination.html" %}
 {% endblock %}

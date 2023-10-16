@@ -1,0 +1,56 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}service_view{% endblock %}
+<!-- Acá iría el nombre del usuario -->
+{% block header %} Ver servicio {% endblock %}
+{% block cuerpo %}
+<!-- Acá iría todo el HTML correspondiente a la vista del usuario -->
+<div id="confirm-message" class="modal-body modal-scrollable">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h6> Nombre </h6>
+            </div>
+            <div class="col-sm">
+                <p id="service-name"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Descripción </h6>
+            </div>
+            <div class="col-sm">
+                <p id="service-description"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Palabras clave </h6>
+            </div>
+            <div class="col-sm">
+                <p id="service-keywords"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Tipo de servicio </h6>
+            </div>
+            <div class="col-sm">
+                <p id="service-type"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Habilidato </h6>
+            </div>
+            <div class="col-sm">
+                <p id="service-enabled"> placeholder </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+<button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+    Cerrar </button>
+{% endblock %}
