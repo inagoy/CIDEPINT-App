@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %} Servicios {% endblock %}
+{% block head %}{{ super() }}
+<script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+{% endblock %}
+{% block content %}
+{% include "components/lists/list.html" %}
+{% include "components/pagination.html" %}
+{% endblock %}
