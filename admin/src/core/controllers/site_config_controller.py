@@ -11,7 +11,7 @@ def in_maintenance_mode():
         "contact_info": site_config.contact_info
     }
 
-    return render_template("site_config/maintenance.html", **context)
+    return render_template("modules/site_config/maintenance.html", **context)
 
 
 def view_config():
@@ -80,4 +80,4 @@ def edit_config(request):
             flash('Configuración actualizada', 'success')
             return redirect(url_for("super.view_config"))
 
-    return render_template("site_config/edit_config.html", **context)
+    return render_template("modules/site_config/edit_config.html", **context)
