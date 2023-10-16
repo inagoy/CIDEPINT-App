@@ -3,7 +3,9 @@ from src.core.database import db
 from enum import Enum as EnumBase
 from src.core.models.user_role_institution import UserRoleInstitution
 from src.core.models.institution import Institution
+from src.core.models.privileges import Role
 from src.core.models.site_config import SiteConfig
+from src.core.common.roles import is_superuser
 
 
 class GenderEnum(EnumBase):
@@ -84,6 +86,10 @@ class User(db.Model):
             return None
 
     @classmethod
+    def find_user_by_id(cls, user_id):
+        return cls.query.filter_by(id=user_id).first()
+
+    @classmethod
     def find_user_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
 
@@ -129,11 +135,49 @@ class User(db.Model):
         return None
 
     @classmethod
-    def get_all_users(cls):
-        return cls.query.all()
+    def get_gender_name(cls, user_id: int):
+        gender = cls.query.filter_by(id=user_id).first().gender
+        return GenderEnum(gender).name.capitalize()
 
     @classmethod
-    def get_users_paginated(cls, page, per_page=None):
+    def get_document_type_name(cls, user_id: int):
+        document_type = cls.query.filter_by(id=user_id).first().document_type
+        return DocumentEnum(document_type).name
+
+    @classmethod
+    def delete_user(cls, user_id: int):
+        user = cls.query.filter_by(id=user_id).delete()
+        db.session.commit()
+        return user
+
+    @classmethod
+    def get_all_users(cls):
+        return cls.query.filter(cls.id != 1)
+
+    @classmethod
+    def get_active_users(cls):
+        return cls.get_all_users().filter(cls.active)
+
+    @classmethod
+    def get_inactive_users(cls):
+        return cls.get_all_users().filter(cls.active == False)
+
+    @classmethod
+    def get_users_paginated(cls, page, per_page=None,
+                            active=True, inactive=True):
         if per_page is None:
             per_page = SiteConfig.get_items_per_page()
-        return cls.query.paginate(page=page, per_page=per_page)
+
+        if active and inactive:
+            users = cls.get_all_users()
+        elif active:
+            users = cls.get_active_users()
+        elif inactive:
+            users = cls.get_inactive_users()
+
+        return users.paginate(page=page, per_page=per_page)
+
+    @classmethod
+    def find_users_by_string(cls, text: str):
+        all_users = cls.get_all_users()
+        return [user for user in all_users if text in user.email]

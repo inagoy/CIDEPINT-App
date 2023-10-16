@@ -1,0 +1,19 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}user_delete{% endblock %}
+{% block header %} Eliminar Usuario {% endblock %}
+{% block cuerpo %}
+<div id="confirm-message" class="modal-body">
+    ¿Estás seguro de que deseas eliminar este usuario? Esta acción no puede deshacerse.
+</div>
+{% endblock %}
+{% block footer %}
+
+<form id="delete-form" method="POST" action="{{ url_for('super.delete_user') }}">
+    <input id="user-id" type="hidden" name="user_id" value="">
+    <button id="confirm-action" type="submit" class="btn btn-primary confirm-button"> Confirmar
+    </button>
+
+    <button id="dismiss-action" type="button" class="btn btn-secondary close-button"
+            data-dismiss="modal"> Cerrar </button>
+</form>
+{% endblock %}

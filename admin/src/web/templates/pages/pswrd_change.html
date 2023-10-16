@@ -1,0 +1,31 @@
+{% extends "layout.html" %} {% block title %} CIDEPINT: Cambiar Contraseña{% endblock %} {%
+block head %} {{ super() }}
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+{% endblock %} {% block content %}
+<div class="card">
+    <div class="card-body text-center row">
+        <div class="d-md-inline d-none col-3"></div>
+        <div class="col">
+            <h4 class="card-title">Cambiar Contraseña</h4>
+            <div class="dropdown-divider pb-4"></div>
+            <form method="POST"
+                  action="{{ url_for('register.confirm_password', hashed_email=hashed_email) }}">
+
+                <div class="form-group">
+                    <label for="inputPassword"> Contraseña</label>
+                    <input type="password" class="form-control" id="inputPassword"
+                           name="inputPassword"
+                           onblur="validatePassword('inputPassword', 'passwordError')"
+                           aria-describedby="passwordError">
+                    <small id="passwordError" class="form-text text-danger"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+
+                <a type="button" class="btn btn-primary text-white">Cancelar</a>
+            </form>
+        </div>
+        <div class="d-md-inline d-none col-3"></div>
+    </div>
+</div>
+{% endblock %}

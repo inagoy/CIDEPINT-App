@@ -38,22 +38,61 @@ class ValidateSerializer():
 
 class FirstRegistrationSerializer(ValidateSerializer):
     fields = {
-                "email": [v.validate_no_email, v.validate_email],
-                "first_name": [v.validate_just_text],
-                "last_name": [v.validate_just_text],
+        "email": [v.validate_no_email, v.validate_email],
+        "first_name": [v.validate_just_text],
+        "last_name": [v.validate_just_text],
     }
 
 
 class SecondRegistrationSerializer(ValidateSerializer):
     fields = {
-                "username": [v.validate_no_username, v.validate_username],
-                "password": [v.validate_password],
-                "address": [v.validate_address],
-                "phone_number": [v.validate_no_phone_number,
-                                 v.validate_phone_number],
-                "gender": [v.validate_just_text],
-                "document_type": [v.validate_just_text],
-                "document": [v.validate_no_document, v.validate_just_number],
+        "username": [v.validate_no_username, v.validate_username],
+        "password": [v.validate_password],
+        "address": [v.validate_address],
+        "phone_number": [v.validate_no_phone_number,
+                         v.validate_phone_number],
+        "gender": [v.validate_just_text],
+        "document_type": [v.validate_just_text],
+        "document": [v.validate_no_document, v.validate_just_number],
+    }
+
+
+class EditUniqueData(ValidateSerializer):
+    fields = {
+        "email": [v.validate_no_email],
+        "username": [v.validate_no_username],
+        "phone_number": [v.validate_no_phone_number],
+        "document": [v.validate_no_document],
+    }
+
+
+class EditUserSerializer(ValidateSerializer):
+    fields = {
+        "email": [v.validate_email],
+        "first_name": [v.validate_just_text],
+        "last_name": [v.validate_just_text],
+        "username": [v.validate_username],
+        "address": [v.validate_address],
+        "phone_number": [v.validate_phone_number],
+        "gender": [v.validate_just_text],
+        "document_type": [v.validate_just_text],
+        "document": [v.validate_just_number],
+    }
+
+
+class addUserSerializer(ValidateSerializer):
+    field = {
+        "email": [v.validate_no_email, v.validate_email],
+        "first_name": [v.validate_just_text],
+        "last_name": [v.validate_just_text],
+        "username": [v.validate_no_username, v.validate_username],
+        "password": [v.validate_password],
+        "address": [v.validate_address],
+        "phone_number": [v.validate_no_phone_number,
+                         v.validate_phone_number],
+        "gender": [v.validate_just_text],
+        "document_type": [v.validate_just_text],
+        "document": [v.validate_no_document, v.validate_just_number],
     }
 
 

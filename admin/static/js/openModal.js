@@ -4,29 +4,52 @@
  * @return {Promise<boolean>} A promise that resolves to `true` if the "Confirm" button is clicked, and `false` if the "Cancel" button is clicked.
  */
 function openModal(modal_id) {
-	return new Promise((resolve) => {
-		const confirmationModal = document.getElementById(modal_id);
-		confirmationModal.style.display = "block";
+	const confirmationModal = document.getElementById(modal_id);
+	confirmationModal.style.display = "block";
 
-		const confirmButton = confirmationModal.querySelector(".confirm-button");
-		const cancelButton = confirmationModal.querySelector(".close-button");
+	const confirmButton = confirmationModal.querySelector(".confirm-button");
+	const cancelButton = confirmationModal.querySelector(".close-button");
 
-		// Add event listener to the "Confirm" button
-		if (confirmButton) {
-			confirmButton.addEventListener("click", () => {
-				confirmationModal.style.display = "none";
-				resolve(true); // Resolve the promise with true
-			});
-		}
-
-		// Add event listener to the "Cancel" button
-		cancelButton.addEventListener("click", () => {
+	// Add event listener to the "Confirm" button
+	if (confirmButton) {
+		confirmButton.addEventListener("click", () => {
 			confirmationModal.style.display = "none";
-			resolve(false); // Resolve the promise with false
 		});
+	}
+
+	// Add event listener to the "Cancel" button
+	cancelButton.addEventListener("click", () => {
+		confirmationModal.style.display = "none";
 	});
 }
 
+function openModal(modal) {
+	modal.style.display = "block";
+
+	const confirmButton = modal.querySelector(".confirm-button");
+	const cancelButton = modal.querySelector(".close-button");
+
+	// Add event listener to the "Confirm" button
+	if (confirmButton) {
+		confirmButton.addEventListener("click", () => {
+			clearForm(modal);
+			modal.style.display = "none";
+		});
+	}
+
+	// Add event listener to the "Cancel" button
+	cancelButton.addEventListener("click", () => {
+		clearForm(modal);
+		modal.style.display = "none";
+	});
+}
+
+function clearForm(modal) {
+	const form = modal.querySelector("form");
+	if (form) {
+		form.reset();
+	}
+}
 function viewInstitution() {
 	openModal("institution_view");
 }
@@ -37,16 +60,4 @@ function editInstitution() {
 
 function deleteInstitution() {
 	openModal("confirm_modal");
-}
-
-function deleteUser() {
-	openModal("confirm_modal");
-}
-
-function viewUser() {
-	openModal("user_view");
-}
-
-function editUser() {
-	openModal("user_edit");
 }

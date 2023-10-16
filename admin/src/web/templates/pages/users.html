@@ -1,12 +1,16 @@
 {% extends "layout.html" %}
 {% block title %} Usuarios{% endblock %}
 {% block head %}{{ super() }}
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
 <script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/userModals.js') }}"></script>
 {% endblock %}
 {% block content %}
-{% include "components/modals/user_view.html" %}
-{% include "components/modals/user_edit.html" %}
-{% include "components/modals/confirmation_modal.html" %}
-{% include "components/list.html" %}
+{% include "components/modals/users/user_view.html" %}
+{% include "components/modals/users/user_edit.html" %}
+{% include "components/modals/users/user_delete.html" %}
+{% include "components/modals/users/user_add.html" %}
+{% include "components/modals/users/user_roles.html" %}
+{% include "components/lists/users_list.html" %}
 {% include "components/pagination.html" %}
 {% endblock %}

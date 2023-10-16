@@ -7,7 +7,9 @@ class HashedEmail(db.Model):
     __tablename__ = "hashed_email"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     hashed_email = db.Column(db.String(60), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id",
+                                                  ondelete="CASCADE"),
+                        nullable=False)
 
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow

@@ -1,0 +1,88 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}user_roles{% endblock %}
+<!-- Acá iría el nombre del usuario -->
+{% block header %} Ver usuario {% endblock %}
+{% block cuerpo %}
+<!-- Acá iría todo el HTML correspondiente a la vista del usuario -->
+<div id="confirm-message" class="modal-body modal-scrollable">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h6> Nombre </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-first-name"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Apellido </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-last-name"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Email </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-email"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Nombre de usuario </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-username"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Teléfono </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-phone"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Dirección </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-address"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Género </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-gender"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> DNI o pasaporte </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-dni"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Activo </h6>
+            </div>
+            <div class="col-sm">
+                <p id="user-active"> placeholder </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+<button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+    Cerrar </button>
+{% endblock %}
