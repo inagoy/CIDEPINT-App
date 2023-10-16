@@ -97,7 +97,9 @@ def inactive():
 
 def search():
     title = "Administración de usuarios"
-    users = User.find_users_by_string(request.form.get('search'))
+    page = request.args.get("page", 1, type=int)
+    users = User.get_users_by_email_paginated(
+        email=request.form.get('search'), page=page)
     add_function = "addUser()"
     edit_function = "editUser(this)"
     view_function = "viewUser(this)"

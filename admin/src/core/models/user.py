@@ -45,6 +45,12 @@ class User(db.Model):
 
     inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    user_role_institutions = db.relationship(
+        'UserRoleInstitution',
+        cascade='all, delete-orphan',
+        passive_deletes=True
+    )
+
     @classmethod
     def save(cls, **kwargs) -> object:
         """
@@ -84,10 +90,6 @@ class User(db.Model):
             return user
         else:
             return None
-
-    @classmethod
-    def find_user_by_id(cls, user_id):
-        return cls.query.filter_by(id=user_id).first()
 
     @classmethod
     def find_user_by_id(cls, user_id):
@@ -185,3 +187,12 @@ class User(db.Model):
     def find_users_by_string(cls, text: str):
         all_users = cls.get_all_users()
         return [user for user in all_users if text in user.email]
+
+    @classmethod
+    def get_users_by_email_paginated(cls, email, page, per_page=None):
+        if per_page is None:
+            per_page = SiteConfig.get_items_per_page()
+
+        users = cls.get_all_users().filter(cls.email.like(f"%{email}%"))
+        return users.paginate(
+            page=page, per_page=per_page)
