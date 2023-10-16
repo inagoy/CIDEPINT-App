@@ -60,6 +60,10 @@ function editUser(button) {
 		}
 	}
 
+	const checkboxActive = document.querySelector("#inputActive");
+
+	checkboxActive.checked = data.active == "True" ? true : false;
+
 	openModal(modal);
 }
 
