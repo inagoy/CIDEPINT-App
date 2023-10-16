@@ -27,9 +27,10 @@ function validateEmail(inputId, errorId) {
  * @return {void} This function does not return anything.
  */
 function validateJustText(inputId, errorId) {
+	
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);
-	const pattern = /^[\p{L}\s´]+$/u;
+	const pattern = /^[A-Za-z\s]+$/;
 
 	if (!pattern.test(input.value)) {
 		error.textContent = "Solo se permiten letras y espacios";

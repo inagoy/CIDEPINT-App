@@ -13,7 +13,7 @@
 	</button>
 	<div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
 		<ul class="navbar-nav">
-			{% if is_superuser() %}
+			{% if superuser_session() %}
 			<!-- Visible for superuser -->
 			<li id="menu-instituciones" class="nav-item active">
 				<a class="nav-link d-flex align-items-center" href="{{ url_for('super.institutions')}}"> <i
@@ -57,7 +57,8 @@
 			{% if is_owner() %}
 			<!-- Visible for owner -->
 			<li id="menu-usuario-institucion" class="nav-item active">
-				<a class="nav-link d-flex align-items-center" href="#"> <i class="bi bi-people"></i>
+				<a class="nav-link d-flex align-items-center" href="{{ url_for('institution.institution_roles') }}">
+					<i class="bi bi-people"></i>
 					<span class="ml-2"> Usuarios</span></a>
 			</li>
 			<li id="menu-editar-institucion" class="nav-item active">

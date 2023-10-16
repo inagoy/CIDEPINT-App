@@ -4,7 +4,7 @@ from src.core.models.user_role_institution import UserRoleInstitution
 from flask import session
 
 
-def is_superuser() -> bool:
+def superuser_session() -> bool:
     """
     Check if a session is a superuser.
 

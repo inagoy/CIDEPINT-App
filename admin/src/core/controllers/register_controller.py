@@ -136,3 +136,18 @@ def second_form(request, hashed_email):
             flash("Error al completar el registro", "danger")
         return redirect(url_for("home.home"))
     return render_template("error.html")
+
+
+def confirm_password(request, hashed_email):
+    user = HashedEmail.find_user_by_hash(hashed_email)
+    if user:
+        form = request.form.to_dict()
+        form['inputPassword'] = bcrypt.generate_password_hash(
+            form['inputPassword'])
+        userUpdated = User.update(user.id, active=True, **form)
+        if userUpdated:
+            flash("Se ha completado el registro exitosamente", "success")
+        else:
+            flash("Error al completar el registro", "danger")
+        return redirect(url_for("home.home"))
+    return render_template("error.html")

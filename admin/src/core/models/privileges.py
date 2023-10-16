@@ -47,6 +47,10 @@ class Role(db.Model):
     def get_role_by_id(cls, id: int) -> object:
         return cls.query.filter_by(id=id).first()
 
+    @classmethod
+    def get_all_roles(cls) -> object:
+        return cls.query.filter(Role.name != "Super Admin").all()
+
 
 class Permission(db.Model):
     __tablename__ = "permissions"

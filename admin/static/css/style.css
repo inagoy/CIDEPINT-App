@@ -73,3 +73,8 @@ ul {
 .list-group-item span {
     font-size: 1rem;
 }
+
+.modal-scrollable {
+    max-height: 60vh; /* Set the maximum height to your preference */
+    overflow-y: auto;
+}

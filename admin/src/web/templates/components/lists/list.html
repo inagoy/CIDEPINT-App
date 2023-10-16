@@ -1,0 +1,32 @@
+<div class="container">
+    <h3 class="text-start pb-4 pt-2"> {{ title }} </h3>
+    <div class="mx-1 row justify-content-between align-items-center flex-column flex-sm-row ">
+
+        {%block extra_buttons%} {%endblock%}
+
+    </div>
+
+    <div class="list-group ">
+        {% for element in elements.items %}
+        <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between flex-column flex-sm-row">
+                <h6 class="pt-2"> {{ get_name(element) }} </h6>
+                
+
+                    {% if users_page %}
+                    {% include "modules/users/users_actions.html" %}
+
+                    {% elif 'institution.institution_roles' in request.endpoint %}
+                    {% include "modules/institutions/roles_actions.html" %}
+                    {% endif %}
+
+                
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div style="width:100%; height: 50px">
+
+</div>

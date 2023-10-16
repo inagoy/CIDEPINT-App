@@ -4,7 +4,7 @@ from flask import session
 from src.core.bcrypt import bcrypt
 from src.core.common.decorators import LoginWrap
 from src.core.models.site_config import SiteConfig
-from src.web.helpers.roles import is_superuser
+from src.web.helpers.session import superuser_session
 
 
 def check_user(email, password):
@@ -59,7 +59,7 @@ def authenticate(request):
     else:
         session["user"] = user.email
         if SiteConfig.in_maintenance_mode():
-            if is_superuser():
+            if superuser_session():
                 flash("Sesión iniciada correctamente", "success")
                 return redirect(url_for("home.home_user"))
             else:
