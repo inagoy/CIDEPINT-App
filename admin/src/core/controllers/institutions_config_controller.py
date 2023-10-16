@@ -12,6 +12,9 @@ def institutions():
     title = "Administración de instituciones"
     page = request.args.get("page", 1, type=int)
     institutions = Institution.get_institutions_paginated(page)
+    
+    def get_name(institution):
+        return institution.name
 
     add_function = "add_institution()"
     edit_function = "editInstitution()"
@@ -24,4 +27,5 @@ def institutions():
         add_function=add_function,
         view_function=view_function,
         edit_function=edit_function,
-        delete_function=delete_function)
+        delete_function=delete_function,
+        get_name=get_name)

@@ -13,7 +13,7 @@ def first_registration():
 
     :return: The rendered template.
     """
-    return render_template("register/first_registration.html")
+    return render_template("modules/register/first_registration.html")
 
 
 def first_form(request):
@@ -41,7 +41,7 @@ def first_form(request):
     if not serializer["is_valid"]:
         for error in serializer["errors"].values():
             flash(error, 'danger')
-            return render_template("register/first_registration.html")
+            return render_template("modules/register/first_registration.html")
 
     user = User.save(**form)
     email_hash = uuid.uuid5(uuid.NAMESPACE_DNS, form["email"])
@@ -50,7 +50,7 @@ def first_form(request):
     mail.message(
         "Confirmación de registro",
         recipients=[form["email"]],
-        template="register/email.html",
+        template="modules/register/email.html",
         first_name=form["first_name"],
         last_name=form["last_name"],
         confirmation_link=url_for(
@@ -59,7 +59,7 @@ def first_form(request):
             _external=True
         )
     )
-    return render_template("register/first_registration_success.html")
+    return render_template("modules/register/first_registration_success.html")
 
 
 def confirmation(hashed_email):

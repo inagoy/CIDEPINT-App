@@ -34,7 +34,7 @@ def login():
     Returns:
         The rendered login template.
     """
-    return render_template("auth/login.html")
+    return render_template("modules/auth/login.html")
 
 
 def authenticate(request):
