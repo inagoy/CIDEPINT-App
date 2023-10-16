@@ -190,9 +190,12 @@ def edit_user():
                        'inputDocument': 'document',
                        'inputAddress': 'address',
                        'inputPhoneNumber': 'phone_number',
-                       'inputGender': 'gender'}
+                       'inputGender': 'gender',
+                       }
         form = {key_mapping.get(old_key, old_key):
                 value for old_key, value in form_raw.items()}
+
+        form['active'] = request.form.get('inputActive') is not None
 
         serializer = s.EditUserSerializer().validate(form)
 
