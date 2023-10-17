@@ -7,7 +7,9 @@
                 data-element="{{ parse_service(element) }}"
                 onclick=" {{ edit_function }}">Editar</button>
 
+        {% if not is_operator() %}
         <button type="button" onclick="{{ delete_function }}"
                 data-element="{{ parse_service(element) }}"
                 class="btn btn-outline-danger">Eliminar</button>
+        {% endif %}
 </div>
