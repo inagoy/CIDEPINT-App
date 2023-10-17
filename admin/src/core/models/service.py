@@ -28,6 +28,8 @@ class Service(BaseModel):
     enabled = db.Column(db.Boolean, default=True)
 
     inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
