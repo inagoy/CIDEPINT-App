@@ -1,0 +1,13 @@
+{% extends "/components/lists/list.html" %}
+{% block extra_buttons %}
+
+<a type="button"
+   class="btn mb-4 w-auto {% if 'institution_roles' in request.endpoint %}btn-success text-white{% else %}btn-outline-success text-success{% endif %} "
+   href="{{ url_for('institution.institution_roles') }}"> Usuarios de la institución</a>
+
+<form action="{{ url_for('institution.user_search') }}" method="POST"
+      class="form-inline mb-4 align-items-center flex-column flex-sm-row w-auto">
+   <input id="search" name="search" class="form-control mr-sm-3" type="search"
+          placeholder="Buscar usuario por mail" aria-label="Search">
+   <button id="search-button" class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
+</form> {% endblock %}

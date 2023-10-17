@@ -4,6 +4,7 @@ from enum import Enum as EnumBase
 from src.core.models.user_role_institution import UserRoleInstitution
 from src.core.models.institution import Institution
 from src.core.models.base_model import BaseModel
+from flask import session
 
 
 class GenderEnum(EnumBase):
@@ -122,22 +123,22 @@ class User(BaseModel):
         return DocumentEnum(document_type).name
 
     @classmethod
-    def get_all_users(cls):
-        return cls.query.filter(cls.id != 1)
+    def get_all(cls):
+        return cls.query.filter(cls.id != 1 and cls.email != session["user"])
 
     @classmethod
     def get_active_users(cls):
-        return cls.get_all_users().filter(cls.active)
+        return cls.get_all().filter(cls.active)
 
     @classmethod
     def get_inactive_users(cls):
-        return cls.get_all_users().filter(cls.active == False)
+        return cls.get_all().filter(cls.active == False)
 
     @classmethod
     def get_users_paginated(cls, page, per_page=None,
                             active=True, inactive=True):
         if active and inactive:
-            users = cls.get_all_users()
+            users = cls.get_all()
         elif active:
             users = cls.get_active_users()
         elif inactive:
@@ -146,11 +147,14 @@ class User(BaseModel):
         return cls.get_query_paginated(users, page, per_page)
 
     @classmethod
-    def find_users_by_string(cls, text: str):
-        all_users = cls.get_all_users()
-        return [user for user in all_users if text in user.email]
+    def get_users_by_email_paginated(cls, email, page, per_page=None):
+        users = cls.get_all().filter(cls.email.like(f"%{email}%"))
+        return cls.get_query_paginated(users, page, per_page)
 
     @classmethod
-    def get_users_by_email_paginated(cls, email, page, per_page=None):
-        users = cls.get_all_users().filter(cls.email.like(f"%{email}%"))
+    def get_users_by_institution_paginated(cls, institution_id: int,
+                                           page, per_page=None):
+
+        users = cls.get_all().join(UserRoleInstitution).filter(
+            UserRoleInstitution.institution_id == institution_id)
         return cls.get_query_paginated(users, page, per_page)
