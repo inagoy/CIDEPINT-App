@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+{% block title %} Editar Instituci&oacute;n {% endblock %}
+{% block head %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/configFormValidation.js') }}"></script>
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Editar Instituci&oacute;n</h1>
+    <form method="POST" action="{{ url_for('institution.edit_institution') }}">
+        <div class="form-group">
+            <label for="inputName">Nombre</label>
+            <input 
+                required type="text" 
+                class="form-control" 
+                id="inputName" 
+                name="inputName" 
+                placeholder="Nombre de la institución"
+                onblur=validateJustText('inputName', 'nameError')
+                aria-describedby="nameError"
+            />
+            <small id="nameError" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="inputInfo">Información</label>
+            <textarea 
+                required class="form-control" 
+                id="inputInfo" 
+                name="inputInfo" 
+                rows="4" 
+                placeholder="Información de la institución"
+                />
+            </textarea>
+        </div>
+        <div class="form-group">
+            <label for="inputAddress">Dirección</label>
+            <input 
+                required type="text" 
+                class="form-control" 
+                id="inputAddress" 
+                name="inputAddress" 
+                placeholder="Dirección"
+                oblur=validateDireccion('inputAddress', 'addressError')
+                aria-describedby="addressError"
+                />
+            <small id="addressError" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="inputLocation">Locación</label>
+            <input 
+                required type="text" 
+                class="form-control" 
+                id="inputLocation" 
+                name="inputLocation" 
+                placeholder="Ubicación"
+                onblur=validateJustText('inputLocation', 'locationError')
+                aria-describedby="locationError"
+                />
+        </div>
+        <div class="form-group">
+            <label for="inputWebsite">Sitio web</label>
+            <input 
+                required type="url" 
+                class="form-control" 
+                id="inputWebsite" 
+                name="inputWebsite" 
+                placeholder="https://www.ejemplo.com"
+                onblur="validateWebsite('inputWebsite', 'websiteError')"
+                aria-describedby="websiteError"
+                />
+            <small id="websiteError" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="inputKeywords">Palabras de Búsqueda</label>
+            <input 
+                required type="text" 
+                class="form-control" 
+                id="inputKeywords" 
+                name="inputKeywords" 
+                placeholder="Palabras clave"
+                oblur=validateJustText('inputKeywords', 'keywordsError')
+                aria-describedby="keywordsError"
+                />
+            <small id="keywordsError" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+            <label for="inputDaysAndHours">Días y Horarios de Atención</label>
+            <textarea 
+                required class="form-control" 
+                id="inputDaysHours" 
+                name="inputDaysHours" 
+                rows="4" 
+                placeholder="Días y horarios de atención"
+                /></textarea>
+        </div>
+        <div class="form-group">
+            <label for="inputContactInfo">Información de contacto</label>
+            <input 
+                required type="text" 
+                class="form-control" 
+                id="inputContact" 
+                name="inputContact" 
+                placeholder="Información de contacto">
+        </div>
+        <a href="{{ url_for('super.view_config') }}" class="card-link">
+            <button type="button" class="btn btn-primary close-button mt-3">
+                Cancelar
+            </button>
+        </a>
+        <button type="submit" class="btn btn-success confirm-button mt-3">
+            Guardar Cambios
+        </button>
+    </form>
+</div>
+{% endblock %}

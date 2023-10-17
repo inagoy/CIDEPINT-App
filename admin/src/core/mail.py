@@ -8,8 +8,7 @@ def init_app(app):
     mail.init_app(app)
 
 
-def message(subject, recipients, template,
-            sender="no-reply@cidepint.com", **kwargs):
+def message(subject, recipients, template, **kwargs):
     """
     Send an email message using the provided subject, recipients, template,
     and optional sender.
@@ -25,6 +24,6 @@ def message(subject, recipients, template,
     Returns:
         None
     """
-    msg = Message(subject, sender=sender, recipients=recipients)
+    msg = Message(subject, recipients=recipients)
     msg.html = render_template(template, **kwargs)
     mail.send(msg)

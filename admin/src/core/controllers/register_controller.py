@@ -92,7 +92,7 @@ def confirmation(hashed_email):
             "email": user.email,
             "hashed_email": hashed_email
         }
-        return render_template("register/confirmation.html", **context)
+        return render_template("modules/register/confirmation.html", **context)
     return render_template("error.html")
 
 

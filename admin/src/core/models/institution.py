@@ -1,9 +1,9 @@
 from datetime import datetime
 from src.core.database import db
-from src.core.models.site_config import SiteConfig
+from src.core.models.base_model import BaseModel
 
 
-class Institution(db.Model):
+class Institution(BaseModel):
     __tablename__ = "institutions"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
@@ -54,17 +54,3 @@ class Institution(db.Model):
         db.session.add(institution)
         db.session.commit()
         return institution
-
-    @classmethod
-    def get_institution_by_id(cls, id: int):
-        return cls.query.filter_by(id=id).first()
-
-    @classmethod
-    def get_all_institutions(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_institutions_paginated(cls, page, per_page=None):
-        if per_page is None:
-            per_page = SiteConfig.get_items_per_page()
-        return cls.query.paginate(page=page, per_page=per_page)

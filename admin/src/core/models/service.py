@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import Enum as EnumBase
 from src.core.database import db
-from src.core.models.site_config import SiteConfig
+from src.core.models.base_model import BaseModel
 
 
 class ServiceTypeEnum(EnumBase):
@@ -10,7 +10,7 @@ class ServiceTypeEnum(EnumBase):
     DESARROLLO = 'Desarrollo'
 
 
-class Service(db.Model):
+class Service(BaseModel):
     __tablename__ = 'services'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
@@ -59,13 +59,3 @@ class Service(db.Model):
         db.session.add(service)
         db.session.commit()
         return service
-
-    @classmethod
-    def get_all_services(cls):
-        return cls.query.all()
-
-    @classmethod
-    def get_services_paginated(cls, page, per_page=None):
-        if per_page is None:
-            per_page = SiteConfig.get_items_per_page()
-        return cls.query.paginate(page=page, per_page=per_page)
