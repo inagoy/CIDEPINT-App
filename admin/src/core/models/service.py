@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum as EnumBase
 from src.core.database import db
 from src.core.models.base_model import BaseModel
@@ -26,12 +26,18 @@ class Service(BaseModel):
                              nullable=False)
 
     enabled = db.Column(db.Boolean, default=True)
+
+    inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
     institution_id = db.Column(db.Integer, db.ForeignKey('institutions.id'),
                                nullable=False)
     institution = db.relationship('Institution', back_populates='has_services')
+    has_requests = db.relationship(
+        'ServiceRequest', cascade='all, delete-orphan',
+        pasive_deletes=True, back_populates='service'
+    )
 
     @classmethod
     def save(cls, name: str, description: str,
@@ -59,3 +65,55 @@ class Service(BaseModel):
         db.session.add(service)
         db.session.commit()
         return service
+
+
+class StatusEnum(EnumBase):
+    ACEPTADA = "Aceptada"
+    RECHAZADA = "Rechazada"
+    EN_PROCESO = "En proceso"
+    FINALIZADA = "Finalizada"
+    CANCELADA = "Cancelada"
+
+
+class ServiceRequest(BaseModel):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    observations = db.Column(db.Text)
+    service_id = db.Column(db.Integer,
+                           db.ForeignKey('service.id', ondelete='CASCADE'),
+                           nullable=False
+                           )
+    service = db.relationship('Service', back_populates='has_requests')
+    requester = db.Column(db.Integer,
+                          db.ForeignKey('user.id', ondelete='CASCADE'),
+                          nullable=False
+                          )
+    user = db.relationship('User', back_populates='has_requests')
+    status = db.Column(db.Enum(StatusEnum,
+                               values_callable=lambda x:
+                               [str(e.value)for e in StatusEnum]),
+                       nullable=False
+                       )
+    inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
+    closed_at = db.Column(
+        db.DateTime, default=datetime.utcnow + timedelta(months=2)
+    )
+    status_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
+
+
+class Note(BaseModel):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey('user.id', ondelete='CASCADE'),
+                        nullable=False
+                        )
+    user = db.relationship('User', back_populates='has_notes')
+    inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
