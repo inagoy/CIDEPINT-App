@@ -7,6 +7,9 @@
     </div>
 
     <div class="list-group ">
+        {% if not elements.items %}
+        <h5 class="text-center pb-4 pt-4"> No hay elementos para mostrar </h5>
+        {% endif %}
         {% for element in elements.items %}
         <div class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between flex-column flex-sm-row">
@@ -16,8 +19,9 @@
                     {% if users_page %}
                     {% include "modules/users/users_actions.html" %}
 
-                    {% elif 'institution.institution_roles' in request.endpoint %}
-                    {% include "modules/institutions/roles_actions.html" %}
+                    {% elif 'institution.institution_roles' in request.endpoint or 'institution.user_search' in
+                    request.endpoint %}
+                    {% include "modules/institution_roles/roles_actions.html" %}
                     {% endif %}
 
                 

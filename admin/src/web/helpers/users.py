@@ -1,3 +1,4 @@
+from flask import session
 from src.core.models.user import User
 from src.core.models.user_role_institution import UserRoleInstitution
 
@@ -75,3 +76,21 @@ def unique_data_check(user, form, errors):
         if user.phone_number != form['phone_number']:
             return errors['phone_number']
     return None
+
+
+def get_role_of_user(user_id):
+    """
+    Get the role of a user.
+
+    Args:
+        user_id (int): The ID of the user.
+
+    Returns:
+        int: The ID of the user's role in the institution.
+    """
+    user = UserRoleInstitution.get_user_institution_roles(
+        user_id=user_id, institution_id=session["current_institution"])
+    if user:
+        return user.role_id
+    else:
+        return None

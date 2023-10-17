@@ -16,6 +16,11 @@ permissions_data = [
     {"name": "user_destroy"},
     {"name": "user_update"},
     {"name": "user_show"},
+    
+    {"name": "user_institution_index"},
+    {"name": "user_institution_create"},
+    {"name": "user_institution_destroy"},
+    {"name": "user_institution_update"},
 
     {"name": "institution_index"},
     {"name": "institution_create"},

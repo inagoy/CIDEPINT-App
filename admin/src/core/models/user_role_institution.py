@@ -45,10 +45,24 @@ class UserRoleInstitution(db.Model):
     @classmethod
     def delete_user_institution_role(cls, user_id: int, institution_id: int,
                                      role_id: int):
-        UserRoleInstitution.query.filter_by(
-            user_id=user_id,
-            institution_id=institution_id,
-            role_id=role_id
-        ).delete()
+        response = UserRoleInstitution.query.filter_by(
+                    user_id=user_id,
+                    institution_id=institution_id,
+                    role_id=role_id
+                ).delete()
         db.session.commit()
-        return
+        return response
+
+    @classmethod
+    def update_role(cls, user_id: int, role_id: int, institution_id: int):
+        actual_role = cls.get_user_institution_roles(
+            user_id=user_id, institution_id=institution_id)
+        if actual_role:
+            setattr(actual_role, 'role_id', role_id)
+            db.session.commit()
+            actual_id = role_id
+            return actual_id
+        else:
+            cls.insert(role_id=role_id, user_id=user_id,
+                       institution_id=institution_id)
+            return True

@@ -1,0 +1,15 @@
+<small class="mt-2">{{ element.email }}</small>
+
+<form method="POST" action="{{ url_for('institution.update_role') }}"
+      class="mr-1 row justify-content-end align-items-center flex-row pt-2 pt-md-0">
+    <input id="user_id" type="hidden" name="user_id" value="{{ element.id }}">
+    <select class="form-control mr-2 w-50" id="inputRole" name="inputRole">
+        <option value=""> No Role</option>
+        {% for role in roles %}
+        <option {% if role.id==get_role(element.id) %} selected {% endif %} value="{{ role.id }}">
+            {{
+            role.name }}</option>
+        {% endfor %}
+    </select>
+    <button id="addRoleButton" type="submit" class="btn btn-primary ml-2">Actualizar</button>
+</form>

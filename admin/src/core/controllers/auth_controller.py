@@ -52,7 +52,7 @@ def authenticate(request):
 
     user = check_user(params["inputEmail"], params["inputPassword"])
 
-    if not user:
+    if not user or user.active is False:
         flash("Mail o contraseña inválidos. Intente nuevamente", "danger")
         return redirect(url_for("auth.login"))
 
