@@ -15,6 +15,7 @@ class Config(object):
     MAIL_USE_SSL = True
     MAIL_USERNAME = 'emiliamancini.m@gmail.com'
     MAIL_PASSWORD = 'ihej sxxz scwj bemi '
+    MAIL_DEFAULT_SENDER = ('Administración CIDEPINT', 'MAIL_USERNAME')
 
 
 class ProductionConfig(Config):

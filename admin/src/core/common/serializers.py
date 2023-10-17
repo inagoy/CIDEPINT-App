@@ -80,22 +80,6 @@ class EditUserSerializer(ValidateSerializer):
     }
 
 
-class addUserSerializer(ValidateSerializer):
-    field = {
-        "email": [v.validate_no_email, v.validate_email],
-        "first_name": [v.validate_just_text],
-        "last_name": [v.validate_just_text],
-        "username": [v.validate_no_username, v.validate_username],
-        "password": [v.validate_password],
-        "address": [v.validate_address],
-        "phone_number": [v.validate_no_phone_number,
-                         v.validate_phone_number],
-        "gender": [v.validate_just_text],
-        "document_type": [v.validate_just_text],
-        "document": [v.validate_no_document, v.validate_just_number],
-    }
-
-
 class SiteConfigValidator(ValidateSerializer):
     fields = {
         "items_per_page": [v.validate_just_number],

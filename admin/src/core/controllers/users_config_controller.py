@@ -121,8 +121,11 @@ def delete_user():
     # eliminar usuario
     # mensaje de exito
     user_id = request.form.get('user_id')
-    print("holaaaa", user_id)
-    User.delete_user(user_id)
+    response = User.delete(user_id)
+    if response:
+        flash("Usuario eliminado correctamente", "success")
+    else:
+        flash("Error al eliminar el usuario", "danger")
     return redirect(url_for('super.users'))
 
 
@@ -179,7 +182,7 @@ def add_user():
 
 
 def edit_user():
-    user = User.find_user_by_id(request.form.get('user_id'))
+    user = User.get_by_id(request.form.get('user_id'))
     if user:
         form_raw = request.form.to_dict()
         key_mapping = {'inputName': 'first_name',
@@ -212,7 +215,7 @@ def edit_user():
                 flash(error, "danger")
                 return redirect(url_for('super.users'))
 
-        userUpdated = User.update(**form)
+        userUpdated = User.update(entity_id=user.id, **form)
         if userUpdated:
             flash("Se ha completado la edición exitosamente", "success")
         else:
@@ -223,7 +226,7 @@ def edit_user():
 
 
 def roles(user_id):
-    institutions = Institution.get_all_institutions()
+    institutions = Institution.get_all()
     roles = Role.get_all_roles()
     list_raw = UserRoleInstitution.get_roles_institutions_of_user(user_id)
     list = []
@@ -232,7 +235,7 @@ def roles(user_id):
             "id_role": item.role_id,
             "id_institution": item.institution_id,
             "role": Role.get_role_by_id(item.role_id).name,
-            "institution": Institution.get_institution_by_id(
+            "institution": Institution.get_by_id(
                 item.institution_id
             ).name
         })

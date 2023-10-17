@@ -11,8 +11,8 @@ def institutions():
     """
     title = "Administración de instituciones"
     page = request.args.get("page", 1, type=int)
-    institutions = Institution.get_institutions_paginated(page)
-    
+    institutions = Institution.get_paginated(page)
+
     def get_name(institution):
         return institution.name
 
