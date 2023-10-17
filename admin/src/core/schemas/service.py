@@ -3,7 +3,7 @@ from src.core.common import validators as v
 from marshmallow import Schema, fields, validates
 
 
-class ServiceSchema(Schema):
+class ServiceModelSchema(Schema):
     name = fields.Str()
     description = fields.Str()
     keywords = fields.Str()
@@ -15,12 +15,13 @@ class ServiceSchema(Schema):
     def service_type_display(self, obj):
         return obj.service_type.value
 
-
-services_schema = ServiceSchema(many=True)
-service_schema = ServiceSchema()
+    @classmethod
+    def get_instance(cls, many=False):
+        return cls(many=many)
 
 
 class SearchServicesSchema(PaginatedSchema):
+
     q = fields.Str(required=True)
     type = fields.Str(allow_none=True)
 
@@ -28,8 +29,10 @@ class SearchServicesSchema(PaginatedSchema):
     def validate_type(self, value):
         v.validate_service_type(value)
 
-
-search_services_schema = SearchServicesSchema()
+    @classmethod
+    def get_instance(cls):
+        return cls()
+""" search_services_schema = SearchServicesSchema() """
 
 
 class ServicesTypesSchema(Schema):
