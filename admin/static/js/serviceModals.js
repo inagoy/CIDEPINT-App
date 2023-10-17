@@ -19,6 +19,11 @@ function viewService(button) {
 	openModal(modal);
 }
 
+function addService() {
+	let modal = document.getElementById("service_add");
+	openModal(modal);
+}
+
 function deleteService(button) {
 	let modal = document.getElementById("service_delete");
 	console.log(button.getAttribute("data-element"));
