@@ -96,3 +96,10 @@ class SiteConfigValidator(ValidateSerializer):
         "maintenance_message": [v.validate_string],
         "contact_info": [v.validate_string],
     }
+
+
+class serviceDataSerializer(ValidateSerializer):
+    fields = {
+        "keywords": [v.validate_keywords],
+        "service_type": [v.validate_just_text],
+    }

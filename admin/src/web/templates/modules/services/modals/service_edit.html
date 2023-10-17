@@ -19,8 +19,11 @@
             </div>
             <div class="form-group">
                 <label for="inputKeywords"> Palabras clave </label>
-                <input required type="text" class="form-control" id="inputKeywords"
-                       name="inputKeywords" placeholder="palabras separadas por coma" />
+                <input required type="text" class="form-control" id="inputEditKeywords" name="inputKeywords"
+                       placeholder="palabras separadas por coma"
+                       onblur="validateKeywords('inputEditKeywords', 'keywordsErrors')"
+                       aria-describedby="keywordsErrors" />
+                <small id="keywordsErrors" class="form-text text-danger"></small>
             </div>
 
             <div class="form-group">

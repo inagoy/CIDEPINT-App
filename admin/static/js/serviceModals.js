@@ -42,7 +42,7 @@ function editService(button) {
 
 	modal.querySelector("#inputName").value = data.name;
 	modal.querySelector("#inputDescription").value = data.description;
-	modal.querySelector("#inputKeywords").value = data.keywords;
+	modal.querySelector("#inputEditKeywords").value = data.keywords;
 	modal.querySelector("#service-id").value = data.id;
 	console.log("service-id", modal.querySelector("#service-id").value, data.id);
 

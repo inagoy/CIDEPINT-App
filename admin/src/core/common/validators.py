@@ -222,7 +222,7 @@ def validate_no_email(email):
 
 
 def validate_no_document(document):
-    """
+    """q
     Validates if a document is already registered in the system.
 
     Parameters:
@@ -297,3 +297,12 @@ def validate_string(value):
     else:
         raise ValidationError(
             f"El valor '{value}' no es un texto válido")
+
+
+def validate_keywords(value):
+    keyword_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
+    if re.match(keyword_pattern, value):
+        return True
+    else:
+        raise ValidationError(
+            f"El valor '{value}' no cumple con el formato esperado.")

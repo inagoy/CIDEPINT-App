@@ -1,5 +1,6 @@
 from flask import render_template, session, request, redirect, url_for, flash
 from src.core.models.service import Service
+from src.core.common import serializers as s
 
 
 def get_service_name(service):
@@ -60,11 +61,21 @@ def edit_service():
                        'inputDescription': 'description',
                        'inputKeywords': 'keywords',
                        'inputServiceType2': 'service_type',
+                       'inputEnabled2': 'enabled'
                        }
-
+       
         form = {key_mapping.get(old_key, old_key):
                 value for old_key, value in form_raw.items()}
         form['enabled'] = request.form.get('inputEnabled2') is not None
+
+        serializer = s.serviceDataSerializer().validate(form)
+        
+        
+
+        if not serializer["is_valid"]:
+            for error in serializer["errors"].values():
+                flash(error, "danger")
+            return redirect(url_for('services.services'))
 
         serviceUpdated = Service.update(**form)
         if serviceUpdated:

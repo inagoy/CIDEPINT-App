@@ -27,7 +27,6 @@ function validateEmail(inputId, errorId) {
  * @return {void} This function does not return anything.
  */
 function validateJustText(inputId, errorId) {
-	
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);
 	const pattern = /^[A-Za-z\s]+$/;
@@ -49,19 +48,18 @@ function validateJustText(inputId, errorId) {
  * @returns {boolean} Returns true if the input value contains only numbers, otherwise false.
  */
 function validateJustNumber(inputId, errorId) {
-    const input = document.getElementById(inputId);
-    const error = document.getElementById(errorId);
-    const pattern = /^\d+$/; // Pattern for numbers only
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+	const pattern = /^\d+$/; // Pattern for numbers only
 
-    if (!pattern.test(input.value)) {
-        error.textContent = "Solo se permiten números";
+	if (!pattern.test(input.value)) {
+		error.textContent = "Solo se permiten números";
 		return false;
-    } else {
-        error.textContent = "";
+	} else {
+		error.textContent = "";
 		return true;
 	}
 }
-
 
 /**
  * Validates the username input and displays an error message if the input is
@@ -115,13 +113,10 @@ function validatePassword(inputId, errorId) {
 	if (!/[A-Z]/.test(password)) {
 		passwordError.textContent = "La contraseña debe contener por lo menos una mayúscula";
 		return false;
-	}
-	else{
+	} else {
 		passwordError.textContent = "";
-		return true
+		return true;
 	}
-
-	
 }
 
 /**
@@ -132,17 +127,17 @@ function validatePassword(inputId, errorId) {
  * @return {boolean} true if the direccion is valid, false otherwise
  */
 function validateDireccion(inputId, errorId) {
-    const input = document.getElementById(inputId);
-    const error = document.getElementById(errorId);
-    const pattern = /^[a-zA-Z\s.,-]*\d+[a-zA-Z0-9\s.,-]*$/; // Pattern to require at least one number
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+	const pattern = /^[a-zA-Z\s.,-]*\d+[a-zA-Z0-9\s.,-]*$/; // Pattern to require at least one number
 
-    if (!pattern.test(input.value)) {
-        error.textContent = "La dirección debe contener al menos un número y puede incluir letras, números y signos de puntuación comunes";
-		return false
+	if (!pattern.test(input.value)) {
+		error.textContent = "La dirección debe contener al menos un número y puede incluir letras, números y signos de puntuación comunes";
+		return false;
 	} else {
-        error.textContent = "";
-		return true
-    }
+		error.textContent = "";
+		return true;
+	}
 }
 
 /**
@@ -166,5 +161,22 @@ function validatePhoneNumber(inputId, errorId) {
 	} else {
 		phoneNumberError.textContent = "";
 		return true; // Allow form submission
+	}
+}
+
+function validateKeywords(inputId, errorId) {
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+
+	const keywordPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
+
+	console.log("test", keywordPattern.test(input.value), input.value);
+
+	if (!keywordPattern.test(input.value)) {
+		error.textContent = "Ingrese palabras separadas por comas";
+		return false;
+	} else {
+		error.textContent = "";
+		return true;
 	}
 }
