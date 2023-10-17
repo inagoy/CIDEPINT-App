@@ -34,63 +34,34 @@ function deleteService(button) {
 	openModal(modal);
 }
 
-/*
-function editUser(button) {
-	let modal = document.getElementById("user_edit");
+function editService(button) {
+	let modal = document.getElementById("service_edit");
 	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
 	console.log("la data: ", data);
 
-	modal.querySelector("#inputEmail").value = data.email;
-	modal.querySelector("#inputName").value = data.first_name;
-	modal.querySelector("#inputSurname").value = data.last_name;
-	modal.querySelector("#inputUsername").value = data.username;
-	modal.querySelector("#inputAddress").value = data.address;
-	modal.querySelector("#inputPhoneNumber").value = data.phone;
-	modal.querySelector("#inputDocument").value = data.document;
-	modal.querySelector("#user-id").value = data.id;
+	modal.querySelector("#inputName").value = data.name;
+	modal.querySelector("#inputDescription").value = data.description;
+	modal.querySelector("#inputKeywords").value = data.keywords;
+	modal.querySelector("#service-id").value = data.id;
+	console.log("service-id", modal.querySelector("#service-id").value, data.id);
 
-	const selectDocument = document.querySelector("#inputDocumentType");
+	const selectDocument = document.querySelector("#inputServiceType2");
 
-	// Loop through the options to find the one that matches data.documentType
+	// ARREGLAR ESTO
 	for (let i = 0; i < selectDocument.options.length; i++) {
 		const option = selectDocument.options[i];
-		if (option.value == data.document_type) {
-			option.selected = true; // Select the matching option
-			break; // Exit the loop once found
+		const valor = option.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+		if (valor == data.service_type) {
+			option.selected = true;
+			console.log(option, valor, data.service_type, "aaaaaaaaaaaaaaaA");
+			break;
 		}
 	}
 
-	const selectGender = document.querySelector("#inputGender");
-
-	// Loop through the options to find the one that matches data.documentType
-	for (let i = 0; i < selectGender.options.length; i++) {
-		const option = selectGender.options[i];
-		if (option.value == data.gender) {
-			option.selected = true; // Select the matching option
-			break; // Exit the loop once found
-		}
-	}
-
-	const checkboxActive = document.querySelector("#inputActive");
-
-	checkboxActive.checked = data.active == "True" ? true : false;
+	const checkboxActive = document.querySelector("#inputEnabled2");
+	checkboxActive.checked = data.enabled == "True" ? true : false;
+	console.log("data.enabled", checkboxActive.checked, data.enabled);
 
 	openModal(modal);
 }
-
-function deleteUser(button) {
-	let modal = document.getElementById("user_delete");
-	console.log(button.getAttribute("data-element"));
-	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data.id);
-
-	modal.querySelector("#user-id").value = data.id;
-	openModal(modal);
-}
-
-function addUser() {
-	let modal = document.getElementById("user_add");
-	openModal(modal);
-}
-*/

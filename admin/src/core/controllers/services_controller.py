@@ -13,7 +13,7 @@ def services():
     services = Service.get_services_of_institution_paginated(
         page, session['current_institution'])
     add_function = "addService()"
-    edit_function = "editUser(this)"
+    edit_function = "editService(this)"
     view_function = "viewService(this)"
     delete_function = "deleteService(this)"
 
@@ -43,7 +43,7 @@ def add_service():
 
     form = {key_mapping.get(old_key, old_key):
             value for old_key, value in form_raw.items()}
-    
+
     form['enabled'] = form['enabled'] is not None
     form['institution_id'] = session['current_institution']
 
@@ -53,4 +53,24 @@ def add_service():
 
 
 def edit_service():
+    service = Service.find_service_by_id(request.form.get('service_id'))
+    if service:
+        form_raw = request.form.to_dict()
+        key_mapping = {'inputName': 'name',
+                       'inputDescription': 'description',
+                       'inputKeywords': 'keywords',
+                       'inputServiceType2': 'service_type',
+                       }
+
+        form = {key_mapping.get(old_key, old_key):
+                value for old_key, value in form_raw.items()}
+        form['enabled'] = request.form.get('inputEnabled2') is not None
+
+        serviceUpdated = Service.update(**form)
+        if serviceUpdated:
+            flash("Se ha completado la edición exitosamente", "success")
+        else:
+            flash("Error al completar la edición", "danger")
+    else:
+        flash("El servicio no existe", "danger")
     return redirect(url_for('services.services'))

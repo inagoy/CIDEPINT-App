@@ -1,0 +1,57 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}service_edit{% endblock %}
+<!-- Acá iría el nombre del usuario -->
+{% block header %} Editar Servicio {% endblock %}
+{% block cuerpo %}
+<!-- Acá iría todo el HTML correspondiente a la edición del usuario -->
+<div id="confirm-message" class="modal-body modal-scrollable">
+    <div class="col">
+        <form id="edit-form" method="POST" action="{{ url_for('services.edit_service') }}">
+            <div class="form-group">
+                <label for="inputName"> Nombre </label>
+                <input required type="text" class="form-control" id="inputName" name="inputName"
+                       placeholder="Nombre" />
+            </div>
+            <div class="form-group">
+                <label for="inputDescription"> Descripción </label>
+                <input required type="text" class="form-control" id="inputDescription"
+                       name="inputDescription" placeholder="Descripción" />
+            </div>
+            <div class="form-group">
+                <label for="inputKeywords"> Palabras clave </label>
+                <input required type="text" class="form-control" id="inputKeywords"
+                       name="inputKeywords" placeholder="palabras separadas por coma" />
+            </div>
+
+            <div class="form-group">
+                <label for="inputServiceType2">Tipo de Servicio</label>
+                <select class="form-control" id="inputServiceType2" name="inputServiceType2">
+                    <option value="" disabled selected> Seleccionar un tipo de servicio</option>
+                    <option value="Análisis">Análisis</option>
+                    <option value="Consultoría">Consultoría</option>
+                    <option value="Desarrollo">Desarrollo</option>
+                </select>
+            </div>
+
+            <div class="form-group form-check">
+                <input class="form-check-input" type="checkbox" id="inputEnabled2"
+                       name="inputEnabled2">
+                <label class="form-check-label" for="inputEnabled2">
+                    ¿Servicio Habilitado?
+                </label>
+            </div>
+
+            <input id="service-id" type="hidden" name="service_id" value="">
+
+            <button type="submit" class="btn btn-primary"> Guardar Cambios
+            </button>
+
+            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+                Cerrar </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}
