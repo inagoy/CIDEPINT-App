@@ -12,7 +12,7 @@ def services():
     title = "Administración de servicios"
     page = request.args.get("page", 1, type=int)
     services = Service.get_services_of_institution_paginated(
-        page, session['current_institution'])
+        page=page, institution_id=session['current_institution'])
     add_function = "addService()"
     edit_function = "editService(this)"
     view_function = "viewService(this)"
@@ -63,14 +63,12 @@ def edit_service():
                        'inputServiceType2': 'service_type',
                        'inputEnabled2': 'enabled'
                        }
-       
+
         form = {key_mapping.get(old_key, old_key):
                 value for old_key, value in form_raw.items()}
         form['enabled'] = request.form.get('inputEnabled2') is not None
 
         serializer = s.serviceDataSerializer().validate(form)
-        
-        
 
         if not serializer["is_valid"]:
             for error in serializer["errors"].values():
