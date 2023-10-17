@@ -19,6 +19,16 @@ function viewService(button) {
 	openModal(modal);
 }
 
+function deleteService(button) {
+	let modal = document.getElementById("service_delete");
+	console.log(button.getAttribute("data-element"));
+	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
+	console.log("la data: ", data.id);
+
+	modal.querySelector("#service-id").value = data.id;
+	openModal(modal);
+}
+
 /*
 function editUser(button) {
 	let modal = document.getElementById("user_edit");

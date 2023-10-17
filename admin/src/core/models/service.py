@@ -64,3 +64,9 @@ class Service(BaseModel):
     def get_service_type_name(cls, service_id: int):
         service = cls.query.filter_by(id=service_id).first().service_type
         return ServiceTypeEnum(service).name.capitalize()
+
+    @classmethod
+    def delete_service(cls, service_id: int):
+        service = cls.query.filter_by(id=service_id).delete()
+        db.session.commit()
+        return service

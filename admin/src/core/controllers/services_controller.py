@@ -1,4 +1,4 @@
-from flask import render_template, session, request
+from flask import render_template, session, request, redirect, url_for
 from src.core.models.service import Service
 from src.web.helpers.users import get_name
 
@@ -16,7 +16,7 @@ def services():
     add_function = "addUser()"
     edit_function = "editUser(this)"
     view_function = "viewService(this)"
-    delete_function = "deleteUser(this)"
+    delete_function = "deleteService(this)"
     
     return render_template("pages/services.html",
                            title=title,
@@ -26,3 +26,9 @@ def services():
                            view_function=view_function,
                            delete_function=delete_function,
                            get_name=get_service_name)
+
+
+def delete_service():
+    service_id = request.form.get('service_id')
+    Service.delete_service(service_id)
+    return redirect(url_for('services.services'))
