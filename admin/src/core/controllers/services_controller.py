@@ -30,7 +30,7 @@ def services():
 
 def delete_service():
     service_id = request.form.get('service_id')
-    Service.delete_service(service_id)
+    Service.delete(service_id)
     return redirect(url_for('services.services'))
 
 
@@ -48,8 +48,14 @@ def add_service():
     form['enabled'] = form['enabled'] is not None
     form['institution_id'] = session['current_institution']
 
+    serializer = s.serviceDataSerializer().validate(form)
+    if not serializer["is_valid"]:
+        for error in serializer["errors"].values():
+            flash(error, "danger")
+        return redirect(url_for('services.services'))
+
     Service.save(**form)
-    flash('Se ha completado el registro exitosamente', 'success')
+    flash('Se agregó el servicio exitosamente', 'success')
     return redirect(url_for('services.services'))
 
 

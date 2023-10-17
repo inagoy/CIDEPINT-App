@@ -64,21 +64,3 @@ class Service(BaseModel):
     def get_service_type_name(cls, service_id: int):
         service = cls.query.filter_by(id=service_id).first().service_type
         return ServiceTypeEnum(service).name.capitalize()
-
-    @classmethod
-    def delete_service(cls, service_id: int):
-        service = cls.query.filter_by(id=service_id).delete()
-        db.session.commit()
-        return service
-
-    @classmethod
-    def update(cls, service_id, **kwargs):
-        service = cls.query.get(service_id)
-        if service:
-            for key, value in kwargs.items():
-                setattr(service, key, value)
-            service.updated_at = datetime.utcnow()
-            db.session.commit()
-            return service
-        else:
-            return None
