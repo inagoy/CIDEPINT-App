@@ -100,6 +100,8 @@ class SiteConfigValidator(ValidateSerializer):
 
 class serviceDataSerializer(ValidateSerializer):
     fields = {
-        "keywords": [v.validate_keywords],
+        "name": [v.validate_not_empty],
+        "description": [v.validate_not_empty],
+        "keywords": [v.validate_not_empty, v.validate_keywords],
         "service_type": [v.validate_just_text],
     }

@@ -81,7 +81,7 @@ def edit_service():
                 flash(error, "danger")
             return redirect(url_for('services.services'))
 
-        serviceUpdated = Service.update(**form)
+        serviceUpdated = Service.update(entity_id=service.id,**form)
         if serviceUpdated:
             flash("Se ha completado la edición exitosamente", "success")
         else:
