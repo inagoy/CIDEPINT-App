@@ -153,7 +153,7 @@ def validate_phone_number(phone_number):
     return phone_number
 
 
-def validate_form_data(form_data, expected_parameters):
+def validate_form_data(form_data, fields):
     """
     Validates the form data against the expected parameters.
 
@@ -167,6 +167,9 @@ def validate_form_data(form_data, expected_parameters):
     Raises:
         ValidationError: If there are missing parameters in the form data.
     """
+    expected_parameters = [
+        key for key in fields.keys() if "*" in fields[key]
+    ]
     missing_parameters = [
         param for param in expected_parameters if param not in form_data
     ]

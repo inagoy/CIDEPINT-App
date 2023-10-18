@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for
-from src.core.common.serializers import SiteConfigValidator
+from src.core.common import serializers as s
 from src.core.models.site_config import SiteConfig
 
 
@@ -51,19 +51,14 @@ def edit_config(request):
         }
 
     if request.method == 'POST':
-        form_raw = request.form.to_dict()
         key_mapping = {'inputItemsPage': 'items_per_page',
                        'selectMode': 'maintenance_mode',
                        'inputMessage': 'maintenance_message',
                        'inputContact': 'contact_info'
                        }
 
-        form = {key_mapping.get(old_key, old_key):
-                value for old_key, value in form_raw.items()}
-        # Remove empty values
-        form = {key: value for key, value in form.items() if value != ""}
-
-        serializer = SiteConfigValidator().validate(form)
+        form = s.ValidateSerializer.map_keys(request.form, key_mapping)
+        serializer = s.SiteConfigValidator().validate(form)
 
         if not serializer["is_valid"]:
             for error in serializer["errors"].values():

@@ -130,7 +130,6 @@ def delete_user():
 
 
 def add_user():
-    form_raw = request.form.to_dict()
     key_mapping = {'inputName': 'first_name',
                    'inputSurname': 'last_name',
                    'inputEmail': 'email',
@@ -142,8 +141,7 @@ def add_user():
                    'inputPhoneNumber': 'phone_number',
                    'inputGender': 'gender'}
 
-    form = {key_mapping.get(old_key, old_key):
-            value for old_key, value in form_raw.items()}
+    form = s.ValidateSerializer.map_keys(request.form, key_mapping)
     serializer = s.FirstRegistrationSerializer().validate(form)
     serializer2 = s.SecondRegistrationSerializer().validate(form)
 
@@ -184,7 +182,6 @@ def add_user():
 def edit_user():
     user = User.get_by_id(request.form.get('user_id'))
     if user:
-        form_raw = request.form.to_dict()
         key_mapping = {'inputName': 'first_name',
                        'inputSurname': 'last_name',
                        'inputEmail': 'email',
@@ -195,8 +192,7 @@ def edit_user():
                        'inputPhoneNumber': 'phone_number',
                        'inputGender': 'gender',
                        }
-        form = {key_mapping.get(old_key, old_key):
-                value for old_key, value in form_raw.items()}
+        form = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
         form['active'] = request.form.get('inputActive') is not None
 
