@@ -49,9 +49,9 @@ class User(BaseModel):
         cascade='all, delete-orphan',
         passive_deletes=True
     )
-    has_requests = db.relationship(
+    has_service_requests = db.relationship(
         'ServiceRequest', cascade='all, delete-orphan',
-        passive_deletes=True, back_populates='user'
+        passive_deletes=True, back_populates='requester'
     )
     has_notes = db.relationship(
         'Note', cascade='all, delete-orphan',

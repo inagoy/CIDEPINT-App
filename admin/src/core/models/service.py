@@ -34,7 +34,7 @@ class Service(BaseModel):
     institution_id = db.Column(db.Integer, db.ForeignKey('institutions.id'),
                                nullable=False)
     institution = db.relationship('Institution', back_populates='has_services')
-    has_requests = db.relationship(
+    has_service_requests = db.relationship(
         'ServiceRequest', cascade='all, delete-orphan',
         passive_deletes=True, back_populates='service'
     )
@@ -76,6 +76,7 @@ class StatusEnum(EnumBase):
 
 
 class ServiceRequest(BaseModel):
+    __tablename__ = 'service_requests'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -84,17 +85,23 @@ class ServiceRequest(BaseModel):
                            db.ForeignKey('services.id', ondelete='CASCADE'),
                            nullable=False
                            )
-    service = db.relationship('Service', back_populates='has_requests')
-    requester = db.Column(db.Integer,
-                          db.ForeignKey('users.id', ondelete='CASCADE'),
-                          nullable=False
-                          )
-    user = db.relationship('User', back_populates='has_requests')
+    service = db.relationship('Service', back_populates='has_service_requests')
+    requester_id = db.Column(db.Integer,
+                             db.ForeignKey('users.id', ondelete='CASCADE'),
+                             nullable=False
+                             )
+    requester = db.relationship('User', back_populates='has_service_requests')
     status = db.Column(db.Enum(StatusEnum,
                                values_callable=lambda x:
                                [str(e.value)for e in StatusEnum]),
-                       nullable=False
+                       nullable=False,
+                       default=StatusEnum.EN_PROCESO.value
                        )
+    has_notes = db.relationship(
+        'Note', cascade='all, delete-orphan',
+        passive_deletes=True, back_populates='service_request'
+    )
+
     inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
     closed_at = db.Column(
         db.DateTime, default=(date.today() + timedelta(days=62)),
@@ -104,10 +111,33 @@ class ServiceRequest(BaseModel):
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
 
+    @classmethod
+    def save(cls, title: str, description: str,
+             service_id: str, requester_id: str,
+             **kwargs) -> object:
+
+        service_request = ServiceRequest(
+            title=title, description=description,
+            service_id=service_id, requester_id=requester_id,
+            **kwargs
+        )
+        db.session.add(service_request)
+        db.session.commit()
+        return service_request
+
 
 class Note(BaseModel):
+    __tablename__ = 'notes'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
+    service_request_id = db.Column(db.Integer,
+                                   db.ForeignKey('service_requests.id',
+                                                 ondelete='CASCADE'),
+                                   nullable=False
+                                   )
+    service_request = db.relationship('ServiceRequest',
+                                      back_populates='has_notes'
+                                      )
     user_id = db.Column(db.Integer,
                         db.ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False
@@ -117,3 +147,16 @@ class Note(BaseModel):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
+
+    @classmethod
+    def save(cls, text: str, user_id: str,
+             service_request_id: str, **kwargs
+             ) -> object:
+
+        note = Note(
+            text=text, user_id=user_id,
+            service_request_id=service_request_id, **kwargs
+        )
+        db.session.add(note)
+        db.session.commit()
+        return note
