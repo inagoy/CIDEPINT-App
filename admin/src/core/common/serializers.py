@@ -26,10 +26,11 @@ class ValidateSerializer():
             errors["missing_fields"] = str(e)
         for campo in data:
             try:
-                for validation_function in self.fields.get(campo):
+                validation_functions = [
+                    param for param in self.fields.get(campo) if param != "*"
+                ]
+                for validation_function in validation_functions:
                     validation_function(data.get(campo))
-            except TypeError:
-                pass
             except ValidationError as e:
                 errors[campo] = str(e)
         return {"is_valid": False if errors else True,
