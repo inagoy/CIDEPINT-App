@@ -78,10 +78,7 @@ def seed_service_requests() -> None:
     for service_request_data in service_requests_data:
         service_request = ServiceRequest.save(**service_request_data)
         print(
-            f"""Created service request:
-            {service_request.title}
-            - Status: {service_request.status}
-            """
+            f"Created service request:{service_request.title}"
         )
 
 
@@ -115,8 +112,5 @@ def seed_notes() -> None:
     for note_data in notes_data:
         note = Note.save(**note_data)
         print(
-            f"""Created note: {note.text} -
-            User ID: {note.user_id} -
-            Service ID: {note.service_request_id}
-            """
+            f"Created note: {note.text}"
         )
