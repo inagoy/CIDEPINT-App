@@ -179,8 +179,8 @@ def add_user():
     return redirect(url_for('super.users'))
 
 
-def edit_user():
-    user = User.get_by_id(request.form.get('user_id'))
+def edit_user(user_id):
+    user = User.get_by_id(user_id)
     if user:
         key_mapping = {'inputName': 'first_name',
                        'inputSurname': 'last_name',

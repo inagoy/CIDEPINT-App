@@ -3,7 +3,10 @@
                 onclick="{{ view_function }}" data-element="{{ parse_user(element) }}">Ver</button>
 
         <button type="button" class="btn btn-outline-info edit-button"
-                data-element="{{ parse_user(element) }}" onclick=" {{ edit_function }}">Editar</button>
+                data-element="{{ parse_user(element) }}" 
+                data-url="{{ url_for('super.edit_user', user_id=element['id']) }}" 
+                onclick=" {{ edit_function }}">Editar</button>
+
         <a href="{{ url_for('super.roles', user_id=element['id']) }}"
            class="btn btn-outline-secondary text-decoration-none">Roles</a>
         <button type="button" onclick="{{ delete_function }}" data-element="{{ parse_user(element) }}"

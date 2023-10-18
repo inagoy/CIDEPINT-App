@@ -6,7 +6,7 @@
 <!-- Acá iría todo el HTML correspondiente a la edición del usuario -->
 <div id="confirm-message" class="modal-body modal-scrollable">
     <div class="col">
-        <form id="edit-form" method="POST" action="{{ url_for('super.edit_user') }}">
+        <form id="edit-form" method="POST" action="">
             <div class="form-group form-check">
                 <input class="form-check-input" type="checkbox" value="1" id="inputActive" name="inputActive">
                 <label class="form-check-label" for="inputActive">
@@ -80,8 +80,6 @@
                        aria-describedby="addressError">
                 <small id="addressError" class="form-text text-danger"></small>
             </div>
-
-            <input id="user-id" type="hidden" name="user_id" value="">
 
             <div class="form-group">
                 <label for="inputPhoneNumber">Número de teléfono</label>
