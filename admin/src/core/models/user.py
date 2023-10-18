@@ -51,11 +51,11 @@ class User(BaseModel):
     )
     has_requests = db.relationship(
         'ServiceRequest', cascade='all, delete-orphan',
-        pasive_deletes=True, back_populates='user'
+        passive_deletes=True, back_populates='user'
     )
     has_notes = db.relationship(
         'Note', cascade='all, delete-orphan',
-        pasive_deletes=True, back_populates='user'
+        passive_deletes=True, back_populates='user'
     )
 
     @classmethod
@@ -140,7 +140,7 @@ class User(BaseModel):
 
     @classmethod
     def get_inactive_users(cls):
-        return cls.get_all().filter(not cls.active)
+        return cls.get_all().filter(cls.active.is_(False))
 
     @classmethod
     def get_users_paginated(cls, page, per_page=None,

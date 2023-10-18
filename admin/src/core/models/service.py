@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
 from src.core.database import db
 from src.core.models.base_model import BaseModel
@@ -36,7 +36,7 @@ class Service(BaseModel):
     institution = db.relationship('Institution', back_populates='has_services')
     has_requests = db.relationship(
         'ServiceRequest', cascade='all, delete-orphan',
-        pasive_deletes=True, back_populates='service'
+        passive_deletes=True, back_populates='service'
     )
 
     @classmethod
@@ -81,12 +81,12 @@ class ServiceRequest(BaseModel):
     description = db.Column(db.Text, nullable=False)
     observations = db.Column(db.Text)
     service_id = db.Column(db.Integer,
-                           db.ForeignKey('service.id', ondelete='CASCADE'),
+                           db.ForeignKey('services.id', ondelete='CASCADE'),
                            nullable=False
                            )
     service = db.relationship('Service', back_populates='has_requests')
     requester = db.Column(db.Integer,
-                          db.ForeignKey('user.id', ondelete='CASCADE'),
+                          db.ForeignKey('users.id', ondelete='CASCADE'),
                           nullable=False
                           )
     user = db.relationship('User', back_populates='has_requests')
@@ -97,7 +97,7 @@ class ServiceRequest(BaseModel):
                        )
     inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
     closed_at = db.Column(
-        db.DateTime, default=datetime.utcnow + timedelta(months=2)
+        db.DateTime, default=(date.today() + timedelta(days=62)),
     )
     status_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -109,7 +109,7 @@ class Note(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer,
-                        db.ForeignKey('user.id', ondelete='CASCADE'),
+                        db.ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False
                         )
     user = db.relationship('User', back_populates='has_notes')
