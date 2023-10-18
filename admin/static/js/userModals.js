@@ -25,9 +25,7 @@ function viewUser(button) {
 
 function editUser(button) {
 	let modal = document.getElementById("user_edit");
-	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data);
 
 	modal.querySelector("#inputEmail").value = data.email;
 	modal.querySelector("#inputName").value = data.first_name;
@@ -36,7 +34,6 @@ function editUser(button) {
 	modal.querySelector("#inputAddress").value = data.address;
 	modal.querySelector("#inputPhoneNumber").value = data.phone;
 	modal.querySelector("#inputDocument").value = data.document;
-	modal.querySelector("#user-id").value = data.id;
 
 	const selectDocument = document.querySelector("#inputDocumentType");
 
@@ -63,6 +60,10 @@ function editUser(button) {
 	const checkboxActive = document.querySelector("#inputActive");
 
 	checkboxActive.checked = data.active == "True" ? true : false;
+
+	const form = modal.querySelector("#edit-form");
+	form.action = button.getAttribute("data-url")
+
 
 	openModal(modal);
 }
