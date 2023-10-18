@@ -29,13 +29,11 @@ def first_form(request):
     Raises:
         None.
     """
-    form_raw = request.form.to_dict()
+
     key_mapping = {'inputName': 'first_name',
                    'inputSurname': 'last_name',
                    'inputEmail': 'email'}
-
-    form = {key_mapping.get(old_key, old_key):
-            value for old_key, value in form_raw.items()}
+    form = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
     serializer = s.FirstRegistrationSerializer().validate(form)
     if not serializer["is_valid"]:
@@ -111,7 +109,6 @@ def second_form(request, hashed_email):
 
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user:
-        form_raw = request.form.to_dict()
         key_mapping = {'inputUsername': 'username',
                        'inputPassword': 'password',
                        'inputDocumentType': 'document_type',
@@ -119,8 +116,7 @@ def second_form(request, hashed_email):
                        'inputAddress': 'address',
                        'inputPhoneNumber': 'phone_number',
                        'inputGender': 'gender'}
-        form = {key_mapping.get(old_key, old_key):
-                value for old_key, value in form_raw.items()}
+        form = s.ValidateSerializer.map_keys(request.form, key_mapping)
         serializer = s.SecondRegistrationSerializer().validate(form)
         if not serializer["is_valid"]:
             for error in serializer["errors"].values():
