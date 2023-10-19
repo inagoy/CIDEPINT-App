@@ -24,15 +24,17 @@ class ValidateSerializer():
             v.validate_form_data(data, self.fields)
         except ValidationError as e:
             errors["missing_fields"] = str(e)
-        for campo in data:
+        for field in data:
             try:
-                validation_functions = [
-                    param for param in self.fields.get(campo) if param != "*"
-                ]
-                for validation_function in validation_functions:
-                    validation_function(data.get(campo))
+                validations = self.fields.get(field)
+                if validations:
+                    validation_functions = [
+                        param for param in validations if param != "*"
+                    ]
+                    for validation_function in validation_functions:
+                        validation_function(data.get(field))
             except ValidationError as e:
-                errors[campo] = str(e)
+                errors[field] = str(e)
         return {"is_valid": False if errors else True,
                 "errors": errors}
 
@@ -98,10 +100,10 @@ class SiteConfigValidator(ValidateSerializer):
     }
 
 
-class serviceDataSerializer(ValidateSerializer):
+class ServiceDataSerializer(ValidateSerializer):
     fields = {
-        "name": [v.validate_not_empty],
-        "description": [v.validate_not_empty],
-        "keywords": [v.validate_not_empty, v.validate_keywords],
-        "service_type": [v.validate_just_text],
+        "name": [v.validate_string, "*"],
+        "description": [v.validate_string, "*"],
+        "keywords": [v.validate_keywords, "*"],
+        "service_type": [v.validate_just_text, "*"],
     }

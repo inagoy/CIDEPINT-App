@@ -32,9 +32,9 @@ def add_service():
     return services_controller.add_service()
 
 
-@services_bp.route("/edit", methods=["POST"])
+@services_bp.route("/edit/<int:service_id>", methods=["POST"])
 @MaintenanceWrap.wrap
 @PermissionWrap.wrap_args(permissions=["service_update"])
 @LoginWrap.wrap
-def edit_service():
-    return services_controller.edit_service()
+def edit_service(service_id):
+    return services_controller.edit_service(service_id)

@@ -48,7 +48,7 @@ def add_service():
     form['enabled'] = form['enabled'] is not None
     form['institution_id'] = session['current_institution']
 
-    serializer = s.serviceDataSerializer().validate(form)
+    serializer = s.ServiceDataSerializer().validate(form)
     if not serializer["is_valid"]:
         for error in serializer["errors"].values():
             flash(error, "danger")
@@ -59,29 +59,23 @@ def add_service():
     return redirect(url_for('services.services'))
 
 
-def edit_service():
-    service = Service.find_service_by_id(request.form.get('service_id'))
+def edit_service(service_id):
+    service = Service.get_by_id(service_id)
     if service:
-        form_raw = request.form.to_dict()
         key_mapping = {'inputName': 'name',
                        'inputDescription': 'description',
                        'inputKeywords': 'keywords',
                        'inputServiceType2': 'service_type',
-                       'inputEnabled2': 'enabled'
                        }
-
-        form = {key_mapping.get(old_key, old_key):
-                value for old_key, value in form_raw.items()}
-        form['enabled'] = request.form.get('inputEnabled2') is not None
-
-        serializer = s.serviceDataSerializer().validate(form)
-
+        data = s.ValidateSerializer.map_keys(request.form, key_mapping)
+        data['enabled'] = request.form.get('inputEnabled2') is not None
+        serializer = s.ServiceDataSerializer().validate(data)
         if not serializer["is_valid"]:
             for error in serializer["errors"].values():
                 flash(error, "danger")
             return redirect(url_for('services.services'))
 
-        serviceUpdated = Service.update(entity_id=service.id,**form)
+        serviceUpdated = Service.update(entity_id=service.id, **data)
         if serviceUpdated:
             flash("Se ha completado la edición exitosamente", "success")
         else:

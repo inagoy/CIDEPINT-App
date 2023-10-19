@@ -6,7 +6,7 @@
 <!-- Acá iría todo el HTML correspondiente a la edición del usuario -->
 <div id="confirm-message" class="modal-body modal-scrollable">
     <div class="col">
-        <form id="edit-form" method="POST" action="{{ url_for('services.edit_service') }}">
+        <form id="edit-form" method="POST">
             <div class="form-group">
                 <label for="inputName"> Nombre </label>
                 <input required type="text" class="form-control" id="inputName" name="inputName"
@@ -43,9 +43,6 @@
                     ¿Servicio Habilitado?
                 </label>
             </div>
-
-            <input id="service-id" type="hidden" name="service_id" value="">
-
             <button type="submit" class="btn btn-primary"> Guardar Cambios
             </button>
 

@@ -5,6 +5,7 @@
 
         <button type="button" class="btn btn-outline-info edit-button"
                 data-element="{{ parse_service(element) }}"
+                data-url="{{ url_for('services.edit_service', service_id=element['id']) }}" 
                 onclick=" {{ edit_function }}">Editar</button>
 
         {% if not is_operator() %}
