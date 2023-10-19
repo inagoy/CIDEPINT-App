@@ -70,11 +70,11 @@ def confirmation(hashed_email):
     return users_config_controller.confirmation(hashed_email)
 
 
-@super_bp.route("/users/edit-user", methods=["POST"])
+@super_bp.route("/users/edit-user/<int:user_id>", methods=["POST"])
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(permissions=["user_update"])
-def edit_user():
-    return users_config_controller.edit_user()
+def edit_user(user_id):
+    return users_config_controller.edit_user(user_id)
 
 
 @super_bp.route("/users/user-roles/<int:user_id>", methods=["GET"])
