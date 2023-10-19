@@ -8,6 +8,23 @@ class ValidationError(Exception):
         super().__init__(msg, *args)
 
 
+def validate_not_empty(text):
+    """
+    Validate if the given text is not empty.
+    """
+    if not text:
+        raise ValidationError(f"El campo '{text}' no puede estar vacío")
+
+    pattern = r'\S'
+    matches = re.findall(pattern, text)
+
+    if len(matches) < 3:
+        raise ValidationError(
+            f"El campo '{text}' no puede tener menos de 3 caracteres")
+
+    return text
+
+
 def validate_email(email):
     """
     Validates an email address.
@@ -222,7 +239,7 @@ def validate_no_email(email):
 
 
 def validate_no_document(document):
-    """
+    """q
     Validates if a document is already registered in the system.
 
     Parameters:
@@ -297,3 +314,12 @@ def validate_string(value):
     else:
         raise ValidationError(
             f"El valor '{value}' no es un texto válido")
+
+
+def validate_keywords(value):
+    keyword_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
+    if re.match(keyword_pattern, value):
+        return True
+    else:
+        raise ValidationError(
+            f"El valor '{value}' no cumple con el formato esperado.")

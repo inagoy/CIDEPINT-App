@@ -14,17 +14,17 @@
         <div class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between flex-column flex-sm-row">
                 <h6 class="pt-2"> {{ get_name(element) }} </h6>
-                
 
-                    {% if users_page %}
-                    {% include "modules/users/users_actions.html" %}
 
-                    {% elif 'institution.institution_roles' in request.endpoint or 'institution.user_search' in
-                    request.endpoint %}
-                    {% include "modules/institution_roles/roles_actions.html" %}
-                    {% endif %}
+                {% if 'super.users' in request.endpoint %}
+                {% include "modules/users/users_actions.html" %}
+                {% elif 'institution.institution_roles' in request.endpoint or
+                'institution.user_search' in request.endpoint %}
+                {% include "modules/institution_roles/roles_actions.html" %}
+                {% elif 'services' in request.endpoint %}
+                {% include "modules/services/services_actions.html" %}
+                {% endif %}
 
-                
             </div>
 
         </div>
