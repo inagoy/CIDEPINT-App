@@ -66,6 +66,18 @@ class Service(BaseModel):
         db.session.commit()
         return service
 
+    @classmethod
+    def get_service_type_name(cls, service_id: int):
+        service = cls.query.filter_by(id=service_id).first().service_type
+        return ServiceTypeEnum(service).name.capitalize()
+
+    @classmethod
+    def get_services_of_institution_paginated(
+            cls, page: int, institution_id: int
+    ):
+        query = cls.query.filter_by(institution_id=institution_id)
+        return cls.get_query_paginated(query, page)
+
 
 class StatusEnum(EnumBase):
     ACEPTADA = "Aceptada"
