@@ -9,7 +9,7 @@ Integrantes
 - admin@example.com
 - admin123
 ## Estructura
-`admin`: aplicación interna de CINIDEP
+`admin`: aplicación interna de CIDEPINT
 - `flask-session`: configuración de sesiones para flask
 - `src/`
     - `core/`: código fuente principal de la aplicación Flask
