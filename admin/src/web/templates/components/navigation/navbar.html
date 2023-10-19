@@ -52,7 +52,7 @@
 					<span class="ml-2"> Servicios</span></a>
 			</li>
 			<li id="menu-solicitudes" class="nav-item active">
-				<a class="nav-link d-flex align-items-center" href="#"> <i class="bi bi-truck"></i>
+				<a class="nav-link d-flex align-items-center" href="{{ url_for('service_requests.service_requests')}}"> <i class="bi bi-truck"></i>
 					<span class="ml-2"> Solicitudes</span></a>
 			</li>
 			{% if is_owner() %}

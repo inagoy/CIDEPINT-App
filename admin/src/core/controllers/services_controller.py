@@ -35,26 +35,24 @@ def delete_service():
 
 
 def add_service():
-    form_raw = request.form.to_dict()
     key_mapping = {'inputName': 'name',
                    'inputDescription': 'description',
                    'inputKeywords': 'keywords',
                    'inputServiceType': 'service_type',
                    'inputEnabled': 'enabled'}
 
-    form = {key_mapping.get(old_key, old_key):
-            value for old_key, value in form_raw.items()}
+    data = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
-    form['enabled'] = form['enabled'] is not None
-    form['institution_id'] = session['current_institution']
+    data['enabled'] = data['enabled'] is not None
+    data['institution_id'] = session['current_institution']
 
-    serializer = s.ServiceDataSerializer().validate(form)
+    serializer = s.ServiceDataSerializer().validate(data)
     if not serializer["is_valid"]:
         for error in serializer["errors"].values():
             flash(error, "danger")
         return redirect(url_for('services.services'))
 
-    Service.save(**form)
+    Service.save(**data)
     flash('Se agregó el servicio exitosamente', 'success')
     return redirect(url_for('services.services'))
 

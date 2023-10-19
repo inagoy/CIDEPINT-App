@@ -1,0 +1,16 @@
+<div>
+        <button type="button" class="btn btn-outline-primary view-button"
+                onclick= "viewServiceRequest(this)"
+                data-element="{{ parse_service_request(element) }}">Ver</button>
+
+        <button type="button" class="btn btn-outline-info edit-button"
+                data-element="{{ parse_service_request(element) }}"
+                data-url="{{ url_for('service_requests.edit_service_request', service_request_id=element['id']) }}"
+                onclick="changeStatusServiceRequest(this)">Editar</button>
+
+        {% if not is_operator() %}
+        <button type="button" onclick="{{ delete_function }}"
+                data-element="{{ parse_service_request(element) }}"
+                class="btn btn-outline-danger">Eliminar</button>
+        {% endif %}
+</div>

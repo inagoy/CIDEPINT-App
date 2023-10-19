@@ -17,14 +17,15 @@
 
 
                 {% if 'super.users' in request.endpoint %}
-                {% include "modules/users/users_actions.html" %}
+                    {% include "modules/users/users_actions.html" %}
                 {% elif 'institution.institution_roles' in request.endpoint or
                 'institution.user_search' in request.endpoint %}
-                {% include "modules/institution_roles/roles_actions.html" %}
+                    {% include "modules/institution_roles/roles_actions.html" %}
                 {% elif 'services' in request.endpoint %}
-                {% include "modules/services/services_actions.html" %}
+                    {% include "modules/services/services_actions.html" %}
+                {% elif 'service_requests' in request.endpoint %}
+                    {% include "modules/service_requests/service_requests_actions.html" %}
                 {% endif %}
-
             </div>
 
         </div>

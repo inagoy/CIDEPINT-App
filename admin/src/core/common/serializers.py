@@ -107,3 +107,10 @@ class ServiceDataSerializer(ValidateSerializer):
         "keywords": [v.validate_keywords, "*"],
         "service_type": [v.validate_just_text, "*"],
     }
+
+
+class ServiceRequestEditDataSerializer(ValidateSerializer):
+    fields = {
+        "observations": [v.validate_string],
+        "status": [v.validate_service_request_status],
+    }

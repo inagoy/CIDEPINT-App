@@ -139,6 +139,15 @@ class ServiceRequest(BaseModel):
         db.session.commit()
         return service_request
 
+    @classmethod
+    def get_service_requests_of_institution_paginated(
+            cls, page: int, institution_id: int
+    ):
+        query = cls.query.join(Service).filter(
+            Service.institution_id == institution_id
+        )
+        return cls.get_query_paginated(query, page)
+
 
 class Note(BaseModel):
     __tablename__ = 'notes'

@@ -38,3 +38,5 @@ def add_service():
 @LoginWrap.wrap
 def edit_service(service_id):
     return services_controller.edit_service(service_id)
+
+

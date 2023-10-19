@@ -1,4 +1,6 @@
 import re
+
+from src.core.models.service import StatusEnum
 from src.core.models.user import User
 
 
@@ -323,3 +325,12 @@ def validate_keywords(value):
     else:
         raise ValidationError(
             f"El valor '{value}' no cumple con el formato esperado.")
+
+
+def validate_service_request_status(value):
+    try:
+        status = StatusEnum(value)
+        return status
+    except ValueError:
+        raise ValidationError(
+            f"El tipo de servicio '{value}' no es valido")

@@ -1,0 +1,64 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}request_view{% endblock %}
+<!-- Acá iría el nombre del usuario -->
+{% block header %} Ver servicio {% endblock %}
+{% block cuerpo %}
+<!-- Acá iría todo el HTML correspondiente a la vista del usuario -->
+<div id="confirm-message" class="modal-body modal-scrollable">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h6> Títutlo </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-title"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Descripción </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-description"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Observaciones </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-observations"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Estado de la petición </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-status"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Servicio </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-service"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Solicitante </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-requester"> placeholder </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+<button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+    Cerrar </button>
+{% endblock %}
