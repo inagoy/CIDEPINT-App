@@ -29,8 +29,7 @@ function validateEmail(inputId, errorId) {
 function validateJustText(inputId, errorId) {
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);
-	const pattern = /^[A-Za-z\s]+$/;
-
+	const pattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
 	if (!pattern.test(input.value)) {
 		error.textContent = "Solo se permiten letras y espacios";
 		return false;
@@ -129,7 +128,7 @@ function validatePassword(inputId, errorId) {
 function validateDireccion(inputId, errorId) {
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);
-	const pattern = /^[a-zA-Z\s.,-]*\d+[a-zA-Z0-9\s.,-]*$/; // Pattern to require at least one number
+	const pattern = /^[a-zA-Z\s.,-áéíóúÁÉÍÓÚ]*\d+[a-zA-Z0-9\s.,-áéíóúÁÉÍÓÚ]*$/; // Pattern to require at least one number
 
 	if (!pattern.test(input.value)) {
 		error.textContent = "La dirección debe contener al menos un número y puede incluir letras, números y signos de puntuación comunes";
@@ -145,7 +144,7 @@ function validateDireccion(inputId, errorId) {
  *
  * @param {string} inputId - The ID of the phone number input element.
  * @param {string} errorId - The ID of the error message element.
- * @return {boolean} Returns true if the phone number is valid and allows form submission. Returns false if the phone number is not valid and prevents form submission.
+ * @return {boolean} Returns true if the phone number is valid, false otherwise
  */
 function validatePhoneNumber(inputId, errorId) {
 	const phoneNumberInput = document.getElementById(inputId);
@@ -157,10 +156,32 @@ function validatePhoneNumber(inputId, errorId) {
 
 	if (!phoneNumberPattern.test(phoneNumberValue)) {
 		phoneNumberError.textContent = "Por favor ingrese un número de teléfono válido";
-		return false; // Prevent form submission
+		return false;
 	} else {
 		phoneNumberError.textContent = "";
-		return true; // Allow form submission
+		return true;
+	}
+}
+
+/**
+ * Validates a website input and displays an error message if the website is not valid.
+ *
+ * @param {string} inputId - The ID of the website input element.
+ * @param {string} errorId - The ID of the error message element.
+ * @return {boolean} Returns true if the phone number is valid, false otherwise
+ */
+function validateWebsite(inputId, errorId) {
+    const websiteInput = document.getElementById(inputId);
+	const websiteError = document.getElementById(errorId);
+
+    var urlPattern = /^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+
+	if (!urlPattern.test(websiteInput)) {
+		websiteError.textContent = "Por favor ingrese un sitio web válido";
+		return false;
+	} else {
+		phoneNumberError.textContent = "";
+		return true;
 	}
 }
 
@@ -169,8 +190,6 @@ function validateKeywords(inputId, errorId) {
 	const error = document.getElementById(errorId);
 
 	const keywordPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
-
-	console.log("test", keywordPattern.test(input.value), input.value);
 
 	if (!keywordPattern.test(input.value)) {
 		error.textContent = "Ingrese palabras separadas por comas";

@@ -22,9 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function deleteRole(button) {
 	let modal = document.getElementById("role_delete");
-	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data);
 
 	modal.querySelector("#role_id").value = data.id_role;
 	modal.querySelector("#institution_id").value = data.id_institution;

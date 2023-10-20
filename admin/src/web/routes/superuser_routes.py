@@ -9,6 +9,7 @@ from src.core.common.decorators import LoginWrap
 super_bp = Blueprint('super', __name__, url_prefix='/admin')
 
 
+# SITE CONFIG
 @super_bp.route("/site-config", methods=["GET"])
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(permissions=["config_show"])
@@ -23,6 +24,7 @@ def edit_config():
     return config.edit_config(request)
 
 
+# USERS
 @super_bp.route("/users", methods=["GET"])
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(permissions=["user_index"])
@@ -99,6 +101,37 @@ def delete_role(user_id):
     return users_config_controller.delete_role(user_id)
 
 
+# INSTITUTIONS
 @super_bp.route("/institutions", methods=["GET"])
+@LoginWrap.wrap
+@PermissionWrap.wrap_args(permissions=["institution_index",
+                                       "institution_show"])
 def institutions():
     return institutions_config_controller.institutions()
+
+
+@super_bp.route("/institutions/add-institution", methods=["POST"])
+@LoginWrap.wrap
+@PermissionWrap.wrap_args(permissions=["institution_create",
+                                       "institution_activate",
+                                       "institution_deactivate"])
+def add_institution():
+    return institutions_config_controller.add_institution()
+
+
+@super_bp.route("/institutions/edit-institution/<int:institution_id>",
+                methods=["POST"])
+@LoginWrap.wrap
+@PermissionWrap.wrap_args(permissions=["institution_update",
+                                       "institution_activate",
+                                       "institution_deactivate"])
+def edit_institution(institution_id):
+    return institutions_config_controller.edit_institution(institution_id)
+
+
+@super_bp.route("/institutions/delete-institution",
+                methods=["POST"])
+@LoginWrap.wrap
+@PermissionWrap.wrap_args(permissions=["institution_destroy"])
+def delete_institution():
+    return institutions_config_controller.delete_institution()

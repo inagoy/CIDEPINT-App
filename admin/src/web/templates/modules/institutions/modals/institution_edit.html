@@ -1,0 +1,128 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}institution_edit{% endblock %}
+{% block header %}Editar Instituci&oacute;n {% endblock %}
+{% block cuerpo %}
+<div id="confirm-message" class="modal-body modal-scrollable">
+    <div class="col">
+        <form id="edit-form" method="POST" action="">
+            <div class="form-group form-check">
+                <input class="form-check-input" value="True" type="checkbox" id="inputEnabledEdit" name="inputEnabledEdit">
+                <label class="form-check-label" for="inputEnabledEdit">
+                    ¿Instituci&oacute;n Habilitada?
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="inputNameEdit">Nombre</label>
+                <input 
+                    required type="text" 
+                    class="form-control" 
+                    id="inputNameEdit" 
+                    name="inputNameEdit" 
+                    placeholder="Nombre de la institución"
+                    onblur="validateJustText('inputNameEdit', 'nameErrorEdit')"
+                    aria-describedby="nameErrorEdit"
+                />
+                <small id="nameErrorEdit" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="inputInfoEdit">Informaci&oacute;n</label>
+                <textarea 
+                    required type="text"
+                    class="form-control" 
+                    id="inputInfoEdit" 
+                    name="inputInfoEdit" 
+                    rows="4" 
+                    placeholder="Información de la institución"
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="inputAddressEdit">Direcci&oacute;n</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="inputAddressEdit" 
+                    name="inputAddressEdit" 
+                    placeholder="Ejemplo de dirección: Av San Martin 123"
+                    onblur="validateDireccion('inputAddressEdit', 'addressErrorEdit')"
+                    aria-describedby="addressErrorEdit"
+                />
+                <small id="addressErrorEdit" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="inputLocationEdit">Locaci&oacute;n</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="inputLocationEdit" 
+                    name="inputLocationEdit" 
+                    placeholder="Ejemplo: CABA"
+                    onblur="validateJustText('inputLocationEdit', 'locationErrorEdit')"
+                    aria-describedby="locationErrorEdit"
+                />
+                <small id="locationErrorEdit" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="inputWebsiteEdit">Sitio web</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="inputWebsiteEdit" 
+                    name="inputWebsiteEdit" 
+                    placeholder="www.ejemplo.com"
+                    onblur="validateWebsite('inputWebsiteEdit', 'websiteErrorEdit')"
+                    aria-describedby="websiteErrorEdit"
+                />
+                <small id="websiteErrorEdit" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="inputKeywordsEdit">Palabras de B&uacute;squeda</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="inputKeywordsEdit" 
+                    name="inputKeywordsEdit" 
+                    placeholder="Palabras clave"
+                    onblur="validateKeywords('inputKeywordsEdit', 'keywordsErrorEdit')"
+                    aria-describedby="keywordsErrorEdit"
+                />
+                <small id="keywordsErrorEdit" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="inputDaysAndHoursEdit">D&iacute;as y Horarios de Atenci&oacute;n</label>
+                <input
+                    class="form-control" 
+                    id="inputDaysHoursEdit" 
+                    name="inputDaysHoursEdit" 
+                    rows="4" 
+                    placeholder="Ejemplo: Lunes a Viernes de 9:00 a 18:00"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="inputContactInfoEdit">Informaci&oacute;n de contacto</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="inputContactEdit" 
+                    name="inputContactEdit" 
+                    placeholder="Ejemplo: Teléfono 123456789"
+                />
+            </div>
+            
+            <button type="submit" class="btn btn-primary"> Confirmar Cambios</button>
+
+            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cerrar </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

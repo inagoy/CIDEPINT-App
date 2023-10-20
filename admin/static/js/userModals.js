@@ -6,15 +6,17 @@
  */
 function viewUser(button) {
 	let modal = document.getElementById("user_view");
-	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data);
 
 	modal.querySelector("#user-first-name").innerHTML = data.first_name;
 	modal.querySelector("#user-last-name").innerHTML = data.last_name;
 	modal.querySelector("#user-email").innerHTML = data.email;
 	modal.querySelector("#user-username").innerHTML = data.username;
-	modal.querySelector("#user-active").innerHTML = data.active;
+	if (data.active === "True"){
+		modal.querySelector("#user-active").innerHTML = "Activo";
+	} else {
+		modal.querySelector("#user-active").innerHTML = "Inactivo";
+	}
 	modal.querySelector("#user-phone").innerHTML = data.phone;
 	modal.querySelector("#user-address").innerHTML = data.address;
 	modal.querySelector("#user-gender").innerHTML = data.gender;
@@ -70,9 +72,7 @@ function editUser(button) {
 
 function deleteUser(button) {
 	let modal = document.getElementById("user_delete");
-	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data.id);
 
 	modal.querySelector("#user-id").value = data.id;
 	openModal(modal);

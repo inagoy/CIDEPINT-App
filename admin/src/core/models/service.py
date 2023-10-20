@@ -29,7 +29,8 @@ class Service(BaseModel):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    institution_id = db.Column(db.Integer, db.ForeignKey('institutions.id'),
+    institution_id = db.Column(db.Integer, db.ForeignKey('institutions.id',
+                                                         ondelete="CASCADE"),
                                nullable=False)
     institution = db.relationship('Institution', back_populates='has_services')
 

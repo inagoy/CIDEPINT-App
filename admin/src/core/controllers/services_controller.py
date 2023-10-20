@@ -1,6 +1,8 @@
 from flask import render_template, session, request, redirect, url_for, flash
 from src.core.models.service import Service
+from src.web.helpers.users import get_institutions_user
 from src.core.common import serializers as s
+from src.web.helpers.session import not_enabled_and_not_owner
 
 
 def get_service_name(service):
@@ -8,17 +10,19 @@ def get_service_name(service):
 
 
 def services():
-
+    institution_id = session['current_institution']
+    not_enabled_and_not_owner(institution_id)
     title = "Administración de servicios"
     page = request.args.get("page", 1, type=int)
     services = Service.get_services_of_institution_paginated(
-        page=page, institution_id=session['current_institution'])
+        page=page, institution_id=institution_id)
     add_function = "addService()"
     edit_function = "editService(this)"
     view_function = "viewService(this)"
     delete_function = "deleteService(this)"
 
     return render_template("pages/services.html",
+                           user_institutions=get_institutions_user(),
                            title=title,
                            elements=services,
                            add_function=add_function,

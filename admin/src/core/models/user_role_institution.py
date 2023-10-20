@@ -5,9 +5,14 @@ class UserRoleInstitution(db.Model):
     __tablename__ = "user_role_institution"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id",
-                                                  ondelete="CASCADE"))
-    institution_id = db.Column(db.Integer, db.ForeignKey("institutions.id"),
+
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey("users.id",
+                                      ondelete="CASCADE"))
+
+    institution_id = db.Column(db.Integer,
+                               db.ForeignKey("institutions.id",
+                                             ondelete="CASCADE"),
                                nullable=True)
 
     @classmethod
@@ -31,12 +36,32 @@ class UserRoleInstitution(db.Model):
 
     @classmethod
     def get_roles_institutions_of_user(cls, user_id: int):
+        """
+        Retrieve the roles and institutions associated with a user.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            List[UserRoleInstitution]: A list of UserRoleInstitution objects
+            representing the roles and institutions associated with the user.
+        """
         return UserRoleInstitution.query.filter_by(user_id=user_id).all()
 
     @classmethod
     def get_user_institution_roles(cls,
                                    user_id: int,
                                    institution_id: int):
+        """
+        Get the user role in a specific institution.
+
+        Args:
+            user_id (int): The ID of the user.
+            institution_id (int): The ID of the institution.
+
+        Returns:
+            UserRoleInstitution: The user role in the specified institution.
+        """
         return UserRoleInstitution.query.filter_by(
             user_id=user_id,
             institution_id=institution_id
