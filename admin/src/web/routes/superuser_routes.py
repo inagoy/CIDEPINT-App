@@ -68,8 +68,8 @@ def add_user():
 
 
 @super_bp.route('/confirmation/<string:hashed_email>', methods=['GET'])
-def confirmation(hashed_email):
-    return users_config_controller.confirmation(hashed_email)
+def user_added_confirmation(hashed_email):
+    return users_config_controller.user_added_confirmation(hashed_email)
 
 
 @super_bp.route("/users/edit-user/<int:user_id>", methods=["POST"])

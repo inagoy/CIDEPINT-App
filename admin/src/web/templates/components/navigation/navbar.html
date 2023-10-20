@@ -78,8 +78,8 @@
 					Cuenta
 				</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">Ver perfil</a>
-					<a class="dropdown-item" href="#">Editar perfil</a>
+					<a class="dropdown-item" href="{{ url_for('user.view_profile') }}">Ver perfil</a>
+					<a class="dropdown-item" href="{{ url_for('user.edit_profile') }}">Editar perfil</a>
 					<a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
 				</div>
 			</li>

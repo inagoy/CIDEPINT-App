@@ -1,0 +1,45 @@
+{% extends "layout.html" %} 
+{% block title %} Perfil {% endblock %} 
+{% block head %} 
+    {{ super() }}
+    <style>
+        @media (max-width: 768px) {
+            .btn-primary {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+{% endblock %} 
+{% block content %}
+<div class="row align-items-center">
+    <div class="col-6 mx-auto">
+        <div class="card bg-light" style="margin-bottom: 20px">
+            <div class="card-body text-center">
+                <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+                <h4 class="card-title">Perfil</h4>
+                <hr>
+                <p class="card-text"><i class="bi bi-person-fill"></i> Nombre: {{ user.first_name }}</p>
+                <hr>
+                <p class="card-text"><i class="bi bi-person-fill"></i> Apellido: {{ user.last_name }}</p>
+                <hr>
+                <p class="card-text text-wrap"><i class="bi bi-envelope-fill"></i> Email: {{ user.email }}</p>
+                <hr>
+                <p class="card-text"><i class="bi bi-person-fill"></i> Nombre de usuario: {{ user.username }}</p>
+                <hr>
+                <p class="card-text"><i class="bi bi-geo-fill"></i> Dirección: {{ user.address }}</p>
+                <hr>
+                <p class="card-text"><i class="bi bi-telephone-fill"></i> Teléfono: {{ user.phone_number }}</p>
+                <hr>
+                <p class="card-text"><i class="bi bi-person-fill"></i> Tipo de documento: {{ user.document_type.name.capitalize() }}</p>
+                <hr>
+                <p class="card-text"><i class="bi bi-file-earmark-text-fill"></i> Documento: {{ user.document }}</p>
+                <hr>
+                <p class="card-text"><i class="bi bi-person-fill"></i> Género: {{ user.gender.name.capitalize() }}</p>
+                <hr>
+                <a href="{{ url_for('user.edit_profile') }}" class="btn btn-primary" >Editar perfil</a>
+                <a href="{{ url_for('user.change_password') }}" class="btn btn-primary">Cambiar Contraseña</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

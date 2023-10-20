@@ -70,18 +70,23 @@ class SecondRegistrationSerializer(ValidateSerializer):
     }
 
 
-class EditUniqueData(ValidateSerializer):
+class UniqueDataProfile(ValidateSerializer):
     fields = {
-        "email": [v.validate_no_email, v.validate_not_empty, "*"],
-        "username": [v.validate_no_username, v.validate_not_empty, "*"],
+        "username": [v.validate_no_username, "*"],
         "phone_number": [v.validate_no_phone_number, "*"],
         "document": [v.validate_no_document, "*"],
     }
 
 
-class EditUserSerializer(ValidateSerializer):
+class UseUniqueData(UniqueDataProfile):
+    @classmethod
+    def validate(cls, data: dict):
+        cls.fields["email"] = [v.validate_no_email, "*"]
+        return super().validate(data)
+
+
+class EditProfileSerializer(ValidateSerializer):
     fields = {
-        "email": [v.validate_email, "*"],
         "first_name": [v.validate_just_text, v.validate_not_empty, "*"],
         "last_name": [v.validate_just_text, v.validate_not_empty, "*"],
         "username": [v.validate_username, v.validate_not_empty, "*"],
@@ -93,7 +98,14 @@ class EditUserSerializer(ValidateSerializer):
     }
 
 
-class SiteConfigValidator(ValidateSerializer):
+class EditUserSerializer(EditProfileSerializer):
+    @classmethod
+    def validate(cls, data: dict):
+        cls.fields["email"] = [v.validate_email, v.validate_not_empty, "*"]
+        return super().validate(data)
+
+
+class SiteConfigSerializer(ValidateSerializer):
     fields = {
         "items_per_page": [v.validate_just_number, "*"],
         "maintenance_mode": [
@@ -130,4 +142,11 @@ class ServiceDataSerializer(ValidateSerializer):
         "description": [v.validate_string, v.validate_not_empty, "*"],
         "keywords": [v.validate_keywords, v.validate_not_empty, "*"],
         "service_type": [v.validate_just_text, "*"],
+    }
+
+
+class ChangePasswordSerializer(ValidateSerializer):
+    fields = {
+        "new_password": [v.validate_password, "*"],
+        "confirm_password": [v.validate_password, "*"],
     }
