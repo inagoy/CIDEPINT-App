@@ -31,7 +31,7 @@ def seed_services() -> None:
             "keywords": "desarrollo, formulación, pinturas avanzadas",
             "service_type": ServiceTypeEnum.DESARROLLO.value,
             "enabled": True,
-            "institution_id": 2,
+            "institution_id": 1,
         },
 
     ]
@@ -68,6 +68,14 @@ def seed_service_requests() -> None:
         {
             "title": "Solicitud de Servicio de Ejemplo 2",
             "description": "Esta es una segunda solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 1,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 3",
+            "description": "Esta es una tercera solicitud de servicio",
             "observations": "Sin observaciones adicionales",
             "service_id": 2,
             "requester_id": 2,

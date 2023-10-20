@@ -23,3 +23,4 @@ def set_helpers(app) -> None:
     app.jinja_env.globals.update(
         parse_service_request=services.parse_service_request
     )
+    app.jinja_env.globals.update(parse_note=services.parse_note)

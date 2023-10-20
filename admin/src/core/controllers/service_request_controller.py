@@ -1,6 +1,7 @@
 from datetime import datetime
+from src.core.models.user import User
 from flask import redirect, render_template, session, request, url_for, flash
-from src.core.models.service import ServiceRequest
+from src.core.models.service import Note, ServiceRequest
 from src.core.common import serializers as s
 
 
@@ -9,6 +10,8 @@ def get_service_request_name(service_request):
 
 
 def service_requests():
+    filter_params = {key: value for key, value in request.args.items()}
+    print(filter_params)
     title = "Administración de solicitudes de servicio"
     page = request.args.get("page", 1, type=int)
     service_requests = (ServiceRequest.
@@ -16,22 +19,13 @@ def service_requests():
                             page=page,
                             institution_id=session['current_institution']
                         ))
-    add_function = "addServiceRequest()"
-    edit_function = "changeStatusServiceRequest(this)"
-    view_function = "viewServiceRequest(this)"
-    delete_function = "deleteServiceRequest(this)"
-
     return render_template("pages/service_requests.html",
                            title=title,
                            elements=service_requests,
-                           add_function=add_function,
-                           edit_function=edit_function,
-                           view_function=view_function,
-                           delete_function=delete_function,
                            get_name=get_service_request_name)
 
 
-def edit_service_request(request, service_request_id):
+def edit_service_request(service_request_id):
     service_request = ServiceRequest.get_by_id(service_request_id)
     if service_request:
         key_mapping = {'inputObservations': 'observations',
@@ -57,7 +51,29 @@ def edit_service_request(request, service_request_id):
     return redirect(url_for('service_requests.service_requests'))
 
 
-def delete_service_request(request):
+def delete_service_request():
     service_request_id = request.form.get('request_id')
     ServiceRequest.delete(service_request_id)
     return redirect(url_for('service_requests.service_requests'))
+
+
+def notes(service_request_id):
+    service_request = ServiceRequest.get_by_id(service_request_id)
+    notes = Note.get_notes_of_service_request(service_request_id)
+    return render_template(
+        "pages/notes.html", elements=notes,
+        service_request=service_request,
+        user_email=session['user']
+    )
+
+
+def new_note(service_request_id):
+    text = request.form.get('message')
+    user_id = User.find_user_by_email(session['user']).id
+    Note.save(text, user_id, service_request_id)
+    return redirect(
+        url_for(
+            'service_requests.notes',
+            service_request_id=service_request_id
+        )
+    )

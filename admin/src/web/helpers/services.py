@@ -21,3 +21,11 @@ def parse_service_request(service_request):
             'requester': User.get_by_id(service_request.requester_id).email,
             'status': service_request.status.value
             }
+
+
+def parse_note(note):
+    return {
+            'text': note.text,
+            'user': note.user,
+            'updated_at': note.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+            }

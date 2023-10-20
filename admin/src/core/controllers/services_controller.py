@@ -1,5 +1,5 @@
 from flask import render_template, session, request, redirect, url_for, flash
-from src.core.models.service import Service
+from src.core.models.service import Service, ServiceRequest
 from src.core.common import serializers as s
 
 
@@ -17,7 +17,6 @@ def services():
     edit_function = "editService(this)"
     view_function = "viewService(this)"
     delete_function = "deleteService(this)"
-
     return render_template("pages/services.html",
                            title=title,
                            elements=services,
@@ -81,3 +80,22 @@ def edit_service(service_id):
     else:
         flash("El servicio no existe", "danger")
     return redirect(url_for('services.services'))
+
+
+def get_service_request_name(service_request):
+    return service_request.title
+
+
+def a_service_requests(service_id):
+    service = Service.get_by_id(service_id)
+    title = f"Administración de solicitudes de {service.name}"
+    page = request.args.get("page", 1, type=int)
+    service_requests = (ServiceRequest.
+                        get_service_requests_of_service_paginated(
+                            page=page,
+                            service_id=service_id
+                        ))
+    return render_template("pages/a_service_requests.html",
+                           title=title,
+                           elements=service_requests,
+                           get_name=get_service_request_name)

@@ -1,4 +1,6 @@
 <div>
+        <a href="{{ url_for('service_requests.notes', service_request_id=element['id']) }}"
+        class="btn btn-outline-secondary text-decoration-none">Notas</a>
         <button type="button" class="btn btn-outline-primary view-button"
                 onclick= "viewServiceRequest(this)"
                 data-element="{{ parse_service_request(element) }}">Ver</button>
@@ -9,7 +11,7 @@
                 onclick="changeStatusServiceRequest(this)">Editar</button>
 
         {% if not is_operator() %}
-        <button type="button" onclick="{{ delete_function }}"
+        <button type="button" onclick="deleteServiceRequest(this)"
                 data-element="{{ parse_service_request(element) }}"
                 class="btn btn-outline-danger">Eliminar</button>
         {% endif %}

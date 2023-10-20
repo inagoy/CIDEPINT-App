@@ -140,6 +140,13 @@ class ServiceRequest(BaseModel):
         return service_request
 
     @classmethod
+    def get_service_requests_of_service_paginated(
+            cls, page: int, service_id: int
+    ):
+        query = cls.query.filter_by(service_id=service_id)
+        return cls.get_query_paginated(query, page)
+
+    @classmethod
     def get_service_requests_of_institution_paginated(
             cls, page: int, institution_id: int
     ):
@@ -147,6 +154,26 @@ class ServiceRequest(BaseModel):
             Service.institution_id == institution_id
         )
         return cls.get_query_paginated(query, page)
+
+    @classmethod
+    def filter_query_by_status(cls, query, status):
+        return query.filter(cls.status.value == status)
+
+    @classmethod
+    def filter_query_by_date(cls, query, date_from, date_to):
+        return query.filter(
+            cls.closed_at >= date_from, cls.closed_at <= date_to
+        )
+
+    @classmethod
+    def filter_query_by_user_email(cls, query, user_email):
+        return query.filter(cls.requester.email == user_email)
+
+    @classmethod
+    def filter_query_by_service_type(cls, query, service_type):
+        return query.filter(
+            cls.service.service_type.value == service_type
+        )
 
 
 class Note(BaseModel):
@@ -183,3 +210,7 @@ class Note(BaseModel):
         db.session.add(note)
         db.session.commit()
         return note
+
+    @classmethod
+    def get_notes_of_service_request(cls, service_request_id: str):
+        return cls.query.filter_by(service_request_id=service_request_id).all()
