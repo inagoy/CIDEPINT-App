@@ -63,7 +63,7 @@ def seed_users() -> None:
          "gender": 'Masculino',
          "document_type": 'DNI',
          "document": '40233566',
-         "active": True
+         "active": True,
          },
 
 
@@ -77,7 +77,7 @@ def seed_users() -> None:
          "gender": 'Femenino',
          "document_type": 'DNI',
          "document": '39233566',
-         "active": True
+         "active": True,
          }
     ]
 

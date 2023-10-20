@@ -134,11 +134,33 @@ def second_form(request, hashed_email):
 def confirm_password(request, hashed_email):
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user:
-        form = request.form.to_dict()
-        form['inputPassword'] = bcrypt.generate_password_hash(
-            form['inputPassword'])
-        userUpdated = User.update(user.id, active=True, **form)
-        if userUpdated:
+        key_mapping = {
+            'inputNewPassword': 'new_password',
+            'inputConfirmPassword': 'confirm_password'
+        }
+        form = s.ValidateSerializer.map_keys(request.form, key_mapping)
+        serializer = s.ChangePasswordSerializer().validate(form)
+
+        if not serializer["is_valid"]:
+            if 'missing_fields' in serializer["errors"]:
+                flash(serializer["errors"]['missing_fields'], "danger")
+            else:
+                flash("""Ingrese una contraseña válida:
+                            minimo 6 caracteres,
+                            1 mayúscula,
+                            1 minúscula.""", 'danger')
+
+            return redirect(url_for("super.user_added_confirmation",
+                                    hashed_email=hashed_email))
+
+        if form["new_password"] != form["confirm_password"]:
+            flash("Las contraseñas no coinciden", 'danger')
+            return redirect(url_for("super.user_added_confirmation",
+                                    hashed_email=hashed_email))
+
+        new_password = bcrypt.generate_password_hash(form["new_password"])
+        updated = User.update(user.id, active=True, password=new_password)
+        if updated:
             flash("Se ha completado el registro exitosamente", "success")
         else:
             flash("Error al completar el registro", "danger")

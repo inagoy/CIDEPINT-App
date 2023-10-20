@@ -171,7 +171,7 @@ def add_user():
         first_name=form["first_name"],
         last_name=form["last_name"],
         confirmation_link=url_for(
-            "super.confirmation",
+            "super.user_added_confirmation",
             hashed_email=email_hash,
             _external=True
         )
@@ -271,7 +271,7 @@ def delete_role(user_id):
     return redirect(url_for('super.roles', user_id=user_id))
 
 
-def confirmation(hashed_email):
+def user_added_confirmation(hashed_email):
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user.active:
         flash(""" Ya haz completado el registro,

@@ -51,3 +51,19 @@ class HashedEmail(db.Model):
         if instance:
             return User.query.get(instance.user_id)
         return None
+
+    @classmethod
+    def find_hashed_email_by_user_id(cls, user_id) -> object:
+        """
+        Find a hashed email by its ID.
+
+        Parameters:
+            id (int): The ID of the hashed email.
+
+        Returns:
+            object: The hashed email object if found, None otherwise.
+        """
+        instance = cls.query.filter_by(user_id=user_id).first()
+        if instance:
+            return instance.hashed_email
+        return None
