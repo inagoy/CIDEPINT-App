@@ -114,7 +114,6 @@ class ServiceRequestEditDataSerializer(ValidateSerializer):
     fields = {
         "observations": [v.validate_string],
         "status": [v.validate_service_request_status],
-        "status_at": [v.validate_date],
     }
 
 
