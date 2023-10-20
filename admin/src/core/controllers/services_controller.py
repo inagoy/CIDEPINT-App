@@ -86,7 +86,7 @@ def get_service_request_name(service_request):
     return service_request.title
 
 
-def a_service_requests(service_id):
+def service_requests(service_id):
     service = Service.get_by_id(service_id)
     title = f"Administración de solicitudes de {service.name}"
     page = request.args.get("page", 1, type=int)
@@ -95,7 +95,8 @@ def a_service_requests(service_id):
                             page=page,
                             service_id=service_id
                         ))
-    return render_template("pages/a_service_requests.html",
+    return render_template("pages/service_requests.html",
                            title=title,
                            elements=service_requests,
+                           service_id=service_id,
                            get_name=get_service_request_name)

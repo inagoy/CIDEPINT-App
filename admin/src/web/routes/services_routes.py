@@ -44,5 +44,5 @@ def edit_service(service_id):
 @MaintenanceWrap.wrap
 @PermissionWrap.wrap_args(permissions=["service_index"])
 @LoginWrap.wrap
-def a_service_requests(service_id):
-    return services_controller.a_service_requests(service_id)
+def service_requests(service_id):
+    return services_controller.service_requests(service_id)
