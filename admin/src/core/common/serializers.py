@@ -39,11 +39,12 @@ class ValidateSerializer():
                 "errors": errors}
 
     @classmethod
-    def map_keys(cls, form, keys: dict) -> dict:
+    def map_keys(cls, form, keys: dict, delete_keys: list = []) -> dict:
         data = form.to_dict()
         return {
-            keys.get(old_key, old_key):
-                value for old_key, value in data.items() if value != ""
+            keys.get(old_key, old_key): value
+            for old_key, value in data.items()
+            if value != "" and old_key not in delete_keys
         }
 
 
@@ -120,7 +121,7 @@ class ServiceRequestFilterSerializer(ValidateSerializer):
     fields = {
         "status": [v.validate_service_request_status],
         "service_type": [v.validate_just_text],
-        "start_date": [],
-        "end_date": [],
+        "start_date": [v.validate_date],
+        "end_date": [v.validate_date],
         "email": [v.validate_email],
     }

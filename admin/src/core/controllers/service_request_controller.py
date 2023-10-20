@@ -3,6 +3,7 @@ from src.core.models.user import User
 from flask import redirect, render_template, session, request, url_for, flash
 from src.core.models.service import Note, ServiceRequest
 from src.core.common import serializers as s
+from src.web.helpers.services import filter_conditions
 
 
 def get_service_request_name(service_request):
@@ -21,7 +22,9 @@ def service_requests():
         'end-date': 'end_date',
         'request-email': 'email'
     }
-    filters = s.ValidateSerializer.map_keys(request.args, key_mapping)
+
+    filters = s.ValidateSerializer.map_keys(request.args, key_mapping,
+                                            delete_keys=['page'])
     if filters:
         serializer = s.ServiceRequestFilterSerializer().validate(filters)
         if not serializer['is_valid']:
@@ -29,10 +32,12 @@ def service_requests():
                 flash(error, "danger")
             return redirect(url_for('service_requests.service_requests'))
 
+        filters = filter_conditions(filters)
+
         service_requests = ServiceRequest.of_institution_filtered_paginated(
             page=page,
             institution_id=institution_id,
-            **filters
+            conditions=filters
         )
     else:
         service_requests = (ServiceRequest.

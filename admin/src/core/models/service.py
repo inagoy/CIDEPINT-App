@@ -2,6 +2,7 @@ from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
 from src.core.database import db
 from src.core.models.base_model import BaseModel
+from sqlalchemy import and_
 
 
 class ServiceTypeEnum(EnumBase):
@@ -163,8 +164,13 @@ class ServiceRequest(BaseModel):
         return cls.get_query_paginated(query, page)
 
     @classmethod
-    def of_institution_filtered_paginated(cls, institution_id, **kwargs):
-        pass
+    def of_institution_filtered_paginated(cls, page: int, institution_id: int,
+                                          conditions: list):
+        query = cls.get_service_requests_of_institution(institution_id)
+
+        institutions = query.filter(and_(*conditions))
+
+        return cls.get_query_paginated(institutions, page)
 
     @classmethod
     def filter_query_by_status(cls, query, status):

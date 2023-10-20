@@ -1,14 +1,14 @@
 {% extends "/components/modals/modal_template.html" %}
 {% block modal_id %}request_view{% endblock %}
 <!-- Acá iría el nombre del usuario -->
-{% block header %} Ver servicio {% endblock %}
+{% block header %} Ver Solicitud de Servicio {% endblock %}
 {% block cuerpo %}
 <!-- Acá iría todo el HTML correspondiente a la vista del usuario -->
 <div id="confirm-message" class="modal-body modal-scrollable">
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <h6> Títutlo </h6>
+                <h6> Título </h6>
             </div>
             <div class="col-sm">
                 <p id="request-title"> placeholder </p>
@@ -36,6 +36,22 @@
             </div>
             <div class="col-sm">
                 <p id="request-status"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Fecha de la petición </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-inserted_at"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <h6> Fecha cierre de la petición </h6>
+            </div>
+            <div class="col-sm">
+                <p id="request-closed_at"> placeholder </p>
             </div>
         </div>
         <div class="row">

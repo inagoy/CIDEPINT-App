@@ -12,6 +12,8 @@ function viewServiceRequest(button) {
 	modal.querySelector("#request-description").innerHTML = data.description;
 	modal.querySelector("#request-observations").innerHTML = data.observations;
 	modal.querySelector("#request-status").innerHTML = data.status;
+	modal.querySelector("#request-inserted_at").innerHTML = data.inserted_at;
+	modal.querySelector("#request-closed_at").innerHTML = data.closed_at;
 	modal.querySelector("#request-service").innerHTML = data.service;
 	modal.querySelector("#request-requester").innerHTML = data.requester;
 

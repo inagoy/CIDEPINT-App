@@ -1,5 +1,5 @@
 import re
-
+import datetime
 from src.core.models.service import StatusEnum
 from src.core.models.user import User
 
@@ -334,3 +334,24 @@ def validate_service_request_status(value):
     except ValueError:
         raise ValidationError(
             f"El tipo de servicio '{value}' no es valido")
+
+
+def validate_date(date: str, date_format: str = '%Y-%m-%d'):
+    """
+    Validates that the given date is a valid date.
+
+    Parameters:
+        date (str): The date to be validated.
+
+    Raises:
+        ValidationError: If the date is not a valid date.
+
+    Returns:
+        str: The validated date.
+    """
+    try:
+        datetime.datetime.strptime(date, date_format)
+        return date
+    except ValueError:
+        raise ValidationError(
+            f"El valor '{date}' no es una fecha válida")

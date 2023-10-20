@@ -1,4 +1,4 @@
-from src.core.models.service import Service
+from src.core.models.service import Service, ServiceRequest
 from src.core.models.user import User
 
 
@@ -19,7 +19,9 @@ def parse_service_request(service_request):
             'observations': service_request.observations,
             'service': Service.get_by_id(service_request.service_id).name,
             'requester': User.get_by_id(service_request.requester_id).email,
-            'status': service_request.status.value
+            'status': service_request.status.value,
+            'inserted_at': service_request.inserted_at.strftime("%d-%m-%Y"),
+            'closed_at': service_request.closed_at.strftime("%d-%m-%Y"),
             }
 
 
@@ -29,3 +31,22 @@ def parse_note(note):
             'user': note.user,
             'updated_at': note.updated_at.strftime("%Y-%m-%d %H:%M:%S")
             }
+
+
+def filter_conditions(filters):
+    conditions = []
+    print("-----------------HELPER---------------------------")
+    print("FILTERS: ", filters)
+    filter_conditions = {
+        "service_type": lambda val:
+            ServiceRequest.service.has(service_type=val),
+        "status": lambda val: ServiceRequest.status == val,
+        "email": lambda val: ServiceRequest.requester.has(email=val),
+        "start_date": lambda val: ServiceRequest.inserted_at >= val,
+        "end_date": lambda val: ServiceRequest.closed_at <= val,
+    }
+
+    for key, value in filters.items():
+        conditions.append(filter_conditions[key](value))
+
+    return conditions
