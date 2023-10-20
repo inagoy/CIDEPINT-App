@@ -49,17 +49,19 @@ class ValidateSerializer():
 
 class FirstRegistrationSerializer(ValidateSerializer):
     fields = {
-        "email": [v.validate_no_email, v.validate_email, "*"],
-        "first_name": [v.validate_just_text, "*"],
-        "last_name": [v.validate_just_text, "*"],
+        "email": [
+            v.validate_no_email, v.validate_email, v.validate_not_empty, "*"],
+        "first_name": [v.validate_just_text, v.validate_not_empty, "*"],
+        "last_name": [v.validate_just_text, v.validate_not_empty, "*"],
     }
 
 
 class SecondRegistrationSerializer(ValidateSerializer):
     fields = {
-        "username": [v.validate_no_username, v.validate_username, "*"],
+        "username": [v.validate_no_username,
+                     v.validate_username, v.validate_not_empty, "*"],
         "password": [v.validate_password, "*"],
-        "address": [v.validate_address, "*"],
+        "address": [v.validate_address, v.validate_not_empty, "*"],
         "phone_number": [v.validate_no_phone_number,
                          v.validate_phone_number, "*"],
         "gender": [v.validate_just_text, "*"],
@@ -70,8 +72,8 @@ class SecondRegistrationSerializer(ValidateSerializer):
 
 class EditUniqueData(ValidateSerializer):
     fields = {
-        "email": [v.validate_no_email, "*"],
-        "username": [v.validate_no_username, "*"],
+        "email": [v.validate_no_email, v.validate_not_empty, "*"],
+        "username": [v.validate_no_username, v.validate_not_empty, "*"],
         "phone_number": [v.validate_no_phone_number, "*"],
         "document": [v.validate_no_document, "*"],
     }
@@ -80,10 +82,10 @@ class EditUniqueData(ValidateSerializer):
 class EditUserSerializer(ValidateSerializer):
     fields = {
         "email": [v.validate_email, "*"],
-        "first_name": [v.validate_just_text, "*"],
-        "last_name": [v.validate_just_text, "*"],
-        "username": [v.validate_username, "*"],
-        "address": [v.validate_address, "*"],
+        "first_name": [v.validate_just_text, v.validate_not_empty, "*"],
+        "last_name": [v.validate_just_text, v.validate_not_empty, "*"],
+        "username": [v.validate_username, v.validate_not_empty, "*"],
+        "address": [v.validate_address, v.validate_not_empty, "*"],
         "phone_number": [v.validate_phone_number, "*"],
         "gender": [v.validate_just_text, "*"],
         "document_type": [v.validate_just_text, "*"],
@@ -94,16 +96,38 @@ class EditUserSerializer(ValidateSerializer):
 class SiteConfigValidator(ValidateSerializer):
     fields = {
         "items_per_page": [v.validate_just_number, "*"],
-        "maintenance_mode": [v.validate_string_as_boolean, "*"],
-        "maintenance_message": [v.validate_string],
-        "contact_info": [v.validate_string],
+        "maintenance_mode": [
+            v.validate_string_as_boolean, v.validate_not_empty, "*"],
+        "maintenance_message": [v.validate_string, v.validate_not_empty],
+        "contact_info": [
+            v.validate_string, v.validate_str_len, v.validate_not_empty],
+    }
+
+
+class InstitutionValidator(ValidateSerializer):
+    fields = {
+        "name": [v.validate_just_text, v.validate_str_len,
+                 v.validate_no_institution_name, v.validate_not_empty, "*"],
+        "info": [v.validate_string, v.validate_not_empty, "*"],
+        "address": [
+            v.validate_address, v.validate_str_len, v.validate_not_empty],
+        "location": [
+            v.validate_just_text, v.validate_str_len, v.validate_not_empty],
+        "website": [
+            v.validate_website, v.validate_str_len, v.validate_not_empty],
+        "search_keywords": [
+            v.validate_keywords, v.validate_str_len, v.validate_not_empty],
+        "days_and_hours": [v.validate_string, v.validate_not_empty],
+        "contact_info": [
+            v.validate_string, v.validate_str_len, v.validate_not_empty],
+        "enabled": [v.validate_string_as_boolean],
     }
 
 
 class ServiceDataSerializer(ValidateSerializer):
     fields = {
-        "name": [v.validate_string, "*"],
-        "description": [v.validate_string, "*"],
-        "keywords": [v.validate_keywords, "*"],
+        "name": [v.validate_string, v.validate_not_empty, "*"],
+        "description": [v.validate_string, v.validate_not_empty, "*"],
+        "keywords": [v.validate_keywords, v.validate_not_empty, "*"],
         "service_type": [v.validate_just_text, "*"],
     }

@@ -1,6 +1,7 @@
 from flask import session
 from src.core.models.user import User
 from src.core.models.user_role_institution import UserRoleInstitution
+from src.core.models.institution import Institution
 
 
 def parse_users_roles(users, institution_id):
@@ -52,12 +53,12 @@ def get_name(user):
 
 
 def unique_data_check(user, form, errors):
-    """   
+    """
     Args:
         user (User): The user object containing the existing user data.
         form (dict): The form object containing the form data to be checked.
         errors (dict): The dictionary containing the error types.
-        
+
     Returns:
         str or None: The error type if the data is not unique,
         None if all data is unique.
@@ -94,3 +95,19 @@ def get_role_of_user(user_id):
         return user.role_id
     else:
         return None
+
+
+def get_institutions_user() -> list:
+    """
+    Get the list of institutions for a user.
+
+    Returns:
+        list: The list of institutions.
+    """
+    user_id = User.find_user_by_email(session.get("user")).id
+    active_institutions = (Institution.
+                           get_enabled_institutions_for_user(user_id=user_id))
+
+    owned_institutions = (Institution.
+                          get_institutions_owned_by_user(user_id=user_id))
+    return list(set(active_institutions + owned_institutions))

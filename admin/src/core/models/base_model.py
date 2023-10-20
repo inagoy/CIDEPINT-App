@@ -110,3 +110,7 @@ class BaseModel(db.Model):
         if per_page is None:
             per_page = SiteConfig.get_items_per_page()
         return query.paginate(page=page, per_page=per_page)
+
+    @classmethod
+    def get_by(cls, field, data):
+        return cls.query.filter_by(**{field: data}).first()

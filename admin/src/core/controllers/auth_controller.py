@@ -5,6 +5,7 @@ from src.core.bcrypt import bcrypt
 from src.core.common.decorators import LoginWrap
 from src.core.models.site_config import SiteConfig
 from src.web.helpers.session import superuser_session
+from src.web.helpers.users import get_institutions_user
 
 
 def check_user(email, password):
@@ -68,10 +69,10 @@ def authenticate(request):
                       "danger")
                 return redirect(url_for("auth.login"))
         else:
-            current_institution = User.get_user_institutions(user_id=user.id)
-            if not (current_institution.__len__() == 0 or
-                    current_institution[0] is None):
-                session["current_institution"] = current_institution[0].id
+            institutions = get_institutions_user()
+            if not (institutions.__len__() == 0 or
+                    institutions[0] is None):
+                session["current_institution"] = institutions[0].id
 
             flash("Sesión iniciada correctamente", "success")
             return redirect(url_for("home.home_user"))
@@ -88,8 +89,6 @@ def logout():
     Returns:
         redirect: A redirect response to the login page.
 
-    Raises:
-        None
     """
     if LoginWrap.evaluate_condition():
         session.clear()

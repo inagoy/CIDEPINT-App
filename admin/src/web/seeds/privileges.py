@@ -90,7 +90,8 @@ def seed_privileges() -> None:
 
             {"role": "Owner",
              "permissions": [
-                "institution_update", "user_institution_index",
+                "institution_update", "institution_activate",
+                "institution_deactivate", "user_institution_index",
                 "user_institution_create", "user_institution_destroy",
                 "user_institution_update", "service_index", "service_create",
                 "service_destroy", "service_update", "service_show",

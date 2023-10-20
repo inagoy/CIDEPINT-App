@@ -18,7 +18,7 @@ def seed_institutions() -> None:
         {"name": "Centro de Investigación en Pinturas Avanzadas",
          "info": "Centro líder en tecnología de pinturas",
          "address": "Av. Tecnología 1234", "location": "Buenos Aires",
-         "website": "http://www.centropinturas.com",
+         "website": "www.centropinturas.com",
          "search_keywords":
             "investigación, desarrollo, tecnología, pinturas, Buenos Aires",
          "days_and_hours": "Lun-Vie: 9am-5pm",
@@ -27,7 +27,7 @@ def seed_institutions() -> None:
         {"name": "Laboratorio de Pinturas Innovadoras",
          "info": "Laboratorio especializado en pinturas avanzadas",
          "address": "Calle Innovación 567", "location": "Córdoba",
-         "website": "http://www.labpinturas.com",
+         "website": "www.labpinturas.com",
          "search_keywords": "laboratorio, innovación, pinturas, Córdoba",
          "days_and_hours": "Lun-Vie: 8:30am-4:30pm",
          "contact_info": "info@labpinturas.com", "enabled": True},

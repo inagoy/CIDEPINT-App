@@ -6,9 +6,8 @@
  */
 function viewService(button) {
 	let modal = document.getElementById("service_view");
-	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data);
+
 
 	modal.querySelector("#service-name").innerHTML = data.name;
 	modal.querySelector("#service-description").innerHTML = data.description;
@@ -26,9 +25,8 @@ function addService() {
 
 function deleteService(button) {
 	let modal = document.getElementById("service_delete");
-	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data.id);
+
 
 	modal.querySelector("#service-id").value = data.id;
 	openModal(modal);
@@ -36,9 +34,8 @@ function deleteService(button) {
 
 function editService(button) {
 	let modal = document.getElementById("service_edit");
-	console.log(button.getAttribute("data-element"));
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
-	console.log("la data: ", data);
+
 
 	modal.querySelector("#inputName").value = data.name;
 	modal.querySelector("#inputDescription").value = data.description;

@@ -14,6 +14,13 @@ def institution(institution_id):
     return institution_controller.institution(institution_id)
 
 
+@institution_bp.route("/edit", methods=["GET", "POST"])
+@LoginWrap.wrap
+@PermissionWrap.wrap_args(permissions=["institution_update"])
+def edit_institution():
+    return institution_controller.edit_institution()
+
+
 @institution_bp.route("/roles", methods=["GET"])
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(permissions=["user_institution_index"])

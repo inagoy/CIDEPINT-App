@@ -1,5 +1,6 @@
 import re
 from src.core.models.user import User
+from src.core.models.institution import Institution
 
 
 class ValidationError(Exception):
@@ -57,7 +58,7 @@ def validate_just_text(text):
     Raises:
         ValidationError: If the text contains non-alphabetic characters.
     """
-    text_pattern = r'^[^\d_\W]+$'
+    text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
     if not re.match(text_pattern, text, re.UNICODE) is not None:
         raise ValidationError(f"El campo '{text}' no es un texto")
     return text
@@ -99,7 +100,7 @@ def validate_username(text):
     text_pattern = r'^[A-Za-z0-9_]+$'
     if not re.match(text_pattern, text):
         raise ValidationError(
-            f"El campo'{text}' no es un nombre de usuario válido")
+            f"El campo '{text}' no es un nombre de usuario válido")
     return text
 
 
@@ -122,7 +123,7 @@ def validate_password(password):
 
     if not re.match(pattern, password):
         raise ValidationError(
-            f"El campo'{password}' no es una contraseña válida")
+            f"El campo '{password}' no es una contraseña válida")
     return password
 
 
@@ -140,11 +141,11 @@ def validate_address(address):
         str: The validated address.
     """
     # Define a regex pattern to check if there's at least one number
-    pattern = r'^[a-zA-Z\s.,-]*\d+[a-zA-Z0-9\s.,-]*$'
+    pattern = r'^[a-zA-Z\s.,-áéíóúÁÉÍÓÚ]*\d+[a-zA-Z0-9\s.,-áéíóúÁÉÍÓÚ]*$'
 
     if not re.match(pattern, address):
         raise ValidationError(
-            f"El campo'{address}' no es una dirección válida")
+            f"El campo '{address}' no es una dirección válida")
     return address
 
 
@@ -166,7 +167,7 @@ def validate_phone_number(phone_number):
 
     if not re.match(phone_number_pattern, phone_number):
         raise ValidationError(
-            f"El campo'{phone_number}' no es un teléfono válido")
+            f"El campo '{phone_number}' no es un teléfono válido")
     return phone_number
 
 
@@ -289,7 +290,8 @@ def validate_string_as_boolean(value):
     Returns:
         True if a string with the value "True" or "False", False otherwise.
     """
-    if value == "True" or value == "False":
+    value = value.lower()
+    if value == "true" or value == "false":
         return True
     else:
         raise ValidationError(
@@ -309,7 +311,7 @@ def validate_string(value):
     Returns:
         True if the value is a string, False otherwise.
     """
-    if isinstance(value, str) and len(value) <= 255:
+    if isinstance(value, str):
         return True
     else:
         raise ValidationError(
@@ -323,3 +325,70 @@ def validate_keywords(value):
     else:
         raise ValidationError(
             f"El valor '{value}' no cumple con el formato esperado.")
+
+
+def validate_str_len(value):
+    """
+    Validates that the given value is a string with a
+    maximum length of 255 characters.
+
+    Parameters:
+        value (str): The value to be validated.
+        max_length (int): The maximum length of the string.
+
+    Raises:
+        ValidationError: If the value is not a string with a
+        maximum length of 255 characters.
+    """
+    if len(value) >= 255:
+        raise ValidationError(
+            f"El valor '{value}' debe tener como máximo 255 caracteres")
+    return True
+
+
+def validate_website(website: str):
+    """
+    Validates that the given website is a valid URL.
+
+    Parameters:
+        website (str): The website to be validated.
+
+    Raises:
+        ValidationError: If the website is not a valid URL.
+
+    Returns:
+        True if the website is a valid URL, False otherwise.
+    """
+
+    pattern = r'^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$'
+
+    if re.match(pattern, website):
+        return True
+    else:
+        raise ValidationError(
+            f"El sitio web '{website}' no es un URL válido")
+
+
+def validate_no_institution_name(institution_name: str):
+    """
+    Validates that the given institution is not already
+    registered in the system.
+
+    Parameters:
+        institution_name (str): The institution to validate.
+        institution_id (int, optional): The ID of the current institution.
+            If provided, the validation won't consider this institution
+            when checking for uniqueness.
+
+    Raises:
+        ValidationError: If the institution is already
+        registered.
+
+    Returns:
+        str: The validated institution.
+    """
+    institution = Institution.get_by(field='name', data=institution_name)
+    if institution:
+        raise ValidationError(
+            f"La institución '{institution_name}' ya está registrada")
+    return institution_name

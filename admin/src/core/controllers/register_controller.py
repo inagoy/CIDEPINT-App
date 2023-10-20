@@ -25,9 +25,6 @@ def first_form(request):
 
     Returns:
         A rendered HTML template or a redirect response.
-
-    Raises:
-        None.
     """
 
     key_mapping = {'inputName': 'first_name',

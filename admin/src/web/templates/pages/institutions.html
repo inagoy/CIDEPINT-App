@@ -2,8 +2,14 @@
 {% block title %} Instituciones {% endblock %}
 {% block head %}{{ super() }}
 <script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/institutionModals.js') }}"></script>
 {% endblock %}
 {% block content %}
-{% include "components/lists/list.html" %}
+{% include "modules/institutions/institutions_list.html" %}
+{% include "modules/institutions/modals/institution_add.html" %}
+{% include "modules/institutions/modals/institution_delete.html" %}
+{% include "modules/institutions/modals/institution_edit.html" %}
+{% include "modules/institutions/modals/institution_view.html" %}
 {% include "components/pagination.html" %}
 {% endblock %}

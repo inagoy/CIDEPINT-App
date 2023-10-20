@@ -38,9 +38,6 @@ def edit_config(request):
     Returns:
         Response: The response object indicating the success or failure
         of the configuration update.
-
-    Raises:
-        None
     """
     site_config = SiteConfig.get_config()
     context = {
