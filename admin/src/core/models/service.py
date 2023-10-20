@@ -172,26 +172,6 @@ class ServiceRequest(BaseModel):
 
         return cls.get_query_paginated(institutions, page)
 
-    @classmethod
-    def filter_query_by_status(cls, query, status):
-        return query.filter(cls.status.value == status)
-
-    @classmethod
-    def filter_query_by_date(cls, query, date_from, date_to):
-        return query.filter(
-            cls.closed_at >= date_from, cls.closed_at <= date_to
-        )
-
-    @classmethod
-    def filter_query_by_user_email(cls, query, user_email):
-        return query.filter(cls.requester.email == user_email)
-
-    @classmethod
-    def filter_query_by_service_type(cls, query, service_type):
-        return query.filter(
-            cls.service.service_type.value == service_type
-        )
-
 
 class Note(BaseModel):
     __tablename__ = 'notes'

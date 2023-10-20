@@ -6,7 +6,7 @@ class ValidateSerializer():
     fields = {}
 
     @classmethod
-    def validate(self, data: dict):
+    def validate(cls, data: dict):
         """
         Validates the given data dictionary.
 
@@ -21,12 +21,12 @@ class ValidateSerializer():
         """
         errors = {}
         try:
-            v.validate_form_data(data, self.fields)
+            v.validate_form_data(data, cls.fields)
         except ValidationError as e:
             errors["missing_fields"] = str(e)
         for field in data:
             try:
-                validations = self.fields.get(field)
+                validations = cls.fields.get(field)
                 if validations:
                     validation_functions = [
                         param for param in validations if param != "*"
@@ -114,6 +114,7 @@ class ServiceRequestEditDataSerializer(ValidateSerializer):
     fields = {
         "observations": [v.validate_string],
         "status": [v.validate_service_request_status],
+        "status_at": [v.validate_date],
     }
 
 
