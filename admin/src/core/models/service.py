@@ -147,13 +147,24 @@ class ServiceRequest(BaseModel):
         return cls.get_query_paginated(query, page)
 
     @classmethod
-    def get_service_requests_of_institution_paginated(
-            cls, page: int, institution_id: int
+    def get_service_requests_of_institution(
+            cls, institution_id: int
     ):
         query = cls.query.join(Service).filter(
             Service.institution_id == institution_id
         )
+        return query
+
+    @classmethod
+    def get_service_requests_of_institution_paginated(
+            cls, page: int, institution_id: int
+    ):
+        query = cls.get_service_requests_of_institution(institution_id)
         return cls.get_query_paginated(query, page)
+
+    @classmethod
+    def of_institution_filtered_paginated(cls, institution_id, **kwargs):
+        pass
 
     @classmethod
     def filter_query_by_status(cls, query, status):

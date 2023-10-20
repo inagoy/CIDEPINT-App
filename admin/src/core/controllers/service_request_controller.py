@@ -10,15 +10,36 @@ def get_service_request_name(service_request):
 
 
 def service_requests():
-    filter_params = {key: value for key, value in request.args.items()}
-    print(filter_params)
     title = "Administración de solicitudes de servicio"
     page = request.args.get("page", 1, type=int)
-    service_requests = (ServiceRequest.
-                        get_service_requests_of_institution_paginated(
-                            page=page,
-                            institution_id=session['current_institution']
-                        ))
+    institution_id = session['current_institution']
+
+    key_mapping = {
+        'service-type': 'service_type',
+        'request-status': 'status',
+        'start-date': 'start_date',
+        'end-date': 'end_date',
+        'request-email': 'email'
+    }
+    filters = s.ValidateSerializer.map_keys(request.args, key_mapping)
+    if filters:
+        serializer = s.ServiceRequestFilterSerializer().validate(filters)
+        if not serializer['is_valid']:
+            for error in serializer['errors'].values():
+                flash(error, "danger")
+            return redirect(url_for('service_requests.service_requests'))
+
+        service_requests = ServiceRequest.of_institution_filtered_paginated(
+            page=page,
+            institution_id=institution_id,
+            **filters
+        )
+    else:
+        service_requests = (ServiceRequest.
+                            get_service_requests_of_institution_paginated(
+                                page=page,
+                                institution_id=institution_id
+                            ))
     return render_template("pages/service_requests.html",
                            title=title,
                            elements=service_requests,

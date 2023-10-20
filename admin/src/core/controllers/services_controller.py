@@ -87,8 +87,7 @@ def get_service_request_name(service_request):
 
 
 def service_requests(service_id):
-    service = Service.get_by_id(service_id)
-    title = f"Administración de solicitudes de {service.name}"
+    title = "Administración de solicitudes"
     page = request.args.get("page", 1, type=int)
     service_requests = (ServiceRequest.
                         get_service_requests_of_service_paginated(

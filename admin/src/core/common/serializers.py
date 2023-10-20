@@ -114,3 +114,13 @@ class ServiceRequestEditDataSerializer(ValidateSerializer):
         "observations": [v.validate_string],
         "status": [v.validate_service_request_status],
     }
+
+
+class ServiceRequestFilterSerializer(ValidateSerializer):
+    fields = {
+        "status": [v.validate_service_request_status],
+        "service_type": [v.validate_just_text],
+        "start_date": [],
+        "end_date": [],
+        "email": [v.validate_email],
+    }
