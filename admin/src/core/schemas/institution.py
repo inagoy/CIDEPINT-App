@@ -1,7 +1,8 @@
-from marshmallow import Schema, fields
+from src.core.schemas import BaseSchema
+from marshmallow import fields
 
 
-class InstitutionSchema(Schema):
+class InstitutionModelSchema(BaseSchema):
     name = fields.Str()
     information = fields.Str(attribute='info')
     address = fields.Str()
@@ -10,7 +11,3 @@ class InstitutionSchema(Schema):
     days_and_opening_hours = fields.Str(attribute='days_and_hours')
     email = fields.Email(attribute='contact_info')
     enabled = fields.Boolean()
-
-
-institution_schema = InstitutionSchema()
-institutions_schema = InstitutionSchema(many=True)

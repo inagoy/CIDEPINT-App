@@ -1,16 +1,19 @@
-from src.core.schemas.user import user_schema
-from src.core.api import response_error
+from src.core.schemas.user import UserSchema
+from src.web.helpers.api import response_error
 from src.core.models.user import User
-from flask import Blueprint, session
+from flask import Blueprint, request
 
 api_user_bp = Blueprint('api_user', __name__, url_prefix='/api')
 
 
 @api_user_bp.route("/me/profile", methods=["GET"])
 def get_profile():
-    user = User.find_user_by_email(session.get("user"))
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return response_error()
+    user = User.get_by_id(user_id)
     if not user:
         return response_error()
     return {
-        "data": user_schema.dump(user)
+        "data": UserSchema.get_instance().dump(user)
     }, 200

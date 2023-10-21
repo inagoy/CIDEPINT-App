@@ -1,15 +1,16 @@
-from src.core.schemas import PaginatedSchema
+from src.core.schemas import PaginateValidationSchema, BaseSchema
 from src.core.common import validators as v
-from marshmallow import Schema, fields, validates
+from marshmallow import fields, validates
 
 
-class ServiceModelSchema(Schema):
+class ServiceModelSchema(BaseSchema):
     name = fields.Str()
     description = fields.Str()
     keywords = fields.Str()
     service_type = fields.Method(
         "service_type_display", description="Tipo del servicio."
     )
+    laboratory = fields.String(attribute="institution.name")
     enabled = fields.Bool()
 
     def service_type_display(self, obj):
@@ -20,7 +21,7 @@ class ServiceModelSchema(Schema):
         return cls(many=many)
 
 
-class SearchServicesSchema(PaginatedSchema):
+class SearchServicesValidateSchema(PaginateValidationSchema):
 
     q = fields.Str(required=True)
     type = fields.Str(allow_none=True)
@@ -29,14 +30,6 @@ class SearchServicesSchema(PaginatedSchema):
     def validate_type(self, value):
         v.validate_service_type(value)
 
-    @classmethod
-    def get_instance(cls):
-        return cls()
-""" search_services_schema = SearchServicesSchema() """
 
-
-class ServicesTypesSchema(Schema):
+class ServicesTypesModelSchema(BaseSchema):
     data = fields.List(fields.String(), required=True)
-
-
-services_types_schema = ServicesTypesSchema()

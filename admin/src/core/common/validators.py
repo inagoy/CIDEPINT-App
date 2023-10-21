@@ -2,9 +2,9 @@ import re
 import datetime
 from src.core.models.service import StatusEnum
 from marshmallow import ValidationError
+from src.core.models.institution import Institution
 from src.core.models.service import ServiceTypeEnum
 from src.core.models.user import DocumentEnum, GenderEnum, User
-from marshmallow import ValidationError
 
 
 def validate_not_empty(text):
@@ -24,7 +24,7 @@ def validate_not_empty(text):
     return text
 
 
-def validate_email(email):
+def validate_email(value):
     """
     Validates an email address.
 
@@ -38,12 +38,12 @@ def validate_email(email):
         str: The validated email address.
     """
     email_pattern = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
-    if not re.match(email_pattern, email) is not None:
-        raise ValidationError(f"El campo '{email}' no es un email válido")
-    return email
+    if not re.match(email_pattern, value) is not None:
+        raise ValidationError(f"El campo '{value}' no es un email válido")
+    return value
 
 
-def validate_just_text(text):
+def validate_just_text(value):
     """
     Validate if the given text contains only alphabetic characters.
 
@@ -57,12 +57,12 @@ def validate_just_text(text):
     """
     text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
     text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
-    if not re.match(text_pattern, text, re.UNICODE) is not None:
-        raise ValidationError(f"El campo '{text}' no es un texto")
-    return text
+    if not re.match(text_pattern, value, re.UNICODE) is not None:
+        raise ValidationError(f"El campo '{value}' no es un texto")
+    return value
 
 
-def validate_just_number(number):
+def validate_just_number(value):
     """
     Validates if the given number is a valid number.
 
@@ -76,12 +76,12 @@ def validate_just_number(number):
         ValidationError: If the number is not a valid number.
     """
     number_pattern = r'^\d+$'
-    if not re.match(number_pattern, number):
-        raise ValidationError(f"El campo '{number}' no es un número")
-    return number
+    if not re.match(number_pattern, value):
+        raise ValidationError(f"El campo '{value}' no es un número")
+    return value
 
 
-def validate_username(text):
+def validate_username(value):
     """
     Validates a username.
 
@@ -96,13 +96,13 @@ def validate_username(text):
 
     """
     text_pattern = r'^[A-Za-z0-9_]+$'
-    if not re.match(text_pattern, text):
+    if not re.match(text_pattern, value):
         raise ValidationError(
-            f"El campo '{text}' no es un nombre de usuario válido")
-    return text
+            f"El campo'{value}' no es un nombre de usuario válido")
+    return value
 
 
-def validate_password(password):
+def validate_password(value):
     """
     Validates a password string.
 
@@ -119,13 +119,13 @@ def validate_password(password):
     """
     pattern = r'^(?=.*[A-Z])(?=.*\d).{6,}$'
 
-    if not re.match(pattern, password):
+    if not re.match(pattern, value):
         raise ValidationError(
-            f"El campo '{password}' no es una contraseña válida")
-    return password
+            f"El campo'{value}' no es una contraseña válida")
+    return value
 
 
-def validate_address(address):
+def validate_address(value):
     """
     Validates an address using a regex pattern.
 
@@ -141,13 +141,13 @@ def validate_address(address):
     # Define a regex pattern to check if there's at least one number
     pattern = r'^[a-zA-Z\s.,-áéíóúÁÉÍÓÚ]*\d+[a-zA-Z0-9\s.,-áéíóúÁÉÍÓÚ]*$'
 
-    if not re.match(pattern, address):
+    if not re.match(pattern, value):
         raise ValidationError(
-            f"El campo '{address}' no es una dirección válida")
-    return address
+            f"El campo'{value}' no es una dirección válida")
+    return value
 
 
-def validate_phone_number(phone_number):
+def validate_phone_number(value):
     """
     Validates a phone number.
 
@@ -160,13 +160,13 @@ def validate_phone_number(phone_number):
     Returns:
         str: The validated phone number.
     """
-    phone_number = phone_number.strip()
+    value = value.strip()
     phone_number_pattern = r'^\d{9,15}$'
 
-    if not re.match(phone_number_pattern, phone_number):
+    if not re.match(phone_number_pattern, value):
         raise ValidationError(
-            f"El campo '{phone_number}' no es un teléfono válido")
-    return phone_number
+            f"El campo'{value}' no es un teléfono válido")
+    return value
 
 
 def validate_form_data(form_data, fields):
@@ -197,7 +197,7 @@ def validate_form_data(form_data, fields):
         return form_data
 
 
-def validate_no_username(text):
+def validate_no_username(value):
     """
     Validates that the given text does not match an existing username.
 
@@ -209,13 +209,13 @@ def validate_no_username(text):
     Raises:
         ValidationError: If the given text matches an existing username.
     """
-    if User.find_user_by_username(text):
+    if User.find_user_by_username(value):
         raise ValidationError(
-            f"El nombre de usuario '{text}' ya está registrado")
-    return text
+            f"El nombre de usuario '{value}' ya está registrado")
+    return value
 
 
-def validate_no_email(email):
+def validate_no_email(value):
     """
     Validates if the given email is not already registered in the User
     database.
@@ -230,14 +230,14 @@ def validate_no_email(email):
         ValidationError: If the email is already registered.
 
     """
-    if User.find_user_by_email(email):
+    if User.find_user_by_email(value):
         raise ValidationError(
-            f"El email '{email}' ya está registrado")
-    return email
+            f"El email '{value}' ya está registrado")
+    return value
 
 
-def validate_no_document(document):
-    """q
+def validate_no_document(value):
+    """
     Validates if a document is already registered in the system.
 
     Parameters:
@@ -249,13 +249,13 @@ def validate_no_document(document):
     Returns:
         str: The validated document.
     """
-    if User.find_user_by_document(document):
+    if User.find_user_by_document(value):
         raise ValidationError(
-            f"El documento '{document}' ya está registrado")
-    return document
+            f"El documento '{value}' ya está registrado")
+    return value
 
 
-def validate_no_phone_number(phone_number):
+def validate_no_phone_number(value):
     """
     Validates that the given phone number is not already registered.
 
@@ -268,33 +268,33 @@ def validate_no_phone_number(phone_number):
     Raises:
         ValidationError: If the phone number is already registered.
     """
-    if User.find_user_by_phone_number(phone_number):
+    if User.find_user_by_phone_number(value):
         raise ValidationError(
-            f"El número de teléfono '{phone_number}' ya está registrado")
-    return phone_number
+            f"El número de teléfono '{value}' ya está registrado")
+    return value
 
 
-def validate_document_type(document_type):
-    if document_type not in DocumentEnum:
+def validate_document_type(value):
+    if value not in DocumentEnum:
         raise ValidationError(
-            f"El tipo de documento '{document_type}' no es válido")
-    return document_type
+            f"El tipo de documento '{value}' no es válido")
+    return value
 
 
-def validate_gender(gender):
-    if gender not in GenderEnum:
+def validate_gender(value):
+    if value not in GenderEnum:
         raise ValidationError(
-            f"El genero '{gender}' no es valido")
-    return gender
+            f"El genero '{value}' no es valido")
+    return value
 
 
-def validate_service_type(input_str):
+def validate_service_type(value):
     try:
-        service_type = ServiceTypeEnum(input_str)
+        service_type = ServiceTypeEnum(value)
         return service_type
     except ValueError:
         raise ValidationError(
-            f"El tipo de servicio '{input_str}' no es valido")
+            f"El tipo de servicio '{value}' no es valido")
 
 
 def validate_string_as_boolean(value):

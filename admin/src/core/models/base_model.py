@@ -88,7 +88,9 @@ class BaseModel(db.Model):
 
         if per_page is None:
             per_page = SiteConfig.get_items_per_page()
-        return cls.query.paginate(page=page, per_page=per_page)
+        return cls.query.paginate(
+            page=page, per_page=per_page, error_out=False
+        )
 
     @classmethod
     def get_query_paginated(cls, query, page, per_page=None):
@@ -109,7 +111,7 @@ class BaseModel(db.Model):
         """
         if per_page is None:
             per_page = SiteConfig.get_items_per_page()
-        return query.paginate(page=page, per_page=per_page)
+        return query.paginate(page=page, per_page=per_page, error_out=False)
 
     @classmethod
     def get_by(cls, field, data):

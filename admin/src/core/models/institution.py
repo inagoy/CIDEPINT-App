@@ -1,7 +1,6 @@
 from datetime import datetime
 from src.core.database import db
 from src.core.models.base_model import BaseModel
-from src.core.models.user_role_institution import UserRoleInstitution
 
 
 class Institution(BaseModel):

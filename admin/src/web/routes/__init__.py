@@ -10,6 +10,7 @@ from src.web.routes.service_requests_routes import service_requests_bp
 from src.core.api.auth import api_auth_bp
 from src.core.api.user import api_user_bp
 from src.core.api.service import api_service_bp
+from src.core.api.service_request import api_request_bp
 from src.core.api.institution import api_institution_bp
 
 
@@ -39,4 +40,5 @@ def set_routes(app) -> None:
     app.register_blueprint(api_user_bp)
     app.register_blueprint(api_institution_bp)
     app.register_blueprint(api_service_bp)
+    app.register_blueprint(api_request_bp)
     app.register_blueprint(service_requests_bp)

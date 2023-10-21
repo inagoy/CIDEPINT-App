@@ -1,24 +1,22 @@
-from marshmallow import Schema, fields, validates
+from src.core.schemas import BaseSchema
+from marshmallow import fields, validates
 from src.core.common import validators as v
 
 
-class AuthUserSchema(Schema):
-    email = fields.Email(description="User email address", required=True)
+class UserValidateSchema(BaseSchema):
+    user = fields.Email(description="User email address", required=True)
     password = fields.Str(description="User password", required=True)
 
     @validates("password")
     def validate_password(self, value):
         v.validate_password(value)
 
-    @validates("email")
+    @validates("user")
     def validate_email(self, value):
         v.validate_email(value)
 
 
-auth_user_schema = AuthUserSchema()
-
-
-class UserSchema(Schema):
+class UserSchema(BaseSchema):
     user = fields.Str(description="Nombre de usuario.")
     email = fields.Email(description="Correo electrónico.")
     first_name = fields.Str(description="Nombre.")
@@ -38,6 +36,3 @@ class UserSchema(Schema):
 
     def document_type_display(self, obj):
         return obj.document_type.value
-
-
-user_schema = UserSchema()
