@@ -1,0 +1,21 @@
+{% extends "/components/lists/list.html" %}
+{% block extra_buttons %}
+<button type="button" class="btn btn-primary mb-4 w-25"
+        onclick="addUser(this)">Agregar</button>
+<form class="form-inline mb-4 align-items-center flex-row">
+   <a href="{{ url_for('super.users') }}"
+      class=" btn my-2 my-sm-0 mr-2 {% if 'super.users' in request.endpoint %}btn-success text-white{% else %}btn-outline-success text-success{% endif %}"
+      type="submit">Todos</a>
+   <a href="{{ url_for('super.active') }}"
+      class="btn my-2 my-sm-0 mr-2 {% if 'super.active' in request.endpoint %}btn-success text-white{% else %}btn-outline-success text-success{% endif %}"
+      type="submit">Activos</a>
+   <a href="{{ url_for('super.inactive') }}"
+      class="btn my-2 my-sm-0 {% if 'super.inactive' in request.endpoint %}btn-success text-white{% else %}btn-outline-success text-success{% endif %}"
+      type="submit">Inactivos</a>
+</form>
+<form action="{{ url_for('super.search') }}" method="POST"
+      class="form-inline mb-4 align-items-center flex-column flex-sm-row">
+   <input id="search" name="search" class="form-control mr-sm-3" type="search"
+          placeholder="Ingrese un email" aria-label="Search">
+   <button id="search-button" class="btn btn-primary my-2 my-sm-0" type="submit">Buscar</button>
+</form> {% endblock %}

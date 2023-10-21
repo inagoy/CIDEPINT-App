@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %} Servicios {% endblock %}
+{% block head %}{{ super() }}
+<script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/serviceModals.js') }}"></script>
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+{% endblock %}
+{% block content %}
+{% include "modules/services/services_list.html" %}
+{% include "modules/services/modals/service_view.html" %}
+{% include "modules/services/modals/service_add.html" %}
+{% include "modules/services/modals/service_edit.html" %}
+{% include "modules/services/modals/service_delete.html" %}
+{% include "components/pagination.html" %}
+{% endblock %}

@@ -1,3 +1,4 @@
+"""Privileges seeds."""
 from ...core.models.privileges import Role, Permission
 from src.core.database import db
 
@@ -17,6 +18,11 @@ permissions_data = [
     {"name": "user_update"},
     {"name": "user_show"},
 
+    {"name": "user_institution_index"},
+    {"name": "user_institution_create"},
+    {"name": "user_institution_destroy"},
+    {"name": "user_institution_update"},
+
     {"name": "institution_index"},
     {"name": "institution_create"},
     {"name": "institution_destroy"},
@@ -32,16 +38,25 @@ permissions_data = [
     {"name": "service_show"},
 
     {"name": "request_index"},
+    {"name": "request_show"},
     {"name": "request_create"},
     {"name": "request_destroy"},
     {"name": "request_update"},
 
-    {"name": "config_index"},
+    {"name": "config_show"},
     {"name": "config_update"},
 ]
 
 
 def seed_privileges() -> None:
+    """
+    Seeds the privileges in the database.
+
+    This function adds roles, permissions, and role-permission relationships
+    to the database.
+    It uses the data provided in the `roles_data` and
+    `permissions_data` variables.
+    """
     def add_roles():
         for role_info in roles_data:
             role = Role(**role_info)
@@ -64,19 +79,21 @@ def seed_privileges() -> None:
                 "user_institution_create", "user_institution_destroy",
                 "user_institution_update", "service_index", "service_create",
                 "service_destroy", "service_update", "service_show",
-                "request_index", "request_create", "request_destroy",
-                "request_update", "config_index", "config_update"
+                "request_index", "request_show", "request_create",
+                "request_destroy", "request_update", "config_show",
+                "config_update"
                 ]
              },
 
             {"role": "Owner",
              "permissions": [
-                "institution_update", "user_index", "user_institution_index",
+                "institution_update", "institution_activate",
+                "institution_deactivate", "user_institution_index",
                 "user_institution_create", "user_institution_destroy",
                 "user_institution_update", "service_index", "service_create",
                 "service_destroy", "service_update", "service_show",
-                "request_index", "request_create", "request_destroy",
-                "request_update"
+                "request_index", "request_show", "request_create",
+                "request_destroy", "request_update"
                 ]
              },
 
@@ -84,7 +101,8 @@ def seed_privileges() -> None:
              "permissions": [
                 "service_index", "service_create", "service_destroy",
                 "service_update", "service_show", "request_index",
-                "request_create", "request_destroy", "request_update"
+                "request_show", "request_create", "request_destroy",
+                "request_update"
                 ]
              },
 

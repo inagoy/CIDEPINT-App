@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %} Usuarios: Roles {% endblock %}
+{% block head %}{{ super() }}
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/roles.js') }}"></script>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h3 class="text-center pb-4 pt-2"> {{ title }} </h3>
+    <form method="POST" action="{{ url_for('super.add_role',user_id=user_id) }}"
+          class="mx-1 row justify-content-start align-items-center flex-column flex-sm-row pb-4">
+
+        <div class="form-group pr-4">
+            <label for="inputInstitution"> Institución </label>
+            <select class="form-control" id="inputInstitution" name="inputInstitution">
+                <option value="" disabled selected>Seleccionar una Institución</option>
+                {% for institution in institutions %}
+                <option value="{{ institution.id }}">{{ institution.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group pr-4">
+            <label for="inputRole"> Rol </label>
+            <select class="form-control" id="inputRole" name="inputRole">
+                <option value="" disabled selected>Seleccionar un Rol</option>
+                {% for role in roles %}
+                <option value="{{ role.id }}">{{ role.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button id="addRoleButton" type="submit" class="btn btn-primary mt-3">Agregar</button>
+    </form>
+
+    <div class="list-group ">
+        {% for element in elements %}
+        <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between flex-column flex-sm-row">
+                <h6 class="pt-2"> {{ element.institution }} </h6>
+                <h6 class="pt-2"> {{ element.role }} </h6>
+                <div>
+
+                    <button type="button" onclick="deleteRole(this)" data-element="{{ element }}"
+                            class="btn btn-outline-danger">Eliminar</button>
+
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% include "modules/users/modals/role_delete.html" %}

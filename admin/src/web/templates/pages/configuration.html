@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %} Configuración del Sitio{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Configuraci&oacute;n del Sistema</h1>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>Elementos por P&aacute;gina:</strong>
+            <p class="mt-2">
+                <span class="badge badge-primary badge-pill">
+                    {{ items_per_page }}
+                </span>
+            </p>
+        </li>
+        <li class="list-group-item">
+            <strong>Modo Mantenimiento:</strong>
+            <p class="mt-2">
+                <span class="badge badge-{{ 'success' if maintenance_mode else 'danger' }} badge-pill">
+                    {{ 'Activo' if maintenance_mode else 'Inactivo' }}
+                </span>
+            </p>
+        </li>
+        <li class="list-group-item">
+            <strong>Mensaje de Mantenimiento del Sitio:</strong>
+            <p class="mt-2">{% if maintenance_message %}{{ maintenance_message }}
+                            {% else %}No tiene un mensaje de mantenimiento cargado
+                            {% endif %}</p>
+        </li>
+        <li class="list-group-item">
+            <strong>Informaci&oacute;n de Contacto:</strong>
+            <p class="mt-2">{% if contact_info %}{{ contact_info }}
+                            {% else %}No tiene informaci&oacute;n de contacto cargada
+                            {% endif %}</p>
+        </li>
+    </ul>
+    <a href="{{ url_for('super.edit_config') }}" class="card-link">
+        <button type="button" class="btn btn-info mt-3">
+            Editar
+        </button>
+    </a>
+</div>
+{% endblock %}

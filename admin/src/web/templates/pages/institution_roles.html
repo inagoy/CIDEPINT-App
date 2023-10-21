@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %} Usuarios de institución {% endblock %}
+{% block head %}{{ super() }}
+<script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/userModals.js') }}"></script>
+{% endblock %}
+{% block content %}
+{% include "modules/institution_roles/roles_list.html" %}
+{% include "components/pagination.html" %}
+{% endblock %}

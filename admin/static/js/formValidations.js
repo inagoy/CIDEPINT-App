@@ -19,11 +19,17 @@ function validateEmail(inputId, errorId) {
 	}
 }
 
+/**
+ * Validates if the input value contains only letters and spaces.
+ *
+ * @param {string} inputId - The ID of the input element.
+ * @param {string} errorId - The ID of the error element.
+ * @return {void} This function does not return anything.
+ */
 function validateJustText(inputId, errorId) {
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);
-	const pattern = /^[\p{L}\s´]+$/u;
-
+	const pattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
 	if (!pattern.test(input.value)) {
 		error.textContent = "Solo se permiten letras y espacios";
 		return false;
@@ -33,21 +39,35 @@ function validateJustText(inputId, errorId) {
 	}
 }
 
+/**
+ * Validates if the input value contains only numbers.
+ *
+ * @param {string} inputId - The id of the input element.
+ * @param {string} errorId - The id of the error element.
+ * @returns {boolean} Returns true if the input value contains only numbers, otherwise false.
+ */
 function validateJustNumber(inputId, errorId) {
-    const input = document.getElementById(inputId);
-    const error = document.getElementById(errorId);
-    const pattern = /^\d+$/; // Pattern for numbers only
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+	const pattern = /^\d+$/; // Pattern for numbers only
 
-    if (!pattern.test(input.value)) {
-        error.textContent = "Solo se permiten números";
+	if (!pattern.test(input.value)) {
+		error.textContent = "Solo se permiten números";
 		return false;
-    } else {
-        error.textContent = "";
+	} else {
+		error.textContent = "";
 		return true;
 	}
 }
 
-
+/**
+ * Validates the username input and displays an error message if the input is
+ * invalid. Returns true if the input is valid and false otherwise.
+ *
+ * @param {string} inputId - The id of the username input element.
+ * @param {string} errorId - The id of the element where the error message will be displayed.
+ * @return {boolean} - True if the username is valid, false otherwise.
+ */
 function validateUsername(inputId, errorId) {
 	const usernameInput = document.getElementById(inputId);
 	const usernameError = document.getElementById(errorId);
@@ -68,6 +88,12 @@ function validateUsername(inputId, errorId) {
 	}
 }
 
+/**
+ * Validates a password input and displays an error message if the password does not meet the criteria.
+ *
+ * @param {string} inputId - The ID of the password input element.
+ * @param {string} errorId - The ID of the error message element.
+ */
 function validatePassword(inputId, errorId) {
 	const passwordInput = document.getElementById(inputId);
 	const passwordError = document.getElementById(errorId);
@@ -86,29 +112,40 @@ function validatePassword(inputId, errorId) {
 	if (!/[A-Z]/.test(password)) {
 		passwordError.textContent = "La contraseña debe contener por lo menos una mayúscula";
 		return false;
-	}
-	else{
-		passwordError.textContent = "";
-		return true
-	}
-
-	
-}
-
-function validateDireccion(inputId, errorId) {
-    const input = document.getElementById(inputId);
-    const error = document.getElementById(errorId);
-    const pattern = /^[a-zA-Z\s.,-]*\d+[a-zA-Z0-9\s.,-]*$/; // Pattern to require at least one number
-
-    if (!pattern.test(input.value)) {
-        error.textContent = "La dirección debe contener al menos un número y puede incluir letras, números y signos de puntuación comunes";
-		return false
 	} else {
-        error.textContent = "";
-		return true
-    }
+		passwordError.textContent = "";
+		return true;
+	}
 }
 
+/**
+ * Validates the direccion input field by checking if it contains at least one number
+ *
+ * @param {string} inputId - the id of the direccion input field
+ * @param {string} errorId - the id of the error element to display the error message
+ * @return {boolean} true if the direccion is valid, false otherwise
+ */
+function validateDireccion(inputId, errorId) {
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+	const pattern = /^[a-zA-Z\s.,-áéíóúÁÉÍÓÚ]*\d+[a-zA-Z0-9\s.,-áéíóúÁÉÍÓÚ]*$/; // Pattern to require at least one number
+
+	if (!pattern.test(input.value)) {
+		error.textContent = "La dirección debe contener al menos un número y puede incluir letras, números y signos de puntuación comunes";
+		return false;
+	} else {
+		error.textContent = "";
+		return true;
+	}
+}
+
+/**
+ * Validates a phone number input and displays an error message if the phone number is not valid.
+ *
+ * @param {string} inputId - The ID of the phone number input element.
+ * @param {string} errorId - The ID of the error message element.
+ * @return {boolean} Returns true if the phone number is valid, false otherwise
+ */
 function validatePhoneNumber(inputId, errorId) {
 	const phoneNumberInput = document.getElementById(inputId);
 	const phoneNumberError = document.getElementById(errorId);
@@ -119,9 +156,70 @@ function validatePhoneNumber(inputId, errorId) {
 
 	if (!phoneNumberPattern.test(phoneNumberValue)) {
 		phoneNumberError.textContent = "Por favor ingrese un número de teléfono válido";
-		return false; // Prevent form submission
+		return false;
 	} else {
 		phoneNumberError.textContent = "";
-		return true; // Allow form submission
+		return true;
+	}
+}
+
+/**
+ * Validates a website input and displays an error message if the website is not valid.
+ *
+ * @param {string} inputId - The ID of the website input element.
+ * @param {string} errorId - The ID of the error message element.
+ * @return {boolean} Returns true if the phone number is valid, false otherwise
+ */
+function validateWebsite(inputId, errorId) {
+    const websiteInput = document.getElementById(inputId);
+	const websiteError = document.getElementById(errorId);
+
+    var urlPattern = /^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+
+	if (!urlPattern.test(websiteInput)) {
+		websiteError.textContent = "Por favor ingrese un sitio web válido";
+		return false;
+	} else {
+		phoneNumberError.textContent = "";
+		return true;
+	}
+}
+
+/**
+ * Validates keywords entered in an input field.
+ *
+ * @param {string} inputId - The ID of the input field.
+ * @param {string} errorId - The ID of the error element.
+ * @return {boolean} Returns true if the keywords are valid, false otherwise.
+ */
+function validateKeywords(inputId, errorId) {
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+
+	const keywordPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
+
+	if (!keywordPattern.test(input.value)) {
+		error.textContent = "Ingrese palabras separadas por comas";
+		return false;
+	} else {
+		error.textContent = "";
+		return true;
+	}
+}
+
+function validateKeywords(inputId, errorId) {
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+
+	const keywordPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
+
+	console.log("test", keywordPattern.test(input.value), input.value);
+
+	if (!keywordPattern.test(input.value)) {
+		error.textContent = "Ingrese palabras separadas por comas";
+		return false;
+	} else {
+		error.textContent = "";
+		return true;
 	}
 }

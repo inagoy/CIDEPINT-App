@@ -1,0 +1,86 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}institution_view{% endblock %}
+{% block header %}Ver Institución {% endblock %}
+
+{% block cuerpo %}
+<div id="confirm-message" class="modal-body modal-scrollable">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Nombre </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-name"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Información </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-info"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Dirección </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-address"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Locación </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-location"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Sitio Web </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-website"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Palabras de Búsqueda </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-keywords"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Días y Horarios de Atención </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-days-hours"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Información de Contacto </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-contact"> placeholder </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6> Estado </h6>
+            </div>
+            <div class="col-sm-8">
+                <p id="institution-state"> placeholder </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal"> Cerrar </button>
+{% endblock %}

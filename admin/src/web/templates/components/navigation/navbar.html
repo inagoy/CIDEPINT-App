@@ -1,0 +1,89 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand"
+	   href="{% if is_authenticated(session) %}{{ url_for('home.home_user') }}{% else %}{{ url_for('home.home') }}{% endif %}">
+		<img src="../../../../static/assets/logo-completo.png" alt="CIDEPINT"
+			 class="img-fluid logo d-none d-md-inline" />
+		<img src="../../../../static/assets/logo.png" alt="CIDEPINT"
+			 class="img-fluid logo d-md-none d-inline" />
+	</a>
+	{% if is_authenticated(session) %}
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+			aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+		<ul class="navbar-nav">
+			{% if superuser_session() %}
+			<!-- Visible for superuser -->
+			<li id="menu-instituciones" class="nav-item active">
+				<a class="nav-link d-flex align-items-center" href="{{ url_for('super.institutions')}}"> <i
+					   class="bi bi-house-door"></i>
+					<span class="ml-2"> Instituciones </span></a>
+			</li>
+			<li id="menu-usuario" class="nav-item active">
+				<a class="nav-link d-flex align-items-center" href="{{ url_for('super.users')}}"> <i
+					   class="bi bi-person-square"></i>
+					<span class="ml-2"> Usuarios</span></a>
+			</li>
+			<li id="menu-configuracion" class="nav-item active">
+				<a class="nav-link d-flex align-items-center" href="{{ url_for('super.view_config') }}"> <i
+					   class="bi bi-gear"></i>
+					<span class="ml-2"> Configuración </span></a>
+			</li>
+			{% elif user_institutions|length > 0 %}
+			<!-- Visible for users with roles but not superuser -->
+				<li id="menu-elegir-institucion" class="nav-item active dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+					aria-expanded="false">
+						<i class="bi bi-house d-inline"></i>
+						Elegir Institución
+					</a>
+					<div class="dropdown-menu">
+						{% for institution in user_institutions %}
+							<a class="dropdown-item 
+							{% if institution.id == session.get("current_institution")%}active{% endif %}"
+							href="{{ url_for('institution.institution', institution_id=institution.id) }}"
+							id="{{institution.id}}">{{institution.name}}</a>
+						{% endfor %}
+					</div>
+				</li>
+				<li id="menu-servicios" class="nav-item active">
+					<a class="nav-link d-flex align-items-center" href="{{ url_for('services.services')}}"> <i
+					   class="bi bi-card-list"></i>
+						<span class="ml-2"> Servicios</span></a>
+				</li>
+				<li id="menu-solicitudes" class="nav-item active">
+					<a class="nav-link d-flex align-items-center" href="{{ url_for('service_requests.service_requests')}}"> <i class="bi bi-truck"></i>
+						<span class="ml-2"> Solicitudes</span></a>
+				</li>
+				{% if is_owner(session.get("current_institution")) %}
+				<!-- Visible for owner -->
+					<li id="menu-usuario-institucion" class="nav-item active">
+						<a class="nav-link d-flex align-items-center" href="{{ url_for('institution.institution_roles') }}">
+							<i class="bi bi-people"></i>
+							<span class="ml-2"> Usuarios</span></a>
+					</li>
+					<li id="menu-editar-institucion" class="nav-item active">
+						<a class="nav-link d-flex align-items-center" href="{{ url_for('institution.edit_institution')}}"> <i
+							class="bi bi-arrow-down-right-square"></i>
+							<span class="ml-2"> Editar Institucion </span></a>
+					</li>
+				{% endif %}
+			{% endif %}
+			<!-- Visible for everyone -->
+			<li id="menu-cuenta" class="nav-item active dropdown">
+				<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+				   aria-expanded="false">
+					<i class="bi bi-person-circle d-inline"></i>
+					Cuenta
+				</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="{{ url_for('user.view_profile') }}">Ver perfil</a>
+					<a class="dropdown-item" href="{{ url_for('user.edit_profile') }}">Editar perfil</a>
+					<a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+	{% endif %}
+</nav>

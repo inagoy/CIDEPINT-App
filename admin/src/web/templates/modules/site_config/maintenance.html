@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/maintenance.css') }}">
+    <title>Sitio en Mantenimiento</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="maintenance-card">
+            <h1>¡Sitio en mantenimiento!</h1>
+            {% if maintenance_message %}
+            <h3 class="message">
+                {{maintenance_message}}
+                <i class="bi bi-tools"></i>
+            </h3>
+            {% endif %}
+        </div>
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='assets/maintenance.png') }}" alt="Imagen de mantenimiento">
+        </div>
+    </div>
+</body>
+</html>
+
+

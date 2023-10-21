@@ -1,3 +1,4 @@
+"""Users seeds."""
 from src.core.models.privileges import Role
 from src.core.models.user import User
 from src.core.models.user_role_institution import UserRoleInstitution
@@ -6,6 +7,7 @@ from src.core.bcrypt import bcrypt
 
 
 def create_admins():
+    """Create a new admin user with super admin privileges."""
     super_admin_role = Role.query.filter_by(name="Super Admin").first()
     data = {
         "first_name": "Super",
@@ -18,6 +20,7 @@ def create_admins():
         "gender": 'Masculino',
         "document_type": 'DNI',
         "document": '21233566',
+        "active": True
     }
     data["password"] = (bcrypt.generate_password_hash(data["password"]
                                                       .encode("utf-8")))
@@ -36,12 +39,6 @@ def seed_users() -> None:
 
     This function populates the database with initial user data
     for testing and development purposes.
-
-    Args:
-        None
-
-    Returns:
-        None
     """
     create_admins()
 
@@ -56,6 +53,7 @@ def seed_users() -> None:
          "gender": 'Masculino',
          "document_type": 'DNI',
          "document": '40233566',
+         "active": True,
          },
 
 
@@ -69,6 +67,7 @@ def seed_users() -> None:
          "gender": 'Femenino',
          "document_type": 'DNI',
          "document": '39233566',
+         "active": True,
          }
     ]
 

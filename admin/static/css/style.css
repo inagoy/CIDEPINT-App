@@ -19,6 +19,10 @@ i {
 	font-size: 1.4em;
 }
 
+ul {
+	list-style: none;
+  }
+
 /* layout */
 #main {
 	min-height: 85vh;
@@ -66,7 +70,11 @@ i {
     margin-top: 3px;
 }
 
-.dropdown-item-selected {
-	background-color: #c8bcbc; 
-    font-weight: bold;
+.list-group-item span {
+    font-size: 1rem;
+}
+
+.modal-scrollable {
+    max-height: 60vh; /* Set the maximum height to your preference */
+    overflow-y: auto;
 }
