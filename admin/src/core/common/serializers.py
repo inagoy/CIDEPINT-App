@@ -111,9 +111,9 @@ class SiteConfigValidator(ValidateSerializer):
         "items_per_page": [v.validate_just_number, "*"],
         "maintenance_mode": [
             v.validate_string_as_boolean, v.validate_not_empty, "*"],
-        "maintenance_message": [v.validate_string, v.validate_not_empty],
+        "maintenance_message": [v.validate_string, v.validate_not_empty, "*"],
         "contact_info": [
-            v.validate_string, v.validate_str_len, v.validate_not_empty],
+            v.validate_string, v.validate_str_len, v.validate_not_empty, "*"],
     }
 
 
