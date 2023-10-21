@@ -1,28 +1,49 @@
-"""
-from marshmallow import validates, fields
-from src.core.schemas import BaseSchema, PaginateValidationSchema
-from src.core.models.service import ServiceRequest
+from marshmallow import validates, validate, fields
+from src.core.schemas import BaseSchema, IdSchema, PaginateValidationSchema
+from src.core.common import validators as v
 
 
 class ServiceRequestValidateSchema(PaginateValidationSchema):
     sort = fields.Str(
-        required=True,
-        validate=validates.OneOf(
-            ServiceRequest.__table__.columns.keys()
-            ),
         missing="id"
     )
     order = fields.Str(
-        required=True,
-        validate=validates.OneOf(["asc", "desc"]),
         missing="desc"
     )
+    user_id = fields.Int(
+        required=True,
+        validate=validate.Range(min=1)
+    )
+
+    @validates("sort")
+    def validate_sort(self, value):
+        v.validate_request_atribute(value)
+
+    @validates("order")
+    def validate_order(self, value):
+        v.validate_order(value)
 
 
 class ServiceRequestModelSchema(BaseSchema):
     title = fields.String(required=True)
-    creation_date = fields.Date(format='%Y-%m-%d', required=True)
-    close_date = fields.Date(format='%Y-%m-%d', required=True)
-    status = fields.String(required=True)
+    creation_date = fields.Date(
+        format='%Y-%m-%d', required=True, attribute="inserted_at"
+        )
+    close_date = fields.Date(
+        format='%Y-%m-%d', required=True, attribute="closed_at"
+        )
+    status = fields.Method(
+        "status_display", description="Status"
+    )
+
+    def status_display(self, obj):
+        return obj.status.value
+
     description = fields.String()
- """
+
+
+class GetServiceRequestValidateSchema(IdSchema):
+    request_id = fields.Int(
+        required=True,
+        validate=validate.Range(min=1)
+    )

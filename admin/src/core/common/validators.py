@@ -1,6 +1,6 @@
 import re
 import datetime
-from src.core.models.service import StatusEnum
+from src.core.models.service import ServiceRequest, StatusEnum
 from marshmallow import ValidationError
 from src.core.models.institution import Institution
 from src.core.models.service import ServiceTypeEnum
@@ -442,3 +442,17 @@ def validate_no_institution_name(institution_name: str):
         raise ValidationError(
             f"La institución '{institution_name}' ya está registrada")
     return institution_name
+
+
+def validate_request_atribute(value):
+    if value not in ServiceRequest.__table__.columns.keys():
+        raise ValidationError(
+            f"El tipo de servicio '{value}' no es válido")
+    return value
+
+
+def validate_order(value):
+    if value not in ['asc', 'desc']:
+        raise ValidationError(
+            f"El orden '{value}' no es valido")
+    return value
