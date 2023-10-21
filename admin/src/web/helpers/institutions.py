@@ -1,8 +1,11 @@
+"""Helpers for institutions."""
+
+
 def parse_institution(institution):
     """
-    Generates a dictionary with the institution's information.
+    Generate a dictionary with the institution's information.
 
-    Args:
+    Parameters:
         institution (Institution): The user object containing the
         institution's information.
 
@@ -26,4 +29,5 @@ def parse_institution(institution):
 
 
 def get_name(institution):
+    """Return the name of the institution."""
     return institution.name

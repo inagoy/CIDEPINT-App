@@ -1,8 +1,9 @@
+"""App configuration."""
 from os import environ
 
 
 class Config(object):
-    """ Base configuration. """
+    """Base configuration."""
 
     SECRET_KEY = "secret"
     DEBUG = False
@@ -19,7 +20,7 @@ class Config(object):
 
 
 class ProductionConfig(Config):
-    """ Production configuration. """
+    """Production configuration."""
 
     DB_USER = environ.get("DB_USER")
     DB_PASS = environ.get("DB_PASS")
@@ -33,7 +34,7 @@ class ProductionConfig(Config):
 
 
 class DevelopmentConfig(Config):
-    """ Development configuration. """
+    """Development configuration."""
 
     DEBUG = True
     DB_USER = environ.get("DB_USER")
@@ -47,7 +48,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    """ Testing configuration. """
+    """Testing configuration."""
 
     TESTING = True
     pass

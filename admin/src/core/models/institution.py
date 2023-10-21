@@ -1,3 +1,4 @@
+"""Institution model."""
 from datetime import datetime
 from src.core.database import db
 from src.core.models.base_model import BaseModel
@@ -5,6 +6,8 @@ from src.core.models.user_role_institution import UserRoleInstitution
 
 
 class Institution(BaseModel):
+    """Institution."""
+
     __tablename__ = "institutions"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
@@ -38,9 +41,8 @@ class Institution(BaseModel):
 
     @classmethod
     def save(cls, name: str, info: str, **kwargs) -> object:
-        """save
-        Create and save a new institution in the database, only name and info
-        are required attributes
+        """
+        Create and save a new institution in the database.
 
         Args:
             name (str): The name of the institution.
@@ -57,10 +59,20 @@ class Institution(BaseModel):
 
     @classmethod
     def is_enabled(cls, institution_id):
+        """Return if the institution is enabled."""
         return cls.query.filter_by(id=institution_id).first().enabled
 
     @classmethod
     def get_enabled_institutions_for_user(cls, user_id):
+        """
+        Get the list of enabled institutions for a specific user.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            List[Institution]: A list of enabled Institution objects.
+        """
         institutions = Institution.query.join(UserRoleInstitution).filter(
             UserRoleInstitution.user_id == user_id,
             Institution.enabled
@@ -69,6 +81,16 @@ class Institution(BaseModel):
 
     @classmethod
     def get_institutions_owned_by_user(cls, user_id):
+        """
+        Retrieve the institutions owned by a specific user.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            List[Institution]: A list of Institution objects
+                representing the institutions owned by the user.
+        """
         institutions = Institution.query.join(UserRoleInstitution).filter(
             UserRoleInstitution.user_id == user_id,
             UserRoleInstitution.role_id == 2

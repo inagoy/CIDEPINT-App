@@ -1,3 +1,4 @@
+"""User model."""
 from datetime import datetime
 from src.core.database import db
 from enum import Enum as EnumBase
@@ -9,17 +10,23 @@ from sqlalchemy import and_
 
 
 class GenderEnum(EnumBase):
+    """Gender enum."""
+
     MASCULINO = 'Masculino'
     FEMENINO = 'Femenino'
     NO_BINARIO = 'No binario'
 
 
 class DocumentEnum(EnumBase):
+    """Document enum."""
+
     DNI = 'DNI'
     PASAPORTE = 'Pasaporte'
 
 
 class User(BaseModel):
+    """User."""
+
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     first_name = db.Column(db.String(255), nullable=False)
@@ -67,10 +74,9 @@ class User(BaseModel):
         Args:
             **kwargs: Keyword arguments for user attributes.
 
-        Returns:
+        Return:
             User: The created user object.
         """
-
         user = User(**kwargs)
         db.session.add(user)
         db.session.commit()
@@ -78,22 +84,36 @@ class User(BaseModel):
 
     @classmethod
     def find_user_by_email(cls, email):
+        """Return the user with the given email."""
         return cls.query.filter_by(email=email).first()
 
     @classmethod
     def find_user_by_username(cls, username):
+        """Return the user with the given username."""
         return cls.query.filter_by(username=username).first()
 
     @classmethod
     def find_user_by_document(cls, document):
+        """Return the user with the given document."""
         return cls.query.filter_by(document=document).first()
 
     @classmethod
     def find_user_by_phone_number(cls, phone_number):
+        """Return the user with the given phone number."""
         return cls.query.filter_by(phone_number=phone_number).first()
 
     @classmethod
     def get_user_institutions(cls, user_id: int):
+        """
+        Retrieve the institutions associated with a given user.
+
+        Parameters:
+            user_id (int): The ID of the user.
+
+        Return:
+            List[Institution]: A list of Institution objects
+            representing the institutions associated with the user.
+        """
         query = (UserRoleInstitution.get_roles_institutions_of_user(user_id))
 
         institutions = [Institution.get_by_id
@@ -103,14 +123,26 @@ class User(BaseModel):
         return institutions
 
     def get_institution(self):
+        """Return the institution associated with the user."""
         return self.get_user_institutions(self.id)
 
     @classmethod
     def get_role_in_institution(cls, user_id: int,
                                 institution_id: int = None) -> object:
+        """
+        Return the role associated with the user.
 
+        Args:
+            user_id (int): The ID of the user.
+            institution_id (int, optional): The ID of the institution.
+                Defaults to None.
+
+        Returns:
+            object: The role associated with the user.
+        """
         roles = (UserRoleInstitution.get_roles_institutions_of_user
                  (user_id=user_id))
+        """Return the role associated with the user."""
         if not roles:
             return None
 
@@ -123,30 +155,50 @@ class User(BaseModel):
 
     @classmethod
     def get_gender_name(cls, user_id: int):
+        """Return the gender associated with the user."""
         gender = cls.query.filter_by(id=user_id).first().gender
         return GenderEnum(gender).name.capitalize()
 
     @classmethod
     def get_document_type_name(cls, user_id: int):
+        """Return the document type associated with the user."""
         document_type = cls.query.filter_by(id=user_id).first().document_type
         return DocumentEnum(document_type).name
 
     @classmethod
     def get_all(cls):
+        """Return all users."""
         return cls.query.filter(and_(
             cls.id != 1, cls.email != session["user"]))
 
     @classmethod
     def get_active_users(cls):
+        """Return active users."""
         return cls.get_all().filter(cls.active)
 
     @classmethod
     def get_inactive_users(cls):
-        return cls.get_all().filter(cls.active.is_(False))
+        """Return inactive users."""
+        return cls.get_all().filter(cls.active==False)
 
     @classmethod
     def get_users_paginated(cls, page, per_page=None,
                             active=True, inactive=True):
+        """
+        Retrieve a paginated list of users based on the specified parameters.
+
+        Args:
+            page (int): The page number of the results to retrieve.
+            per_page (int, optional): The number of results per page.
+                Defaults to None.
+            active (bool): Flag indicating whether to include active users.
+                Defaults to True.
+            inactive (bool): Flag indicating whether to include inactive users.
+                Defaults to True.
+
+        Returns:
+            Pagination: The paginated list of users.
+        """
         if active and inactive:
             users = cls.get_all()
         elif active:
@@ -158,13 +210,37 @@ class User(BaseModel):
 
     @classmethod
     def get_users_by_email_paginated(cls, email, page, per_page=None):
+        """
+        Get users by email with pagination.
+
+        Args:
+            email (str): The email address to search for.
+            page (int): The page number of the results.
+            per_page (int, optional): The number of results per page.
+                Defaults to None.
+
+        Returns:
+            Query: A query object containing the paginated results.
+        """
         users = cls.get_all().filter(cls.email.like(f"%{email}%"))
         return cls.get_query_paginated(users, page, per_page)
 
     @classmethod
     def get_users_by_institution_paginated(cls, institution_id: int,
                                            page, per_page=None):
+        """
+        Retrieve a paginated list of users associated with the institution.
 
+        Parameters:
+            - institution_id (int): The ID of the institution.
+            - page (int): The page number of the results to retrieve.
+            - per_page (int, optional): The number of results to retrieve
+                per page. Defaults to None.
+
+        Returns:
+            - Pagination: The paginated list of users associated with
+                the institution.
+        """
         users = cls.get_all().join(UserRoleInstitution).filter(
             UserRoleInstitution.institution_id == institution_id)
         return cls.get_query_paginated(users, page, per_page)

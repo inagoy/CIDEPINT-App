@@ -1,3 +1,4 @@
+"""Institution configuration module controllers."""
 from flask import render_template, request, flash, redirect, url_for
 from src.core.models.institution import Institution
 from src.web.helpers.institutions import get_name
@@ -6,7 +7,7 @@ from src.core.common import serializers as s
 
 def institutions():
     """
-    Retrieves a list of institutions and renders the institutions page.
+    Retrieve a list of institutions and renders the institutions page.
 
     Returns:
         str: The rendered HTML page for the institutions.
@@ -24,6 +25,17 @@ def institutions():
 
 
 def add_institution():
+    """
+    Add an institution to the system.
+
+    This function takes no parameters.
+
+    Returns:
+    - None: If the institution validation fails
+        or if the institution cannot be saved.
+    - Redirect: If the institution is successfully saved,
+        redirects to the 'super.institutions' route.
+    """
     key_mapping = {
         'inputName': 'name',
         'inputInfo': 'info',
@@ -55,6 +67,15 @@ def add_institution():
 
 
 def edit_institution(institution_id):
+    """
+    Edit an institution based on the given institution ID.
+
+    Parameters:
+        institution_id (int): The ID of the institution to be edited.
+
+    Returns:
+        redirect: Redirects to the institutions page after editing.
+    """
     institution = Institution.get_by_id(institution_id)
     if institution:
         key_mapping = {'inputNameEdit': 'name',
@@ -96,6 +117,7 @@ def edit_institution(institution_id):
 
 
 def delete_institution():
+    """Delete an institution from the database."""
     institution_id = request.form["institution_id"]
     response = Institution.delete(institution_id)
     if response:

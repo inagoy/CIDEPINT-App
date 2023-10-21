@@ -185,6 +185,13 @@ function validateWebsite(inputId, errorId) {
 	}
 }
 
+/**
+ * Validates keywords entered in an input field.
+ *
+ * @param {string} inputId - The ID of the input field.
+ * @param {string} errorId - The ID of the error element.
+ * @return {boolean} Returns true if the keywords are valid, false otherwise.
+ */
 function validateKeywords(inputId, errorId) {
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);

@@ -15,19 +15,25 @@
             <div class="d-flex w-100 justify-content-between flex-column flex-sm-row">
                 <h6 class="pt-2"> {{ get_name(element) }} </h6>
 
-                {% if 'super.users' in request.endpoint %}
+                {% if 'super.users' in request.endpoint or 'super.active' in request.endpoint 
+                or 'super.inactive' in request.endpoint or 'super.search' in request.endpoint %}
                     {% include "modules/users/users_actions.html" %}
+
                 {% elif 'institution.institution_roles' in request.endpoint or
                 'institution.user_search' in request.endpoint %}
                     {% include "modules/institution_roles/roles_actions.html" %}
+
                 {% elif 'services.services' in request.endpoint %}
                         {% include "modules/services/services_actions.html" %}
+
                 {% elif 'service_requests' in request.endpoint %}
                     {% include "modules/service_requests/service_requests_actions.html" %}
                     
                 {% elif 'super.institutions' in request.endpoint %}
                     {% include "modules/institutions/institutions_actions.html" %}
                 {% endif %}
+
+
 
             </div>
 

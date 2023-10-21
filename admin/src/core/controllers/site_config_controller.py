@@ -1,9 +1,11 @@
+"""Site configuration module controllers."""
 from flask import render_template, flash, redirect, url_for
 from src.core.common import serializers as s
 from src.core.models.site_config import SiteConfig
 
 
 def in_maintenance_mode():
+    """Return True if the site is currently in maintenance mode."""
     site_config = SiteConfig.get_config()
 
     context = {
@@ -15,6 +17,7 @@ def in_maintenance_mode():
 
 
 def view_config():
+    """Get the site configuration."""
     site_config = SiteConfig.get_config()
 
     context = {

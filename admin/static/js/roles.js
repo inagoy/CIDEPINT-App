@@ -20,6 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	inputRoleSelect.addEventListener("change", updateButtonState);
 });
 
+/**
+ * Deletes a role.
+ *
+ * @param {Object} button - The button element that triggers the deletion.
+ * @return {undefined} This function does not return a value.
+ */
 function deleteRole(button) {
 	let modal = document.getElementById("role_delete");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data

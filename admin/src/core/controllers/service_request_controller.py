@@ -1,3 +1,5 @@
+"""ServiceRequestController."""
+
 from datetime import datetime
 from src.core.models.user import User
 from src.core.models.privileges import Role
@@ -10,10 +12,17 @@ from src.web.helpers.session import not_enabled_and_not_owner
 
 
 def get_service_request_name(service_request):
+    """Return the name of a service request."""
     return service_request.title
 
 
 def service_requests():
+    """
+    Retrieve and filter service requests based on various parameters.
+
+    Returns:
+        render_template: The rendered HTML of the service requests page.
+    """
     institution_id = session['current_institution']
     not_enabled_and_not_owner(institution_id)
     user = User.find_user_by_email(session.get('user'))
@@ -64,6 +73,15 @@ def service_requests():
 
 
 def edit_service_request(service_request_id):
+    """
+    Edit a service request based on the given service_request_id.
+
+    Args:
+        service_request_id (int): The ID of the service request to be edited.
+
+    Returns:
+        redirect: Redirects to the service_requests page.
+    """
     service_request = ServiceRequest.get_by_id(service_request_id)
     if service_request:
         key_mapping = {'inputObservations': 'observations',
@@ -90,12 +108,24 @@ def edit_service_request(service_request_id):
 
 
 def delete_service_request():
+    """Delete a service request based on the given service_request_id."""
     service_request_id = request.form.get('request_id')
     ServiceRequest.delete(service_request_id)
     return redirect(url_for('service_requests.service_requests'))
 
 
 def notes(service_request_id):
+    """
+    Retrieve the notes associated with a service request.
+
+    Parameters:
+        service_request_id (int): The ID of the service request
+        to retrieve notes for.
+
+    Returns:
+        flask.Response: The rendered HTML page containing
+        the notes and other related information.
+    """
     service_request = ServiceRequest.get_by_id(service_request_id)
     notes = Note.get_notes_of_service_request(service_request_id)
     return render_template(
@@ -108,6 +138,15 @@ def notes(service_request_id):
 
 
 def new_note(service_request_id):
+    """
+    Save a new note for a given service request.
+
+    Parameters:
+        service_request_id (int): The ID of the service request.
+
+    Returns:
+        redirect: A redirect to the notes page.
+    """
     text = request.form.get('message')
     user_id = User.find_user_by_email(session['user']).id
     Note.save(text, user_id, service_request_id)
