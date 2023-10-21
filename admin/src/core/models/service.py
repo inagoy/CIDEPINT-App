@@ -1,6 +1,8 @@
 """Service model."""
 from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
+
+from sqlalchemy import or_
 from src.core.database import db
 from src.core.models.base_model import BaseModel
 from sqlalchemy import and_
@@ -95,6 +97,34 @@ class Service(BaseModel):
         """
         query = cls.query.filter_by(institution_id=institution_id)
         return cls.get_query_paginated(query, page)
+
+    @classmethod
+    def search_by_keyword(
+        cls, q, page=1, per_page=None, type=None
+    ):
+        base_query = cls.query.filter(
+            or_(
+                cls.name.ilike(f"%{q}%"),
+                cls.keywords.ilike(f"%{q}%"),
+                cls.description.ilike(f"%{q}%")
+            )
+        )
+        if type is not None:
+            base_query = base_query.filter(
+                cls.service_type == type
+            )
+        return cls.get_query_paginated(
+            base_query, page=page, per_page=per_page
+        )
+
+    @classmethod
+    def get(cls, id):
+        return cls.query.get(id)
+
+    @classmethod
+    def get_all_service_types(cls):
+        service_types = db.session.query(cls.service_type).distinct().all()
+        return [type_[0].value for type_ in service_types]
 
 
 class StatusEnum(EnumBase):
@@ -216,6 +246,19 @@ class ServiceRequest(BaseModel):
         institutions = query.filter(and_(*conditions))
 
         return cls.get_query_paginated(institutions, page)
+
+    @classmethod
+    def get_user_sorted_paginated(cls, user_id: int, page: int, per_page: int, sort: str,
+                             order: str):
+        query = cls.query.filter_by(requester_id=user_id).order_by(
+            getattr(cls, sort).desc() if order == 'desc' else
+            getattr(cls, sort).asc()
+        )
+        return cls.get_query_paginated(query, page, per_page)
+
+    @classmethod
+    def get_by_id_and_user(cls, user_id: int, id: int):
+        return cls.query.filter_by(id=id, requester_id=user_id).first()
 
 
 class Note(BaseModel):
