@@ -15,18 +15,10 @@ def institutions():
     page = request.args.get("page", 1, type=int)
     institutions = Institution.get_paginated(page)
 
-    add_function = "addInstitution()"
-    edit_function = "editInstitution(this)"
-    view_function = "viewInstitution(this)"
-    delete_function = "deleteInstitution(this)"
     return render_template(
         "pages/institutions.html",
         title=title,
         elements=institutions,
-        add_function=add_function,
-        view_function=view_function,
-        edit_function=edit_function,
-        delete_function=delete_function,
         get_name=get_name,
     )
 

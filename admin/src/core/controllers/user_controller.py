@@ -11,7 +11,7 @@ def view_profile(request):
         "user": user,
         "user_institutions": users.get_institutions_user(),
     }
-    return render_template("profile/profile.html", **context)
+    return render_template("modules/profile/profile.html", **context)
 
 
 def edit_profile(request):
@@ -50,14 +50,15 @@ def edit_profile(request):
         if errors:
             for error in errors:
                 flash(error, 'danger')
-            return render_template("profile/edit_profile.html", **context)
+            return render_template("modules/profile/edit_profile.html",
+                                   **context)
 
         userUpdated = User.update(user.id, **form)
         if userUpdated:
             flash("Perfil actualizado", "success")
             return redirect(url_for("user.view_profile"))
 
-    return render_template("profile/edit_profile.html", **context)
+    return render_template("modules/profile/edit_profile.html", **context)
 
 
 def change_password(request):
@@ -75,7 +76,7 @@ def change_password(request):
         if not (bcrypt.check_password_hash(user.password,
                                            form["current_password"])):
             flash("Contraseña incorrecta", "danger")
-            return render_template("profile/change_password.html")
+            return render_template("modules/profile/change_password.html")
 
         serializer = s.ChangePasswordSerializer().validate(form)
 
@@ -87,7 +88,7 @@ def change_password(request):
                           1 mayúscula,
                           1 minúscula.""", 'danger')
 
-            return render_template("profile/change_password.html")
+            return render_template("modules/profile/change_password.html")
         if form["new_password"] != form["confirm_password"]:
             flash("Las contraseñas no coinciden", 'danger')
             return redirect(url_for("user.change_password"))
@@ -101,4 +102,4 @@ def change_password(request):
         flash("Contraseña actualizada", "success")
         return redirect(url_for("user.view_profile"))
 
-    return render_template("profile/change_password.html", **context)
+    return render_template("modules/profile/change_password.html", **context)

@@ -393,7 +393,7 @@ def validate_website(website: str):
         True if the website is a valid URL, False otherwise.
     """
 
-    pattern = r'^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$'
+    pattern = r'^(www.)?[-a-zA-Z0-9@:%.+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%+.~#?&//=]*)$'
 
     if re.match(pattern, website):
         return True

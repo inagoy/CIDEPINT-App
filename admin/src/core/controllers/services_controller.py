@@ -18,7 +18,6 @@ def services():
     page = request.args.get("page", 1, type=int)
     services = Service.get_services_of_institution_paginated(
         page=page, institution_id=institution_id)
-
     user = User.find_user_by_email(session.get('user'))
 
     role_id = User.get_role_in_institution(user_id=user.id,
@@ -44,11 +43,12 @@ def add_service():
                    'inputDescription': 'description',
                    'inputKeywords': 'keywords',
                    'inputServiceType': 'service_type',
-                   'inputEnabled': 'enabled'}
+                   'inputEnabled': 'enabled'
+                   }
 
     data = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
-    data['enabled'] = data['enabled'] is not None
+    data["enabled"] = request.form.get('inputEnabled') is not None
     data['institution_id'] = session['current_institution']
 
     serializer = s.ServiceDataSerializer().validate(data)

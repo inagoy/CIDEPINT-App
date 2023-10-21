@@ -6,6 +6,7 @@ from src.core.models.service import Note, ServiceRequest
 from src.core.common import serializers as s
 from src.web.helpers.services import filter_conditions
 from src.web.helpers.users import get_institutions_user
+from src.web.helpers.session import not_enabled_and_not_owner
 
 
 def get_service_request_name(service_request):
@@ -13,6 +14,8 @@ def get_service_request_name(service_request):
 
 
 def service_requests():
+    institution_id = session['current_institution']
+    not_enabled_and_not_owner(institution_id)
     user = User.find_user_by_email(session.get('user'))
     title = "Administración de solicitudes de servicio"
     page = request.args.get("page", 1, type=int)

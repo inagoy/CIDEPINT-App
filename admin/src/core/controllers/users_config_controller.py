@@ -22,19 +22,11 @@ def users():
     title = "Administración de usuarios"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_paginated(page)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
@@ -50,19 +42,11 @@ def active():
     title = "Administración de usuarios"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_paginated(page, inactive=False)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
@@ -78,19 +62,11 @@ def inactive():
     title = "Administración de usuarios"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_paginated(page, active=False)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
@@ -100,19 +76,11 @@ def search():
     page = request.args.get("page", 1, type=int)
     users = User.get_users_by_email_paginated(
         email=request.form.get('search'), page=page)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
