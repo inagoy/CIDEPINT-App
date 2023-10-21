@@ -1,3 +1,4 @@
+"""Service model."""
 from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
 from src.core.database import db
@@ -6,12 +7,16 @@ from sqlalchemy import and_
 
 
 class ServiceTypeEnum(EnumBase):
+    """ServiceTypeEnum."""
+
     ANALISIS = 'Análisis'
     CONSULTORIA = 'Consultoría'
     DESARROLLO = 'Desarrollo'
 
 
 class Service(BaseModel):
+    """Service."""
+
     __tablename__ = 'services'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
@@ -47,7 +52,7 @@ class Service(BaseModel):
              keywords: str, service_type: str,
              institution_id: int, **kwargs) -> object:
         """
-        Saves a new service to the database.
+        Save a new service to the database.
 
         Args:
             name (str): The name of the service.
@@ -61,7 +66,6 @@ class Service(BaseModel):
         Returns:
             Service: The newly created service object.
         """
-
         service = Service(name=name, description=description,
                           keywords=keywords, service_type=service_type,
                           institution_id=institution_id, **kwargs)
@@ -71,6 +75,7 @@ class Service(BaseModel):
 
     @classmethod
     def get_service_type_name(cls, service_id: int):
+        """Return the service type associated with the service."""
         service = cls.query.filter_by(id=service_id).first().service_type
         return ServiceTypeEnum(service).name.capitalize()
 
@@ -78,11 +83,23 @@ class Service(BaseModel):
     def get_services_of_institution_paginated(
             cls, page: int, institution_id: int
     ):
+        """
+        Get the paginated list of services for a given institution.
+
+        Args:
+            page (int): The page number to retrieve.
+            institution_id (int): The ID of the institution.
+
+        Returns:
+            PaginatedQuery: The paginated query object containing the services.
+        """
         query = cls.query.filter_by(institution_id=institution_id)
         return cls.get_query_paginated(query, page)
 
 
 class StatusEnum(EnumBase):
+    """StatusEnum."""
+
     ACEPTADA = "Aceptada"
     RECHAZADA = "Rechazada"
     EN_PROCESO = "En proceso"
@@ -91,6 +108,8 @@ class StatusEnum(EnumBase):
 
 
 class ServiceRequest(BaseModel):
+    """ServiceRequest."""
+
     __tablename__ = 'service_requests'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
@@ -130,7 +149,19 @@ class ServiceRequest(BaseModel):
     def save(cls, title: str, description: str,
              service_id: str, requester_id: str,
              **kwargs) -> object:
+        """
+        Save a service request to the database.
 
+        Args:
+            title (str): The title of the service request.
+            description (str): The description of the service request.
+            ervice_id (str): The ID of the service associated with the request.
+            requester_id (str): The ID of the user making the request.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            object: The saved service request object.
+        """
         service_request = ServiceRequest(
             title=title, description=description,
             service_id=service_id, requester_id=requester_id,
@@ -144,6 +175,17 @@ class ServiceRequest(BaseModel):
     def get_service_requests_of_service_paginated(
             cls, page: int, service_id: int
     ):
+        """
+        Get the service requests of a specific service in a paginated manner.
+
+        Args:
+            page (int): The page number of the paginated results.
+            service_id (int): The ID of the service.
+
+        Returns:
+            Pagination: The paginated service requests 
+            of the specified service.
+        """
         query = cls.query.filter_by(service_id=service_id)
         return cls.get_query_paginated(query, page)
 
@@ -151,6 +193,7 @@ class ServiceRequest(BaseModel):
     def get_service_requests_of_institution(
             cls, institution_id: int
     ):
+        """Return the service requests of an institution."""
         query = cls.query.join(Service).filter(
             Service.institution_id == institution_id
         )
@@ -160,12 +203,14 @@ class ServiceRequest(BaseModel):
     def get_service_requests_of_institution_paginated(
             cls, page: int, institution_id: int
     ):
+        """Return the paginated service requests of an institution."""
         query = cls.get_service_requests_of_institution(institution_id)
         return cls.get_query_paginated(query, page)
 
     @classmethod
     def of_institution_filtered_paginated(cls, page: int, institution_id: int,
                                           conditions: list):
+        """Return the filtered paginated service requests of an institution."""
         query = cls.get_service_requests_of_institution(institution_id)
 
         institutions = query.filter(and_(*conditions))
@@ -174,6 +219,8 @@ class ServiceRequest(BaseModel):
 
 
 class Note(BaseModel):
+    """Note."""
+
     __tablename__ = 'notes'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
@@ -199,7 +246,18 @@ class Note(BaseModel):
     def save(cls, text: str, user_id: str,
              service_request_id: str, **kwargs
              ) -> object:
+        """
+        Save the given text as a note for a specific user and service request.
 
+        Args:
+            text (str): The text of the note.
+            user_id (str): The ID of the user.
+            service_request_id (str): The ID of the service request.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            object: The saved note object.
+        """
         note = Note(
             text=text, user_id=user_id,
             service_request_id=service_request_id, **kwargs
@@ -210,4 +268,5 @@ class Note(BaseModel):
 
     @classmethod
     def get_notes_of_service_request(cls, service_request_id: str):
+        """Return the notes of a specific service request."""
         return cls.query.filter_by(service_request_id=service_request_id).all()

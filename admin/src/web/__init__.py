@@ -1,3 +1,4 @@
+"""Initialize the web app."""
 from flask import Flask
 from flask_session import Session
 from src.core import database
@@ -13,7 +14,18 @@ session = Session()
 
 
 def create_app(env="development", static_folder="../../static"):
+    """
+    Create a Flask application.
 
+    Parameters:
+    - env (str): The environment to run the application in. Default is
+    "development".
+    - static_folder (str): The path to the static folder. Default is
+    "../../static".
+
+    Returns:
+    - app (Flask): The Flask application object.
+    """
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
 

@@ -30,6 +30,12 @@
     openModal(modal);
 }
 
+/**
+ * Edit an institution based on the button clicked.
+ *
+ * @param {HTMLElement} button - The button element that was clicked.
+ * @return {void} This function does not return a value.
+ */
 function editInstitution(button) {
     let modal = document.getElementById("institution_edit");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
@@ -59,6 +65,12 @@ function editInstitution(button) {
 	openModal(modal);
 }
 
+/**
+ * Deletes an institution.
+ *
+ * @param {Element} button - The button element that triggered the delete action.
+ * @return {undefined} This function does not return a value.
+ */
 function deleteInstitution(button) {
 	let modal = document.getElementById("institution_delete");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
@@ -66,6 +78,11 @@ function deleteInstitution(button) {
 	openModal(modal);
 }
 
+/**
+ * Adds an institution by opening a modal window.
+ *
+ * @param {HTMLElement} modal - The HTML element representing the modal window.
+ */
 function addInstitution() {
 	let modal = document.getElementById("institution_add");
 	openModal(modal);

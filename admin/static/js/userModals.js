@@ -25,6 +25,12 @@ function viewUser(button) {
 	openModal(modal);
 }
 
+/**
+ * Edits the user information based on the data provided by the button element.
+ *
+ * @param {Element} button - The button element that triggered the edit action.
+ * @return {void} This function does not return anything.
+ */
 function editUser(button) {
 	let modal = document.getElementById("user_edit");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
@@ -70,6 +76,12 @@ function editUser(button) {
 	openModal(modal);
 }
 
+/**
+ * Deletes a user.
+ *
+ * @param {Element} button - The button element that triggered the delete action.
+ * @return {undefined} This function does not return a value.
+ */
 function deleteUser(button) {
 	let modal = document.getElementById("user_delete");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
@@ -78,11 +90,23 @@ function deleteUser(button) {
 	openModal(modal);
 }
 
+/**
+ * Adds a user by opening a modal.
+ *
+ * @param {type} paramName - description of parameter
+ * @return {type} description of return value
+ */
 function addUser() {
 	let modal = document.getElementById("user_add");
 	openModal(modal);
 }
 
+/**
+ * Opens the user roles modal when a button is clicked.
+ *
+ * @param {Element} button - The button element that triggers the modal.
+ * @return {undefined} This function does not return a value.
+ */
 function userRoles(button) {
 	let modal = document.getElementById("user_roles");
 

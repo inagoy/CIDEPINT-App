@@ -1,3 +1,4 @@
+"""User controllers."""
 from flask import render_template, flash, redirect, url_for, session
 from src.core.models.user import User, GenderEnum, DocumentEnum
 from src.core.common import serializers as s
@@ -6,6 +7,7 @@ from src.web.helpers import users
 
 
 def view_profile(request):
+    """Return the profile page."""
     user = User.find_user_by_email(session.get("user"))
     context = {
         "user": user,
@@ -15,6 +17,7 @@ def view_profile(request):
 
 
 def edit_profile(request):
+    """Return the edit profile page."""
     user = User.find_user_by_email(session.get("user"))
     context = {
             "user": user,
@@ -62,6 +65,7 @@ def edit_profile(request):
 
 
 def change_password(request):
+    """Change the user's password."""
     user = User.find_user_by_email(session.get("user"))
     context = {
         "user_institutions": users.get_institutions_user(),

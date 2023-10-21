@@ -1,3 +1,4 @@
+"""Routes for the application."""
 from src.web.routes.auth_routes import auth_bp
 from src.web.routes.register_routes import register_bp
 from src.web.routes.user_routes import user_bp
@@ -13,7 +14,7 @@ def set_routes(app) -> None:
     """
     Register the blueprints for the different routes of the application.
 
-    Args:
+    Parameters:
         app: The Flask application instance.
 
     Returns:

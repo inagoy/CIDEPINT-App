@@ -1,3 +1,4 @@
+"""Services controllers."""
 from flask import render_template, session, request, redirect, url_for, flash
 from src.core.models.service import Service, ServiceRequest
 from src.core.models.user import User
@@ -8,10 +9,17 @@ from src.web.helpers.session import not_enabled_and_not_owner
 
 
 def get_service_name(service):
+    """Return the name of the service."""
     return service.name
 
 
 def services():
+    """
+    Render the services page for a given institution.
+
+    Returns
+        The rendered template for the services page.
+    """
     institution_id = session['current_institution']
     not_enabled_and_not_owner(institution_id)
     title = "Administración de servicios"
@@ -33,12 +41,14 @@ def services():
 
 
 def delete_service():
+    """Delete a service pased in the URL."""
     service_id = request.form.get('service_id')
     Service.delete(service_id)
     return redirect(url_for('services.services'))
 
 
 def add_service():
+    """Add a service to the database passed in a form."""
     key_mapping = {'inputName': 'name',
                    'inputDescription': 'description',
                    'inputKeywords': 'keywords',
@@ -63,6 +73,7 @@ def add_service():
 
 
 def edit_service(service_id):
+    """Edit service passed in the URL."""
     service = Service.get_by_id(service_id)
     if service:
         key_mapping = {'inputName': 'name',
@@ -89,10 +100,20 @@ def edit_service(service_id):
 
 
 def get_service_request_name(service_request):
+    """Return the name of a service request."""
     return service_request.title
 
 
 def service_requests(service_id):
+    """
+    Retrieve a paginated list of service requests for a given service.
+
+    Args:
+        service_id (int): The ID of the service.
+
+    Returns:
+        str: The rendered template for the service requests page.
+    """
     title = "Administración de solicitudes"
     page = request.args.get("page", 1, type=int)
     service_requests = (ServiceRequest.

@@ -1,3 +1,4 @@
+"""Authentication controllers."""
 from src.core.models.user import User
 from flask import flash, redirect, url_for, render_template
 from flask import session
@@ -10,15 +11,16 @@ from src.web.helpers.users import get_institutions_user
 
 def check_user(email, password):
     """
-    Check if a user exists with the given email and password.
-     :param email: The email of the user.
-     :type email: str
-     :param password: The password of the user.
-     :type password: str
-     :return: The user object if the email and password match, None otherwise.
-     :rtype: User or None
-     """
+    Check if the user with the given email and password exists.
 
+    Parameters:
+    - email (str): The email of the user.
+    - password (str): The password of the user.
+
+    Returns:
+    - User or None: The user object if the email and password match,
+        None otherwise.
+    """
     user = User.find_user_by_email(email)
 
     if user and bcrypt.check_password_hash(user.password,
@@ -40,7 +42,7 @@ def login():
 
 def authenticate(request):
     """
-    Authenticates a user based on the provided request.
+    Authenticate a user based on the provided request.
 
     Args:
         request (Request): The request object containing the user's input data.

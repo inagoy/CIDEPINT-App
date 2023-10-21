@@ -1,3 +1,4 @@
+"""Registration controllers."""
 from src.core.bcrypt import bcrypt
 from src.core.common import serializers as s
 from flask import redirect, render_template, flash, url_for
@@ -9,16 +10,17 @@ import uuid
 
 def first_registration():
     """
-    Renders the "first_registration.html" template.
+    Render the "first_registration.html" template.
 
-    :return: The rendered template.
+    Returns:
+        The rendered template.
     """
     return render_template("modules/register/first_registration.html")
 
 
 def first_form(request):
     """
-    Processes the form submission from the first registration form.
+    Process the form submission from the first registration form.
 
     Args:
         request: The HTTP request object containing the form data.
@@ -26,7 +28,6 @@ def first_form(request):
     Returns:
         A rendered HTML template or a redirect response.
     """
-
     key_mapping = {'inputName': 'first_name',
                    'inputSurname': 'last_name',
                    'inputEmail': 'email'}
@@ -93,17 +94,12 @@ def confirmation(hashed_email):
 
 def second_form(request, hashed_email):
     """
-    The `second_form` function processes the second form submission
-    of a registration process.
+    Process the second form submission of a registration process.
 
-    :param request: The Flask request object containing the form data.
-    :type request: flask.Request
-    :param hashed_email: The hashed email of the user.
-    :type hashed_email: str
-    :return: None
-    :rtype: None
+    Args:
+        request (Request): The request object.
+        hashed_email (str): The hashed email.
     """
-
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user:
         key_mapping = {'inputUsername': 'username',
@@ -132,6 +128,16 @@ def second_form(request, hashed_email):
 
 
 def confirm_password(request, hashed_email):
+    """
+    Confirm the user's password and update it if necessary.
+
+    Parameters:
+        request (Request): The Flask request object containing the form data.
+        hashed_email (str): The hashed email of the user.
+
+    Returns:
+        Response: A redirect response to the appropriate page.
+    """
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user:
         key_mapping = {

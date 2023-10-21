@@ -1,7 +1,10 @@
+"""User role institution model."""
 from src.core.database import db
 
 
 class UserRoleInstitution(db.Model):
+    """UserRoleInstitution."""
+
     __tablename__ = "user_role_institution"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
@@ -17,8 +20,7 @@ class UserRoleInstitution(db.Model):
 
     @classmethod
     def insert(cls, role_id, user_id, institution_id=None):
-        """insert
-
+        """
         Insert a new user_role_institution record into the database.
 
         Args:
@@ -70,6 +72,17 @@ class UserRoleInstitution(db.Model):
     @classmethod
     def delete_user_institution_role(cls, user_id: int, institution_id: int,
                                      role_id: int):
+        """
+        Delete a user's institution role.
+
+        Args:
+            user_id (int): The ID of the user.
+            institution_id (int): The ID of the institution.
+            role_id (int): The ID of the role.
+
+        Returns:
+            int: The number of rows deleted.
+        """
         response = UserRoleInstitution.query.filter_by(
                     user_id=user_id,
                     institution_id=institution_id,
@@ -80,6 +93,19 @@ class UserRoleInstitution(db.Model):
 
     @classmethod
     def update_role(cls, user_id: int, role_id: int, institution_id: int):
+        """
+        Update the role of a user in a specific institution.
+
+        Args:
+            user_id (int): The ID of the user whose role is being updated.
+            role_id (int): The ID of the new role.
+            institution_id (int): The ID of the institution.
+
+        Returns:
+            Union[int, bool]: If the role is successfully updated,
+                returns the new role ID. If the role is not found,
+                inserts a new role and returns True.
+        """
         actual_role = cls.get_user_institution_roles(
             user_id=user_id, institution_id=institution_id)
         if actual_role:

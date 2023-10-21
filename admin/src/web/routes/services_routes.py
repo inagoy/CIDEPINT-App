@@ -1,5 +1,6 @@
-from src.core.controllers import services_controller
+"""Routes for the services pages."""
 from flask import Blueprint
+from src.core.controllers import services_controller
 from src.core.common.decorators import LoginWrap, MaintenanceWrap
 from src.core.common.decorators import PermissionWrap
 
@@ -13,6 +14,7 @@ services_bp = Blueprint('services', __name__,
 @PermissionWrap.wrap_args(permissions=["service_index", "service_show"])
 @LoginWrap.wrap
 def services():
+    """Route for the services page."""
     return services_controller.services()
 
 
@@ -21,6 +23,7 @@ def services():
 @PermissionWrap.wrap_args(permissions=["service_destroy"])
 @LoginWrap.wrap
 def delete_service():
+    """Route for the service delete page."""
     return services_controller.delete_service()
 
 
@@ -29,6 +32,7 @@ def delete_service():
 @PermissionWrap.wrap_args(permissions=["service_create"])
 @LoginWrap.wrap
 def add_service():
+    """Route for the service add page."""
     return services_controller.add_service()
 
 
@@ -37,6 +41,7 @@ def add_service():
 @PermissionWrap.wrap_args(permissions=["service_update"])
 @LoginWrap.wrap
 def edit_service(service_id):
+    """Route for the service edit page."""
     return services_controller.edit_service(service_id)
 
 
@@ -45,4 +50,5 @@ def edit_service(service_id):
 @PermissionWrap.wrap_args(permissions=["service_index"])
 @LoginWrap.wrap
 def service_requests(service_id):
+    """Route for the service requests page."""
     return services_controller.service_requests(service_id)
