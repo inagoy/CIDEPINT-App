@@ -16,7 +16,7 @@ permissions_data = [
     {"name": "user_destroy"},
     {"name": "user_update"},
     {"name": "user_show"},
-    
+
     {"name": "user_institution_index"},
     {"name": "user_institution_create"},
     {"name": "user_institution_destroy"},
@@ -37,6 +37,7 @@ permissions_data = [
     {"name": "service_show"},
 
     {"name": "request_index"},
+    {"name": "request_show"},
     {"name": "request_create"},
     {"name": "request_destroy"},
     {"name": "request_update"},
@@ -95,8 +96,8 @@ def seed_privileges() -> None:
                 "user_institution_create", "user_institution_destroy",
                 "user_institution_update", "service_index", "service_create",
                 "service_destroy", "service_update", "service_show",
-                "request_index", "request_create", "request_destroy",
-                "request_update"
+                "request_index", "request_show", "request_create",
+                "request_destroy", "request_update"
                 ]
              },
 
@@ -104,7 +105,8 @@ def seed_privileges() -> None:
              "permissions": [
                 "service_index", "service_create", "service_destroy",
                 "service_update", "service_show", "request_index",
-                "request_create", "request_destroy", "request_update"
+                "request_show", "request_create", "request_destroy",
+                "request_update"
                 ]
              },
 

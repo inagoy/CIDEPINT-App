@@ -15,6 +15,7 @@ def institution(institution_id):
 
 
 @institution_bp.route("/edit", methods=["GET", "POST"])
+@MaintenanceWrap.wrap
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(permissions=["institution_update"])
 def edit_institution():
@@ -22,6 +23,7 @@ def edit_institution():
 
 
 @institution_bp.route("/roles", methods=["GET"])
+@MaintenanceWrap.wrap
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(permissions=["user_institution_index"])
 def institution_roles():
@@ -29,6 +31,7 @@ def institution_roles():
 
 
 @institution_bp.route("/roles/update-role", methods=["POST"])
+@MaintenanceWrap.wrap
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(
     permissions=[
@@ -40,6 +43,7 @@ def update_role():
 
 
 @institution_bp.route("/roles/user-search", methods=["POST"])
+@MaintenanceWrap.wrap
 @LoginWrap.wrap
 @PermissionWrap.wrap_args(permissions=["user_institution_index"])
 def user_search():

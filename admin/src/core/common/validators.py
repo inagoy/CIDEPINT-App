@@ -1,4 +1,6 @@
 import re
+import datetime
+from src.core.models.service import StatusEnum
 from src.core.models.user import User
 from src.core.models.institution import Institution
 
@@ -58,6 +60,7 @@ def validate_just_text(text):
     Raises:
         ValidationError: If the text contains non-alphabetic characters.
     """
+    text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
     text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
     if not re.match(text_pattern, text, re.UNICODE) is not None:
         raise ValidationError(f"El campo '{text}' no es un texto")
@@ -325,6 +328,36 @@ def validate_keywords(value):
     else:
         raise ValidationError(
             f"El valor '{value}' no cumple con el formato esperado.")
+
+
+def validate_service_request_status(value):
+    try:
+        status = StatusEnum(value)
+        return status
+    except ValueError:
+        raise ValidationError(
+            f"El tipo de servicio '{value}' no es valido")
+
+
+def validate_date(date: str, date_format: str = '%Y-%m-%d'):
+    """
+    Validates that the given date is a valid date.
+
+    Parameters:
+        date (str): The date to be validated.
+
+    Raises:
+        ValidationError: If the date is not a valid date.
+
+    Returns:
+        str: The validated date.
+    """
+    try:
+        datetime.datetime.strptime(date, date_format)
+        return date
+    except ValueError:
+        raise ValidationError(
+            f"El valor '{date}' no es una fecha válida")
 
 
 def validate_str_len(value):

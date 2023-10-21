@@ -25,4 +25,6 @@ def run_seeds():
     institutions.seed_institutions()
     services.seed_services()
     users.seed_users()
+    services.seed_service_requests()
+    services.seed_notes()
     print("Seeds Done!")

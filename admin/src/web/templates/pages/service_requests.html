@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %} Solicitudes de Servicio {% endblock %}
+{% block head %}{{ super() }}
+<script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
+<script src="{{ url_for('static', filename='js/serviceRequestModals.js') }}"></script>
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+{% endblock %}
+{% block content %}
+{% include "modules/service_requests/service_requests_list.html" %}
+{% include "modules/service_requests/modals/service_request_view.html" %}
+{% include "modules/service_requests/modals/service_request_edit.html" %}
+{% include "modules/service_requests/modals/service_request_delete.html" %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {% for page_num in elements.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if page_num == elements.page %}
+                        <a class="btn btn-info mb-4" href="{{ url_for(request.endpoint, page=page_num, service_id=service_id) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for(request.endpoint, page=page_num, service_id=service_id) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
