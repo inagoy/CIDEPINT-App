@@ -1,0 +1,19 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}request_delete{% endblock %}
+{% block header %} Eliminar Solicitud de Servicio {% endblock %}
+{% block cuerpo %}
+<div id="confirm-message" class="modal-body">
+    ¿Estás seguro de que deseas eliminar esta solicitud? Esta acción no puede deshacerse.
+</div>
+{% endblock %}
+{% block footer %}
+
+<form id="delete-form" method="POST" action="{{ url_for('service_requests.delete_service_request') }}">
+    <input id="request_id" type="hidden" name="request_id" value="">
+    <button id="confirm-action" type="submit" class="btn btn-primary confirm-button"> Confirmar
+    </button>
+
+    <button id="dismiss-action" type="button" class="btn btn-secondary close-button"
+            data-dismiss="modal"> Cerrar </button>
+</form>
+{% endblock %}

@@ -1,6 +1,5 @@
 from src.web.helpers import session
-from src.web.helpers import users, institutions
-from src.web.helpers import services
+from src.web.helpers import users, institutions, services
 
 
 def set_helpers(app) -> None:
@@ -20,5 +19,10 @@ def set_helpers(app) -> None:
     app.jinja_env.globals.update(get_role=users.get_role_of_user)
     app.jinja_env.globals.update(parse_service=services.parse_service)
     app.jinja_env.globals.update(
+        parse_service_request=services.parse_service_request
+    )
+    app.jinja_env.globals.update(parse_note=services.parse_note)
+    app.jinja_env.globals.update(
         parse_institution=institutions.parse_institution
     )
+    app.jinja_env.globals.update(parse_note=services.parse_note)

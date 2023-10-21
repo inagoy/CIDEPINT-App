@@ -1,0 +1,32 @@
+<div class="container">
+    <h3 class="text-start pb-4 pt-2"> {{ title }} </h3>
+    <div class="mx-1 row justify-content-between align-items-center flex-column flex-sm-row ">
+
+        {% if 'service_requests.service_requests' in request.endpoint %}
+            {% include "modules/service_requests/filters.html" %}
+        {% endif %}
+
+    </div>
+    <div class="list-group ">
+        {% if not elements.items %}
+        <h5 class="text-center pb-4 pt-4"> No hay elementos para mostrar </h5>
+        {% endif %}
+        {% for element in elements.items %}
+        {% if loop.first or element.service.name != elements.items[loop.index0 - 1].service.name %}
+        <div class="d-flex py-4" >
+            <h3><span class="badge badge-info">{{ element.service.name }}</span></h3>
+        </div>
+        {% endif %}
+        <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between flex-column flex-sm-row">
+                <h6 class="pt-2"> {{ element.title }} </h6>
+                {% include "modules/service_requests/service_requests_actions.html" %}
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div style="width:100%; height: 50px">
+
+</div>

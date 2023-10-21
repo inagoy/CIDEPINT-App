@@ -6,6 +6,7 @@ from src.web.routes.error_routes import error_bp
 from src.web.routes.superuser_routes import super_bp
 from src.web.routes.institution_routes import institution_bp
 from src.web.routes.services_routes import services_bp
+from src.web.routes.service_requests_routes import service_requests_bp
 
 
 def set_routes(app) -> None:
@@ -26,3 +27,4 @@ def set_routes(app) -> None:
     app.register_blueprint(super_bp)
     app.register_blueprint(institution_bp)
     app.register_blueprint(services_bp)
+    app.register_blueprint(service_requests_bp)

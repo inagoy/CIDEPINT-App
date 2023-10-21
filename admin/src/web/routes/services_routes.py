@@ -38,3 +38,11 @@ def add_service():
 @LoginWrap.wrap
 def edit_service(service_id):
     return services_controller.edit_service(service_id)
+
+
+@services_bp.route("<int:service_id>/requests", methods=["GET"])
+@MaintenanceWrap.wrap
+@PermissionWrap.wrap_args(permissions=["service_index"])
+@LoginWrap.wrap
+def service_requests(service_id):
+    return services_controller.service_requests(service_id)

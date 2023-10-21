@@ -199,3 +199,20 @@ function validateKeywords(inputId, errorId) {
 		return true;
 	}
 }
+
+function validateKeywords(inputId, errorId) {
+	const input = document.getElementById(inputId);
+	const error = document.getElementById(errorId);
+
+	const keywordPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
+
+	console.log("test", keywordPattern.test(input.value), input.value);
+
+	if (!keywordPattern.test(input.value)) {
+		error.textContent = "Ingrese palabras separadas por comas";
+		return false;
+	} else {
+		error.textContent = "";
+		return true;
+	}
+}

@@ -6,7 +6,7 @@ class ValidateSerializer():
     fields = {}
 
     @classmethod
-    def validate(self, data: dict):
+    def validate(cls, data: dict):
         """
         Validates the given data dictionary.
 
@@ -21,12 +21,12 @@ class ValidateSerializer():
         """
         errors = {}
         try:
-            v.validate_form_data(data, self.fields)
+            v.validate_form_data(data, cls.fields)
         except ValidationError as e:
             errors["missing_fields"] = str(e)
         for field in data:
             try:
-                validations = self.fields.get(field)
+                validations = cls.fields.get(field)
                 if validations:
                     validation_functions = [
                         param for param in validations if param != "*"
@@ -39,11 +39,12 @@ class ValidateSerializer():
                 "errors": errors}
 
     @classmethod
-    def map_keys(cls, form, keys: dict) -> dict:
+    def map_keys(cls, form, keys: dict, delete_keys: list = []) -> dict:
         data = form.to_dict()
         return {
-            keys.get(old_key, old_key):
-                value for old_key, value in data.items() if value != ""
+            keys.get(old_key, old_key): value
+            for old_key, value in data.items()
+            if value != "" and old_key not in delete_keys
         }
 
 
@@ -78,7 +79,7 @@ class UniqueDataProfile(ValidateSerializer):
     }
 
 
-class UseUniqueData(UniqueDataProfile):
+class EditUniqueData(UniqueDataProfile):
     @classmethod
     def validate(cls, data: dict):
         cls.fields["email"] = [v.validate_no_email, "*"]
@@ -105,7 +106,7 @@ class EditUserSerializer(EditProfileSerializer):
         return super().validate(data)
 
 
-class SiteConfigSerializer(ValidateSerializer):
+class SiteConfigValidator(ValidateSerializer):
     fields = {
         "items_per_page": [v.validate_just_number, "*"],
         "maintenance_mode": [
@@ -142,6 +143,23 @@ class ServiceDataSerializer(ValidateSerializer):
         "description": [v.validate_string, v.validate_not_empty, "*"],
         "keywords": [v.validate_keywords, v.validate_not_empty, "*"],
         "service_type": [v.validate_just_text, "*"],
+    }
+
+
+class ServiceRequestEditDataSerializer(ValidateSerializer):
+    fields = {
+        "observations": [v.validate_string],
+        "status": [v.validate_service_request_status],
+    }
+
+
+class ServiceRequestFilterSerializer(ValidateSerializer):
+    fields = {
+        "status": [v.validate_service_request_status],
+        "service_type": [v.validate_just_text],
+        "start_date": [v.validate_date],
+        "end_date": [v.validate_date],
+        "email": [v.validate_email],
     }
 
 

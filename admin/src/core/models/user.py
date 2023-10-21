@@ -5,6 +5,7 @@ from src.core.models.user_role_institution import UserRoleInstitution
 from src.core.models.institution import Institution
 from src.core.models.base_model import BaseModel
 from flask import session
+from sqlalchemy import and_
 
 
 class GenderEnum(EnumBase):
@@ -48,6 +49,14 @@ class User(BaseModel):
         'UserRoleInstitution',
         cascade='all, delete-orphan',
         passive_deletes=True
+    )
+    has_service_requests = db.relationship(
+        'ServiceRequest', cascade='all, delete-orphan',
+        passive_deletes=True, back_populates='requester'
+    )
+    has_notes = db.relationship(
+        'Note', cascade='all, delete-orphan',
+        passive_deletes=True, back_populates='user'
     )
 
     @classmethod
@@ -124,7 +133,8 @@ class User(BaseModel):
 
     @classmethod
     def get_all(cls):
-        return cls.query.filter(cls.id != 1 and cls.email != session["user"])
+        return cls.query.filter(and_(
+            cls.id != 1, cls.email != session["user"]))
 
     @classmethod
     def get_active_users(cls):
@@ -132,7 +142,7 @@ class User(BaseModel):
 
     @classmethod
     def get_inactive_users(cls):
-        return cls.get_all().filter(cls.active == False)
+        return cls.get_all().filter(cls.active.is_(False))
 
     @classmethod
     def get_users_paginated(cls, page, per_page=None,

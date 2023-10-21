@@ -31,5 +31,6 @@ def second_form(hashed_email):
 
 
 @register_bp.route("/confirm_password/<string:hashed_email>", methods=["POST"])
+@MaintenanceWrap.wrap
 def confirm_password(hashed_email):
     return register_controller.confirm_password(request, hashed_email)

@@ -35,8 +35,8 @@ class Role(db.Model):
                    for permission in required_permissions)
 
     @classmethod
-    def evaluate_permissions_model(cls, model) -> list:
-        permissions = cls.get_permissions()
+    def evaluate_permissions_model(cls, model, role_id) -> list:
+        permissions = cls.get_permissions(role_id)
         if not permissions:
             return False
         response = dict(map(lambda x: (x.split('_')[1], True),
