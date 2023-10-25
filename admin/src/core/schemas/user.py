@@ -1,5 +1,5 @@
 from src.core.schemas import BaseSchema
-from marshmallow import fields, validates
+from marshmallow import fields, validates, validate
 from src.core.common import validators as v
 
 
@@ -16,7 +16,7 @@ class UserValidateSchema(BaseSchema):
         v.validate_email(value)
 
 
-class UserSchema(BaseSchema):
+class UserModelSchema(BaseSchema):
     user = fields.Str(description="Nombre de usuario.")
     email = fields.Email(description="Correo electrónico.")
     first_name = fields.Str(description="Nombre.")
@@ -36,3 +36,7 @@ class UserSchema(BaseSchema):
 
     def document_type_display(self, obj):
         return obj.document_type.value
+
+
+class UserValidationSchema(BaseSchema):
+    id = fields.Int(required=True, validate=validate.Range(min=1))

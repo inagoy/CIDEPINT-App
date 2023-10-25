@@ -456,3 +456,10 @@ def validate_order(value):
         raise ValidationError(
             f"El orden '{value}' no es valido")
     return value
+
+
+def validate_service_request_id_exists(value):
+    if not ServiceRequest.get_by_id(value):
+        raise ValidationError(
+            f"El tipo de servicio '{value}' no existe")
+    return value

@@ -21,8 +21,8 @@ def create_admins():
         "password": "admin123",
         "address": "78 nro 87",
         "phone_number": "2214785685",
-        "gender": 'masculino',
-        "document_type": 'dni',
+        "gender": 'Masculino',
+        "document_type": 'DNI',
         "document": '21233566',
         "active": True
     }
@@ -60,8 +60,8 @@ def seed_users() -> None:
          "password":  "Password123",
          "address": "478 nro 123",
          "phone_number": "2219995685",
-         "gender": 'masculino',
-         "document_type": 'dni',
+         "gender": 'Masculino',
+         "document_type": 'DNI',
          "document": '40233566',
          "active": True,
          },
@@ -74,8 +74,8 @@ def seed_users() -> None:
          "password":  "Password123",
          "address": "148 nro 456",
          "phone_number": "1545785685",
-         "gender": 'femenino',
-         "document_type": 'dni',
+         "gender": 'Femenino',
+         "document_type": 'DNI',
          "document": '39233566',
          "active": True,
          }

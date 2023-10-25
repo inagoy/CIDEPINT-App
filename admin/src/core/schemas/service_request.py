@@ -47,3 +47,23 @@ class GetServiceRequestValidateSchema(IdSchema):
         required=True,
         validate=validate.Range(min=1)
     )
+
+
+class PostServiceRequestValidateSchema(BaseSchema):
+
+    service_id = fields.Int(
+        required=True,
+        validate=validate.Range(min=1),
+    )
+    title = fields.Str(
+        required=True,
+        validate=validate.Length(max=255)
+    )
+    description = fields.Str(
+        required=True,
+        validate=validate.Length(max=1000)
+    )
+
+    @validates("service_id")
+    def validate_service_id(self, value):
+        v.validate_service_request_id_exists(value)
