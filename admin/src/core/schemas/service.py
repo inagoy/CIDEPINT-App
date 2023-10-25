@@ -1,4 +1,4 @@
-from src.core.schemas import PaginateValidationSchema, BaseSchema
+from src.core.schemas import PaginateValidateSchema, BaseSchema
 from src.core.common import validators as v
 from marshmallow import fields, validates
 
@@ -21,7 +21,7 @@ class ServiceModelSchema(BaseSchema):
         return cls(many=many)
 
 
-class SearchServicesValidateSchema(PaginateValidationSchema):
+class SearchServicesValidateSchema(PaginateValidateSchema):
 
     q = fields.Str(required=True)
     type = fields.Str(allow_none=True)

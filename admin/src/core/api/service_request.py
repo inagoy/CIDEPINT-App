@@ -1,9 +1,11 @@
-from src.core.schemas import IdSchema
+from src.core.models.user import User
+from src.core.schemas import IdValidateSchema
 from src.core.models.service import ServiceRequest
 from marshmallow import ValidationError
-from src.core.schemas.service_request import PostServiceRequestValidateSchema, ServiceRequestValidateSchema
-from src.core.schemas.service_request import ServiceRequestModelSchema
-from src.web.helpers.api import get_user_if_valid, paginated_response
+from src.core.schemas.service_request import PostRequestValidateSchema
+from src.core.schemas.service_request import SortedRequestsValidateSchema
+from src.core.schemas.service_request import RequestModelSchema
+from src.web.helpers.api import paginated_response
 from src.web.helpers.api import response_error
 from flask import Blueprint, request
 api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
@@ -11,17 +13,22 @@ api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
 
 @api_request_bp.route("/me/requests", methods=["GET"])
 def get_requests():
-    user = get_user_if_valid(request.args.get('user_id'))
-    if not user:
-        return response_error()
-    validator = ServiceRequestValidateSchema.get_instance()
-    model_schema = ServiceRequestModelSchema.get_instance(many=True)
+    user_id = request.headers['Authorization']
+
+    id_validator = IdValidateSchema.get_instance()
+    validator = SortedRequestsValidateSchema.get_instance()
+    model_schema = RequestModelSchema.get_instance(many=True)
     try:
+        id_validator.load(
+            {'id': user_id}
+        )
         validated_data = validator.load(request.args)
     except ValidationError:
         return response_error()
+    if User.get_by_id(user_id) is None:
+        return response_error()
     service_requests = ServiceRequest.get_user_sorted_paginated(
-        **validated_data
+        user_id=user_id, **validated_data
     )
     return paginated_response(
         service_requests, model_schema
@@ -30,19 +37,17 @@ def get_requests():
 
 @api_request_bp.route("/me/requests/<int:request_id>", methods=["GET"])
 def get_request(request_id):
+    user_id = request.headers['Authorization']
 
-    user = get_user_if_valid(request.args.get('user_id'))
-    if not user:
-        return response_error()
-
-    validator = IdSchema.get_instance()
-    model_schema = ServiceRequestModelSchema.get_instance()
+    id_validator = IdValidateSchema.get_instance()
+    model_schema = RequestModelSchema.get_instance()
     try:
-        validated_data = validator.load({"id": request_id})
+        id_validator.load({'id': user_id})
+        id_validator.load({"id": request_id})
     except ValidationError:
         return response_error()
     service_request = ServiceRequest.get_by_id_and_user(
-        user.id, **validated_data
+        user_id=user_id, id=request_id
     )
     if not service_request:
         return response_error()
@@ -51,17 +56,16 @@ def get_request(request_id):
 
 @api_request_bp.route("/me/requests/", methods=["POST"])
 def post_request():
-
-    user = get_user_if_valid(request.headers['Authorization'])
-    if not user:
-        return response_error()
-    validator = PostServiceRequestValidateSchema.get_instance()
-    model_schema = ServiceRequestModelSchema.get_instance()
+    user_id = request.headers['Authorization']
+    id_validator = IdValidateSchema.get_instance()
+    validator = PostRequestValidateSchema.get_instance()
+    model_schema = RequestModelSchema.get_instance()
     try:
-        validated_data = validator.load(request.args)
+        id_validator.load({'id': user_id})
+        validated_data = validator.load(request.get_json())
     except ValidationError:
         return response_error()
     service_request = ServiceRequest.save(
-        **validated_data
+        requester_id=user_id, **validated_data
     )
     return model_schema.dump(service_request), 200

@@ -1,18 +1,15 @@
 from marshmallow import validates, validate, fields
-from src.core.schemas import BaseSchema, IdSchema, PaginateValidationSchema
+from src.core.schemas import BaseSchema, IdValidateSchema
+from src.core.schemas import PaginateValidateSchema
 from src.core.common import validators as v
 
 
-class ServiceRequestValidateSchema(PaginateValidationSchema):
+class SortedRequestsValidateSchema(PaginateValidateSchema):
     sort = fields.Str(
         missing="id"
     )
     order = fields.Str(
         missing="desc"
-    )
-    user_id = fields.Int(
-        required=True,
-        validate=validate.Range(min=1)
     )
 
     @validates("sort")
@@ -24,7 +21,7 @@ class ServiceRequestValidateSchema(PaginateValidationSchema):
         v.validate_order(value)
 
 
-class ServiceRequestModelSchema(BaseSchema):
+class RequestModelSchema(BaseSchema):
     title = fields.String(required=True)
     creation_date = fields.Date(
         format='%Y-%m-%d', required=True, attribute="inserted_at"
@@ -42,14 +39,14 @@ class ServiceRequestModelSchema(BaseSchema):
     description = fields.String()
 
 
-class GetServiceRequestValidateSchema(IdSchema):
+class RequestValidateSchema(IdValidateSchema):
     request_id = fields.Int(
         required=True,
         validate=validate.Range(min=1)
     )
 
 
-class PostServiceRequestValidateSchema(BaseSchema):
+class PostRequestValidateSchema(BaseSchema):
 
     service_id = fields.Int(
         required=True,

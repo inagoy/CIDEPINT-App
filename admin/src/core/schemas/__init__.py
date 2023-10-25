@@ -7,12 +7,12 @@ class BaseSchema(Schema):
         return cls(many=many)
 
 
-class PaginateValidationSchema(BaseSchema):
+class PaginateValidateSchema(BaseSchema):
     page = fields.Int(missing=1, validate=validate.Range(min=1))
     per_page = fields.Int(missing=None, validate=validate.Range(min=1))
 
 
-class IdSchema(BaseSchema):
+class IdValidateSchema(BaseSchema):
     id = fields.Int(
         required=True,
         validate=validate.Range(min=1)
