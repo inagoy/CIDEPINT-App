@@ -1,3 +1,4 @@
+"""Routes for error pages."""
 from flask import Blueprint
 from src.core.controllers.error_controller import unauthorized_error
 from src.core.controllers.error_controller import not_found_error

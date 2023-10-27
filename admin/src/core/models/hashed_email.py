@@ -1,9 +1,12 @@
+"""Hashed email model."""
 from datetime import datetime
 from src.core.models.user import User
 from src.core.database import db
 
 
 class HashedEmail(db.Model):
+    """Hashed email."""
+
     __tablename__ = "hashed_email"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     hashed_email = db.Column(db.String(60), nullable=False)
@@ -29,7 +32,6 @@ class HashedEmail(db.Model):
         Returns:
             object: The saved hashed email object.
         """
-
         hashed_email = HashedEmail(hashed_email=hashed_email, user_id=user_id,
                                    **kwargs)
         db.session.add(hashed_email)

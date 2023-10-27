@@ -1,3 +1,4 @@
+"""Seeds the database with initial data."""
 from . import institutions
 from . import privileges
 from . import users

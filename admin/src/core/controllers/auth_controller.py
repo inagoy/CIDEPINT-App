@@ -1,9 +1,11 @@
+"""Authentication controllers."""
 from src.web.helpers.users import get_institutions_user
 from src.web.helpers.session import superuser_session
 from src.core.models.site_config import SiteConfig
 from flask import flash, redirect, url_for, render_template
 from flask import session
 from src.core.common.decorators import LoginWrap
+from src.web.helpers.auth import check_user
 from src.web.helpers.auth import check_user
 
 
@@ -19,7 +21,7 @@ def login():
 
 def authenticate(request):
     """
-    Authenticates a user based on the provided request.
+    Authenticate a user based on the provided request.
 
     Args:
         request (Request): The request object containing the user's input data.
@@ -62,6 +64,8 @@ def logout():
     Logout the user from the session.
 
     This function clears the session and displays a flash message indicating
+    the successful logout. If there is no session started, it displays a
+    flash message indicating that there is no session to logout from.
     the successful logout. If there is no session started, it displays a
     flash message indicating that there is no session to logout from.
 

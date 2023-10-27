@@ -1,3 +1,4 @@
+"""Institution seeds."""
 from src.core.models.institution import Institution
 
 
@@ -7,12 +8,6 @@ def seed_institutions() -> None:
 
     This function populates the database with initial institution data
     for testing and development purposes.
-
-    Args:
-        None
-
-    Returns:
-        None
     """
     institutions_data = [
         {"name": "Centro de Investigación en Pinturas Avanzadas",

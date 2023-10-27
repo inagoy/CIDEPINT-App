@@ -24,6 +24,11 @@ function openModal(modal) {
 	});
 }
 
+/**
+ * Clears the form inside a modal.
+ *
+ * @param {HTMLElement} modal - The modal element containing the form.
+ */
 function clearForm(modal) {
 	const form = modal.querySelector("form");
 	if (form) {

@@ -1,20 +1,10 @@
+"""Services seeds."""
 from src.core.models.service import Note, Service, ServiceTypeEnum
 from src.core.models.service import ServiceRequest, StatusEnum
 
 
 def seed_services() -> None:
-    """seed_services
-
-    This function populates the database with initial service data
-    for testing and development purposes.
-
-    Args:
-        None
-
-    Returns:
-        None
-    """
-
+    """Seed the database with initial services."""
     services_data = [
         {
             "name": "Ensayo de corrosión",
@@ -43,10 +33,8 @@ def seed_services() -> None:
 
 
 def seed_service_requests() -> None:
-    """seed_service_requests
-
-    This function populates the database with initial service request data
-    for testing and development purposes.
+    """
+    Populate the database with initial service request data.
 
     Args:
         None
@@ -54,7 +42,6 @@ def seed_service_requests() -> None:
     Returns:
         None
     """
-
     service_requests_data = [
         {
             "title": "Solicitud de Servicio de Ejemplo 1",
@@ -91,10 +78,8 @@ def seed_service_requests() -> None:
 
 
 def seed_notes() -> None:
-    """seed_notes
-
-    This function populates the database with initial note data
-    for testing and development purposes.
+    """
+    Populate the database with initial note data.
 
     Args:
         None
@@ -102,7 +87,6 @@ def seed_notes() -> None:
     Returns:
         None
     """
-
     notes_data = [
         {
             "text": "Ejemplo de nota de usuario 1 para servicio 1",

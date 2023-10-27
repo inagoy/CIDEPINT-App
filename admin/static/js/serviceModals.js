@@ -18,11 +18,23 @@ function viewService(button) {
 	openModal(modal);
 }
 
+/**
+ * Adds a service by opening a modal.
+ *
+ * @param {type} paramName - description of parameter
+ * @return {type} description of return value
+ */
 function addService() {
 	let modal = document.getElementById("service_add");
 	openModal(modal);
 }
 
+/**
+ * Deletes a service.
+ *
+ * @param {HTMLElement} button - The button element that triggered the delete.
+ * @return {void} This function does not return a value.
+ */
 function deleteService(button) {
 	let modal = document.getElementById("service_delete");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data

@@ -1,8 +1,11 @@
+"""Dataclasses for permissions."""
 from dataclasses import dataclass
 
 
 @dataclass
 class Permissions:
+    """Permissions."""
+
     index: bool = False
     create: bool = False
     update: bool = False
@@ -12,6 +15,8 @@ class Permissions:
 
 @dataclass
 class InstitutionPermissions(Permissions):
+    """Institution permissions."""
+
     activate: bool = False
     deactivate: bool = False
 

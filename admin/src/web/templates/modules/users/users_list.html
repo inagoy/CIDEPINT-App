@@ -1,7 +1,7 @@
 {% extends "/components/lists/list.html" %}
 {% block extra_buttons %}
 <button type="button" class="btn btn-primary mb-4 w-25"
-        onclick="{{ add_function }}">Agregar</button>
+        onclick="addUser(this)">Agregar</button>
 <form class="form-inline mb-4 align-items-center flex-row">
    <a href="{{ url_for('super.users') }}"
       class=" btn my-2 my-sm-0 mr-2 {% if 'super.users' in request.endpoint %}btn-success text-white{% else %}btn-outline-success text-success{% endif %}"

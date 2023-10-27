@@ -1,15 +1,18 @@
+"""Base model for the database."""
 from src.core.database import db
 from src.core.models.site_config import SiteConfig
 from datetime import datetime
 
 
 class BaseModel(db.Model):
+    """Base Model."""
+
     __abstract__ = True
 
     @classmethod
     def update(cls, entity_id, **kwargs):
         """
-        Update an existing object of a model with the given ID
+        Update an existing object of a model with the given ID.
 
         Args:
             id (int): The ID of the entity to be updated.
@@ -18,7 +21,6 @@ class BaseModel(db.Model):
         Returns:
             Entity: The updated entity object.
         """
-
         entity = cls.query.get(entity_id)
         if entity:
             for key, value in kwargs.items():
@@ -32,7 +34,7 @@ class BaseModel(db.Model):
     @classmethod
     def delete(cls, entity_id: int):
         """
-        Deletes an object of an model with the given ID.
+        Delete an object of an model with the given ID.
 
         Args:
             entity_id (int): The ID of the entity to be deleted.
@@ -46,9 +48,8 @@ class BaseModel(db.Model):
 
     @classmethod
     def get_by_id(cls, id: int):
-        """get_by_id
-
-        Gets an object of a model with the given ID.
+        """
+        Get an object of a model with the given ID.
 
         Args:
             id (int): The ID of the entity to be retrieved.
@@ -60,9 +61,8 @@ class BaseModel(db.Model):
 
     @classmethod
     def get_all(cls):
-        """get_all
-
-        Gets all objects of the given class in the database.
+        """
+        Get all objects of the given class in the database.
 
         Returns:
             List[Entity]: A list of entity objects.
@@ -71,9 +71,9 @@ class BaseModel(db.Model):
 
     @classmethod
     def get_paginated(cls, page: int, per_page: int = None):
-        """get_paginated
+        """
+        Get all objects of the given class in the database paginated.
 
-        Gets all objects of the given class in the database paginated.
         If no per_page is specified, the default value is
         SiteConfig.get_items_per_page().
 
@@ -85,7 +85,6 @@ class BaseModel(db.Model):
         Returns:
             SQLAlchemy.orm.PaginatedResult: The paginated result object.
         """
-
         if per_page is None:
             per_page = SiteConfig.get_items_per_page()
         return cls.query.paginate(
@@ -94,9 +93,9 @@ class BaseModel(db.Model):
 
     @classmethod
     def get_query_paginated(cls, query, page, per_page=None):
-        """get_query_paginated
+        """
+        Get a previous query paginated.
 
-        Gets a previous query paginated.
         If no per_page is specified, the default value is
         SiteConfig.get_items_per_page().
 
@@ -115,4 +114,5 @@ class BaseModel(db.Model):
 
     @classmethod
     def get_by(cls, field, data):
+        """Return an object of a model with the given field and value."""
         return cls.query.filter_by(**{field: data}).first()

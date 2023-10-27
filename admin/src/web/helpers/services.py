@@ -1,8 +1,23 @@
+"""Helpers for services."""
 from src.core.models.service import Service, ServiceRequest
-from src.core.models.user import User
 
 
 def parse_service(service):
+    """
+    Parse a Service object and return a dictionary.
+
+    Parameters:
+    - service (object): The service object to parse.
+
+    Returns:
+    - dict: A dictionary with the following keys:
+        - id (int): The id of the service.
+        - name (str): The name of the service.
+        - description (str): The description of the service.
+        - keywords (list): The keywords associated with the service.
+        - service_type (str): The type of the service.
+        - enabled (str): The status of the service (enabled or disabled).
+    """
     return {'id': service.id,
             'name': service.name,
             'description': service.description,
@@ -13,6 +28,26 @@ def parse_service(service):
 
 
 def parse_service_request(service_request):
+    """
+    Parse a service request object and returns a dictionary.
+
+    Args:
+        service_request (ServiceRequest): The service request object.
+
+    Returns:
+        dict: A dictionary containing the parsed data with the following keys:
+            - 'id': The ID of the service request.
+            - 'title': The title of the service request.
+            - 'description': The description of the service request.
+            - 'observations': The observations of the service request.
+            - 'service': The name of the service associated with the request.
+            - 'requester': The email of the requester.
+            - 'status': The status of the service request.
+            - 'inserted_at': The date and time the service request
+                was inserted.
+            - 'closed_at': The date and time when the service request
+                was closed.
+    """
     return {'id': service_request.id,
             'title': service_request.title,
             'description': service_request.description,
@@ -26,6 +61,7 @@ def parse_service_request(service_request):
 
 
 def parse_note(note):
+    """Perse note object and return a dictionary."""
     return {
             'text': note.text,
             'user': note.user,
@@ -34,6 +70,21 @@ def parse_note(note):
 
 
 def filter_conditions(filters):
+    """
+    Generate a list of SQLAlchemy filter conditions based on the given filters.
+
+    Parameters:
+        filters (dict): A dictionary containing the filters
+        to apply to the query.
+            The keys are the filter names, and the values are the
+            corresponding values to filter by.
+
+    Returns:
+        list: A list of SQLAlchemy filter conditions that can be used to
+        filter a query.
+            Each condition is a SQLAlchemy expression that can be passed to
+            the `filter` method of a query object.
+    """
     conditions = []
 
     filter_conditions = {

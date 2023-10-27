@@ -1,3 +1,4 @@
+"""User configuration module controllers."""
 from flask import render_template, request, redirect, url_for, flash
 from src.core.models.user import User
 from src.core.models.user import UserRoleInstitution
@@ -13,113 +14,106 @@ import uuid
 
 def users():
     """
-    Generates a function comment for the given function body in a markdown
-    code block with the correct language syntax.
+    Retrieve a paginated list of users and render the 'users.html' template.
 
     Returns:
-        str: The function comment for the given function body.
+        rendered template: 'pages/users.html'
     """
     title = "Administración de usuarios"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_paginated(page)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
 
 def active():
     """
-    Generates a function comment for the given function body in a markdown
-    code block with the correct language syntax.
+    Render the users.html page with a paginated list of active users.
 
     Returns:
-        str: The function comment for the given function body.
+        The rendered template of the users.html page,
+        with the following variables:
+            - title: A string representing the title of the page
+            - elements: A list of active user objects
+            - add_function: A string for the function to add a user
+            - edit_function: A string for the function to edit a user
+            - view_function: A string for the function to  view a user
+            - delete_function: A string for the function to delete a user
+            - get_name: A function that returns the name of a user
+            - users_page: A boolean indicating that this is the users page
     """
     title = "Administración de usuarios"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_paginated(page, inactive=False)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
 
 def inactive():
     """
-    Generates a function comment for the given function body in a markdown
-    code block with the correct language syntax.
+    Render the users.html page with a paginated list of inactive users.
 
     Returns:
-        str: The function comment for the given function body.
+        The rendered template of the users.html page,
+        with the following variables:
+            - title: A string representing the title of the page
+            - elements: A list of active user objects
+            - add_function: A string for the function to add a user
+            - edit_function: A string for the function to edit a user
+            - view_function: A string for the function to  view a user
+            - delete_function: A string for the function to delete a user
+            - get_name: A function that returns the name of a user
+            - users_page: A boolean indicating that this is the users page
     """
     title = "Administración de usuarios"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_paginated(page, active=False)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
 
 def search():
+    """Return the users page for a given search term."""
     title = "Administración de usuarios"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_by_email_paginated(
         email=request.form.get('search'), page=page)
-    add_function = "addUser()"
-    edit_function = "editUser(this)"
-    view_function = "viewUser(this)"
-    delete_function = "deleteUser(this)"
 
     return render_template(
         "pages/users.html",
         title=title,
         elements=users,
-        add_function=add_function,
-        edit_function=edit_function,
-        view_function=view_function,
-        delete_function=delete_function,
         get_name=get_name,
         users_page=True)
 
 
 def delete_user():
-    # eliminar usuario
-    # mensaje de exito
+    """
+    Delete a user from the system.
+
+    This function receives a user ID from the request form
+    and uses it to delete the corresponding user from the database.
+    If the deletion is successful, a success message is flashed,
+    otherwise an error message is flashed.
+
+    Returns:
+        redirect: A redirect to the 'super.users' route.
+    """
     user_id = request.form.get('user_id')
     response = User.delete(user_id)
     if response:
@@ -130,6 +124,7 @@ def delete_user():
 
 
 def add_user():
+    """Add a new user to the database."""
     key_mapping = {'inputName': 'first_name',
                    'inputSurname': 'last_name',
                    'inputEmail': 'email',
@@ -180,6 +175,15 @@ def add_user():
 
 
 def edit_user(user_id):
+    """
+    Edit a user with the given user_id.
+
+    Parameters:
+        user_id (int): The ID of the user to be edited.
+  
+    Returns:
+        None
+    """
     user = User.get_by_id(user_id)
     if user:
         key_mapping = {'inputName': 'first_name',
@@ -222,6 +226,15 @@ def edit_user(user_id):
 
 
 def roles(user_id):
+    """
+    Retrieve the roles and institutions associated with a given user ID.
+
+    Parameters:
+        user_id (int): The ID of the user.
+
+    Returns:
+        str: The rendered template for displaying the roles and institutions.
+    """
     institutions = Institution.get_all()
     roles = Role.get_all_roles()
     list_raw = UserRoleInstitution.get_roles_institutions_of_user(user_id)
@@ -243,6 +256,12 @@ def roles(user_id):
 
 
 def add_role(user_id):
+    """
+    Add a role to a user.
+
+    Parameters:
+        user_id (int): The ID of the user to add the role to.
+    """
     form_raw = request.form.to_dict()
 
     same_institution = UserRoleInstitution.get_user_institution_roles(
@@ -261,6 +280,12 @@ def add_role(user_id):
 
 
 def delete_role(user_id):
+    """
+    Delete a role for a user.
+
+    Parameters:
+        user_id (int): The ID of the user.
+    """
     form_raw = request.form.to_dict()
     UserRoleInstitution.delete_user_institution_role(
         user_id=user_id,
@@ -272,6 +297,19 @@ def delete_role(user_id):
 
 
 def user_added_confirmation(hashed_email):
+    """
+    Handle user added confirmation.
+
+    Parameters:
+        hashed_email (str): The hashed email of the user.
+
+    Returns:
+        If the user is active,
+            it flashes a message and redirects to the home page.
+        If the user is found,
+            it renders the password change page with the user's information.
+        Otherwise, it renders the error page.
+    """
     user = HashedEmail.find_user_by_hash(hashed_email)
     if user.active:
         flash(""" Ya haz completado el registro,

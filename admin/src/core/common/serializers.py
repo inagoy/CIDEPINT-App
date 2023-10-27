@@ -1,14 +1,17 @@
+"""Serializers."""
 from src.core.common.validators import ValidationError
 from src.core.common import validators as v
 
 
 class ValidateSerializer():
+    """Base class for serializers."""
+
     fields = {}
 
     @classmethod
     def validate(cls, data: dict):
         """
-        Validates the given data dictionary.
+        Validate the given data dictionary.
 
         Args:
             data (dict): The data dictionary to be validated.
@@ -40,6 +43,16 @@ class ValidateSerializer():
 
     @classmethod
     def map_keys(cls, form, keys: dict, delete_keys: list = []) -> dict:
+        """
+        Map the keys of a form dictionary using the mapping dictionary.
+
+        Args:
+            form (Form): The form object containing the data to be mapped.
+            keys (dict): A dictionary mapping the old keys to the new keys.
+
+        Returns:
+            dict: A new dictionary with the keys mapped.
+        """
         data = form.to_dict()
         return {
             keys.get(old_key, old_key): value
@@ -49,6 +62,8 @@ class ValidateSerializer():
 
 
 class FirstRegistrationSerializer(ValidateSerializer):
+    """First registration serializer."""
+
     fields = {
         "email": [
             v.validate_no_email, v.validate_email, v.validate_not_empty, "*"],
@@ -58,6 +73,8 @@ class FirstRegistrationSerializer(ValidateSerializer):
 
 
 class SecondRegistrationSerializer(ValidateSerializer):
+    """Second registration serializer."""
+
     fields = {
         "username": [v.validate_no_username,
                      v.validate_username, v.validate_not_empty, "*"],
@@ -72,6 +89,8 @@ class SecondRegistrationSerializer(ValidateSerializer):
 
 
 class UniqueDataProfile(ValidateSerializer):
+    """Unique data profile serializer."""
+
     fields = {
         "username": [v.validate_no_username, "*"],
         "phone_number": [v.validate_no_phone_number, "*"],
@@ -80,13 +99,18 @@ class UniqueDataProfile(ValidateSerializer):
 
 
 class EditUniqueData(UniqueDataProfile):
+    """Use unique data serializer."""
+
     @classmethod
     def validate(cls, data: dict):
+        """Check that the user data is unique in the table."""
         cls.fields["email"] = [v.validate_no_email, "*"]
         return super().validate(data)
 
 
 class EditProfileSerializer(ValidateSerializer):
+    """Edit profile serializer."""
+
     fields = {
         "first_name": [v.validate_just_text, v.validate_not_empty, "*"],
         "last_name": [v.validate_just_text, v.validate_not_empty, "*"],
@@ -100,24 +124,31 @@ class EditProfileSerializer(ValidateSerializer):
 
 
 class EditUserSerializer(EditProfileSerializer):
+    """Edit user serializer."""
+
     @classmethod
     def validate(cls, data: dict):
+        """Check that the user data is unique in the table."""
         cls.fields["email"] = [v.validate_email, v.validate_not_empty, "*"]
         return super().validate(data)
 
 
 class SiteConfigValidator(ValidateSerializer):
+    """Site config serializer."""
+
     fields = {
         "items_per_page": [v.validate_just_number, "*"],
         "maintenance_mode": [
             v.validate_string_as_boolean, v.validate_not_empty, "*"],
-        "maintenance_message": [v.validate_string, v.validate_not_empty],
+        "maintenance_message": [v.validate_string, v.validate_not_empty, "*"],
         "contact_info": [
-            v.validate_string, v.validate_str_len, v.validate_not_empty],
+            v.validate_string, v.validate_str_len, v.validate_not_empty, "*"],
     }
 
 
 class InstitutionValidator(ValidateSerializer):
+    """Institution validator."""
+
     fields = {
         "name": [v.validate_just_text, v.validate_str_len,
                  v.validate_no_institution_name, v.validate_not_empty, "*"],
@@ -138,6 +169,8 @@ class InstitutionValidator(ValidateSerializer):
 
 
 class ServiceDataSerializer(ValidateSerializer):
+    """Service data serializer."""
+
     fields = {
         "name": [v.validate_string, v.validate_not_empty, "*"],
         "description": [v.validate_string, v.validate_not_empty, "*"],
@@ -147,6 +180,8 @@ class ServiceDataSerializer(ValidateSerializer):
 
 
 class ServiceRequestEditDataSerializer(ValidateSerializer):
+    """Service request edit data serializer."""
+
     fields = {
         "observations": [v.validate_string],
         "status": [v.validate_service_request_status],
@@ -154,6 +189,8 @@ class ServiceRequestEditDataSerializer(ValidateSerializer):
 
 
 class ServiceRequestFilterSerializer(ValidateSerializer):
+    """Service request filter serializer."""
+
     fields = {
         "status": [v.validate_service_request_status],
         "service_type": [v.validate_just_text],
@@ -164,6 +201,8 @@ class ServiceRequestFilterSerializer(ValidateSerializer):
 
 
 class ChangePasswordSerializer(ValidateSerializer):
+    """Change password serializer."""
+
     fields = {
         "new_password": [v.validate_password, "*"],
         "confirm_password": [v.validate_password, "*"],

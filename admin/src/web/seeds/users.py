@@ -1,3 +1,4 @@
+"""Users seeds."""
 from src.core.models.privileges import Role
 from src.core.models.user import User
 from src.core.models.user_role_institution import UserRoleInstitution
@@ -6,12 +7,7 @@ from src.core.bcrypt import bcrypt
 
 
 def create_admins():
-    """
-    Creates a new admin user with super admin privileges.
-
-    Returns:
-        None
-    """
+    """Create a new admin user with super admin privileges."""
     super_admin_role = Role.query.filter_by(name="Super Admin").first()
     data = {
         "first_name": "Super",
@@ -43,12 +39,6 @@ def seed_users() -> None:
 
     This function populates the database with initial user data
     for testing and development purposes.
-
-    Args:
-        None
-
-    Returns:
-        None
     """
     create_admins()
 

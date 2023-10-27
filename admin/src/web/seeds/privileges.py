@@ -1,3 +1,4 @@
+"""Privileges seeds."""
 from ...core.models.privileges import Role, Permission
 from src.core.database import db
 
@@ -55,12 +56,6 @@ def seed_privileges() -> None:
     to the database.
     It uses the data provided in the `roles_data` and
     `permissions_data` variables.
-
-    Parameters:
-    None
-
-    Returns:
-    None
     """
     def add_roles():
         for role_info in roles_data:
@@ -84,8 +79,9 @@ def seed_privileges() -> None:
                 "user_institution_create", "user_institution_destroy",
                 "user_institution_update", "service_index", "service_create",
                 "service_destroy", "service_update", "service_show",
-                "request_index", "request_create", "request_destroy",
-                "request_update", "config_show", "config_update"
+                "request_index", "request_show", "request_create",
+                "request_destroy", "request_update", "config_show",
+                "config_update"
                 ]
              },
 
