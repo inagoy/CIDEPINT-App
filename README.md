@@ -49,7 +49,6 @@ _Servidor de Base de Datos: Postgres 15_
 - [**Flask-Mail**](https://pythonhosted.org/Flask-Mail/): 0.9.1. facilita el envío de correos electrónicos desde la aplicación web
 
 # API
-La api es una cosa maravillosa
 ### Dependencias
 - [**marshmallow**](https://marshmallow.readthedocs.io/en/stable/): 3.20.1. Para la serialización y validación de datos
 ### Endpoints
