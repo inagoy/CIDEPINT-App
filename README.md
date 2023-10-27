@@ -52,15 +52,19 @@ _Servidor de Base de Datos: Postgres 15_
 ### Dependencias
 - [**marshmallow**](https://marshmallow.readthedocs.io/en/stable/): 3.20.1. Para la serialización y validación de datos
 ### Endpoints
-**Autenticación**
+#### Autenticación
 
-_Permite obtener el un JSON Web Token válido para el usuario y password._
+_Devuelve mensaje de éxito si existe un usuario con esa contraseña registrado en el sistema_
 - [ ] Requiere autenticación
 - Tipo: _POST_
 - Ruta: ```/api/auth```
-
-
-**Información de las Instituciones**
+- Cuerpo:\
+    *{\
+    "user": "john.doe@mail.com",\
+    "password": "QXR0mi38a2"\
+    }*
+- Ejemplo: ```POST https://admin-grupo05.proyecto2023.unlp.edu.ar/api/auth```
+#### Información de las Instituciones
 
 _Obtiene todas las instituciones dadas de alta en el sistema_
 - [x] Requiere autenticación
@@ -68,15 +72,22 @@ _Obtiene todas las instituciones dadas de alta en el sistema_
 - Ruta: ```/api/institutions{?page,per_page}```
     - page ```integer``` (opcional): número de página. **Default 1**
     - per_page```integer``` (opcional): cantidad de elementos por página **Default 1**
+- Encabezados: 
+    - *Authorization*: *{id del usuario}*
+- Ejemplo:```GET https://admin-grupo05.proyecto2023.unlp.edu.ar/api/institutions?page=2&per_page=10```
 
-**Información de perfil**
+#### Información de perfil
 
 _Obtiene toda la información del perfil del usuario autenticado._
 - [x] Requiere autenticación
 - Tipo: _GET_
 - Ruta: ```/api/profile```
+- Encabezados: 
+    - *Authorization*: *{id del usuario}*
+- Ejemplo: ```GET https://admin-grupo05.proyecto2023.unlp.edu.ar/api/me/profile```
 
-**Listado de solicitudes de servicio realizadas por el usuario logueado**
+
+#### Listado de solicitudes de servicio realizadas por el usuario logueado
 
 _Obtiene el listado de solicitudes realizadas por el usuario autenticado._
 - [x] Requiere autenticación
@@ -86,31 +97,53 @@ _Obtiene el listado de solicitudes realizadas por el usuario autenticado._
     - per_page```integer``` (opcional): cantidad de elementos por página **Default 1**
     - sort ```text``` (opcional): criterio de ordenación
     - order ```text``` (opcional): Orden DESCENDIENTE o ASCENDENTE **Default desc**
+- Encabezados: 
+    - *Authorization*: *{id del usuario}*
+- Ejemplo: ```GET https://admin-grupo05.proyecto2023.unlp.edu.ar/api/me/requests?page=2&per_page=10&sort=creation_date&order=desc```
 
-**Obtiene la solicitud de servicio**
+#### Obtiene la solicitud de servicio
 
 _Obtiene la solicitud realizada por el usuario autenticado_
 - [x] Requiere autenticación
 - Tipo: _GET_
 - Ruta: ```/api/me/requests/{id}```
     - id ```integer``` (requerido): id de la solicitud de servicio.
+- Encabezados: 
+    - *Authorization*: *{id del usuario}*
+- Ejemplo: ```GET https://admin-grupo05.proyecto2023.unlp.edu.ar/api/me/requests/123```
 
-**Carga una solicitud de servicio**
+
+#### Carga una solicitud de servicio
 
 _Carga una solicitud de servicio por un usuario autenticado_
 - [x] Requiere autenticación
 - Tipo: _POST_
 - Ruta: ```/api/me/requests```
+- Encabezados: 
+    - *Authorization*: *{id del usuario}*
+- Cuerpo: \
+{\
+  "title": "a title",\
+  "description": "a long description"\
+}
+- Ejemplo:```POST https://admin-grupo05.proyecto2023.unlp.edu.ar/api/me/requests```
 
-**Carga una nota en solicitud de servicio**
+
+#### Carga una nota en solicitud de servicio
 
 _Carga una nota en la solicitud de servicio por un usuario autenticado._
 - [x] Requiere autenticación
 - Tipo: _POST_
 - Ruta: ```/api/me/requests/{id}/notes```
     - id ```integer``` (requerido): Id de la solicitud de servicio
-
-**Buscador de servicios**
+- Encabezados: 
+    - *Authorization*: *{id del usuario}*
+- Cuerpo: \
+{\
+  "text": "a long description"\
+}
+- Ejemplo: ```POST https://admin-grupo05.proyecto2023.unlp.edu.ar/api/me/requests/123/notes```
+#### Buscador de servicios
 
 _Obtiene un listado de tipos habilitado, filtrado por el criterio de búsqueda._
 - [x] Requiere autenticación
@@ -120,21 +153,28 @@ _Obtiene un listado de tipos habilitado, filtrado por el criterio de búsqueda._
     - type ```string``` (opcional): El tipo de búsqueda
     - page ```integer``` (opcional): Número de página actual
     - per_page ```integer``` (opcional): Cantidad de elementos por página
+- Encabezados: 
+    - *Authorization*: *{id del usuario}*
+- Ejemplo: ```GET https://admin-grupo05.proyecto2023.unlp.edu.ar/api/services/search?q=&type=&page=2&per_page=10```
 
-**Obtener servicio**
+
+#### Obtener servicio
 
 _Obtiene el detalle del servicio._
 - [ ] Requiere autenticación
 - Tipo: _GET_
 - Ruta: ```/api/services/{id}```
     - id ```integer``` (requerido): Id del servicio
+- Ejemplo:```GET https://admin-grupo05.proyecto2023.unlp.edu.ar/api/services/123```
 
-**Tipos de servicios**
+#### Tipos de servicios
 
 _Obtiene el listado de tipos de servicios._
 - [ ] Requiere autenticación
 - Tipo: _GET_
 - Ruta: ```/api/services-types```
+- Ejemplo: 
+```GET https://admin-grupo05.proyecto2023.unlp.edu.ar/api/services-types```
 
 # Estructura
 `admin`: aplicación interna de CIDEPINT
