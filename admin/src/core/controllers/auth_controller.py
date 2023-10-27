@@ -6,7 +6,6 @@ from flask import flash, redirect, url_for, render_template
 from flask import session
 from src.core.common.decorators import LoginWrap
 from src.web.helpers.auth import check_user
-from src.web.helpers.auth import check_user
 
 
 def login():
