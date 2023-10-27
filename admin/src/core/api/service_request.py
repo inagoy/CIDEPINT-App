@@ -1,7 +1,9 @@
 from src.core.models.user import User
 from src.core.schemas import IdValidateSchema
-from src.core.models.service import ServiceRequest
+from src.core.models.service import Note, ServiceRequest
 from marshmallow import ValidationError
+from src.core.schemas.service_request import NoteModelSchema
+from src.core.schemas.service_request import PostNoteValidateSchema
 from src.core.schemas.service_request import PostRequestValidateSchema
 from src.core.schemas.service_request import SortedRequestsValidateSchema
 from src.core.schemas.service_request import RequestModelSchema
@@ -69,3 +71,24 @@ def post_request():
         requester_id=user_id, **validated_data
     )
     return model_schema.dump(service_request), 200
+
+
+@api_request_bp.route("/me/requests/<int:request_id>/notes", methods=["POST"])
+def post_note(request_id):
+    user_id = request.headers['Authorization']
+    id_validator = IdValidateSchema.get_instance()
+    validator = PostNoteValidateSchema.get_instance()
+    model_schema = NoteModelSchema.get_instance()
+    try:
+        id_validator.load({'id': user_id})
+        id_validator.load({"id": request_id})
+        validated_data = validator.load(request.get_json())
+    except ValidationError:
+        return response_error()
+    if not ServiceRequest.get_by_id(request_id):
+        return response_error()
+    note = Note.save(
+       **validated_data, service_request_id=request_id,
+       user_id=user_id
+    )
+    return model_schema.dump(note), 200

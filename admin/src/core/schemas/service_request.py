@@ -64,3 +64,15 @@ class PostRequestValidateSchema(BaseSchema):
     @validates("service_id")
     def validate_service_id(self, value):
         v.validate_service_request_id_exists(value)
+
+
+class PostNoteValidateSchema(BaseSchema):
+    text = fields.Str(
+        required=True,
+        validate=validate.Length(max=1000)
+    )
+
+
+class NoteModelSchema(BaseSchema):
+    text = fields.Str()
+    id = fields.Int()
