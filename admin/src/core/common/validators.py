@@ -1,3 +1,4 @@
+"""Validators."""
 import re
 import datetime
 from src.core.models.service import ServiceRequest, StatusEnum
@@ -8,9 +9,7 @@ from src.core.models.user import DocumentEnum, GenderEnum, User
 
 
 def validate_not_empty(text):
-    """
-    Validate if the given text is not empty.
-    """
+    """Validate if the given text is not empty."""
     if not text:
         raise ValidationError(f"El campo '{text}' no puede estar vacío")
 
@@ -26,7 +25,7 @@ def validate_not_empty(text):
 
 def validate_email(value):
     """
-    Validates an email address.
+    Validate an email address.
 
     Args:
         email (str): The email address to validate.
@@ -56,7 +55,6 @@ def validate_just_text(value):
         ValidationError: If the text contains non-alphabetic characters.
     """
     text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
-    text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
     if not re.match(text_pattern, value, re.UNICODE) is not None:
         raise ValidationError(f"El campo '{value}' no es un texto")
     return value
@@ -64,7 +62,7 @@ def validate_just_text(value):
 
 def validate_just_number(value):
     """
-    Validates if the given number is a valid number.
+    Validate if the given number is a valid number.
 
     Parameters:
         number (str): The number to be validated.
@@ -83,7 +81,7 @@ def validate_just_number(value):
 
 def validate_username(value):
     """
-    Validates a username.
+    Validate a username.
 
     Args:
         text (str): The text to be validated.
@@ -104,7 +102,7 @@ def validate_username(value):
 
 def validate_password(value):
     """
-    Validates a password string.
+    Validate a password string.
 
     Args:
         password (str): The password to be validated.
@@ -127,7 +125,7 @@ def validate_password(value):
 
 def validate_address(value):
     """
-    Validates an address using a regex pattern.
+    Validate an address using a regex pattern.
 
     Args:
         address (str): The address to be validated.
@@ -149,7 +147,7 @@ def validate_address(value):
 
 def validate_phone_number(value):
     """
-    Validates a phone number.
+    Validate a phone number.
 
     Args:
         phone_number (str): The phone number to validate.
@@ -171,7 +169,7 @@ def validate_phone_number(value):
 
 def validate_form_data(form_data, fields):
     """
-    Validates the form data against the expected parameters.
+    Validate the form data against the expected parameters.
 
     Args:
         form_data (dict): A dictionary containing the form data.
@@ -199,7 +197,7 @@ def validate_form_data(form_data, fields):
 
 def validate_no_username(value):
     """
-    Validates that the given text does not match an existing username.
+    Validate that the given text does not match an existing username.
 
 
     Parameters:
@@ -217,8 +215,7 @@ def validate_no_username(value):
 
 def validate_no_email(value):
     """
-    Validates if the given email is not already registered in the User
-    database.
+    Validate if the email is not in the User database.
 
     Parameters:
         email (str): The email to be validated.
@@ -257,7 +254,7 @@ def validate_no_document(value):
 
 def validate_no_phone_number(value):
     """
-    Validates that the given phone number is not already registered.
+    Validate that the given phone number is not already registered.
 
     Parameters:
         phone_number (str): The phone number to be validated.
@@ -299,7 +296,7 @@ def validate_service_type(value):
 
 def validate_string_as_boolean(value):
     """
-    Validates that the given value is a True or False string.
+    Validate that the given value is a True or False string.
 
     Parameters:
         field (str): The value to be validated.
@@ -320,7 +317,7 @@ def validate_string_as_boolean(value):
 
 def validate_string(value):
     """
-    Validates that the given value is a string.
+    Validate that the given value is a string.
 
     Parameters:
         field (str): The value to be validated.
@@ -339,6 +336,18 @@ def validate_string(value):
 
 
 def validate_keywords(value):
+    """
+    Validate a value against a keyword pattern.
+
+    Parameters:
+        value (str): The value to be validated.
+
+    Returns:
+        bool: True if the value matches the keyword pattern.
+
+    Raises:
+        ValidationError: If the value does not match the keyword pattern.
+    """
     keyword_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
     if re.match(keyword_pattern, value):
         return True
@@ -348,6 +357,18 @@ def validate_keywords(value):
 
 
 def validate_service_request_status(value):
+    """
+    Validate the service request status.
+
+    Parameters:
+        value (str): The value to be validated.
+
+    Returns:
+        StatusEnum: The validated status.
+
+    Raises:
+        ValidationError: If the value is not a valid service request status.
+    """
     try:
         status = StatusEnum(value)
         return status
@@ -358,7 +379,7 @@ def validate_service_request_status(value):
 
 def validate_date(date: str, date_format: str = '%Y-%m-%d'):
     """
-    Validates that the given date is a valid date.
+    Validate that the given date is a valid date.
 
     Parameters:
         date (str): The date to be validated.
@@ -379,8 +400,7 @@ def validate_date(date: str, date_format: str = '%Y-%m-%d'):
 
 def validate_str_len(value):
     """
-    Validates that the given value is a string with a
-    maximum length of 255 characters.
+    Validate that the value is a string with a max length of 255 characters.
 
     Parameters:
         value (str): The value to be validated.
@@ -398,7 +418,7 @@ def validate_str_len(value):
 
 def validate_website(website: str):
     """
-    Validates that the given website is a valid URL.
+    Validate that the given website is a valid URL.
 
     Parameters:
         website (str): The website to be validated.
@@ -409,8 +429,7 @@ def validate_website(website: str):
     Returns:
         True if the website is a valid URL, False otherwise.
     """
-
-    pattern = r'^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$'
+    pattern = r'^(www.)?[-a-zA-Z0-9@:%.+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%+.~#?&//=]*)$'
 
     if re.match(pattern, website):
         return True
@@ -421,8 +440,7 @@ def validate_website(website: str):
 
 def validate_no_institution_name(institution_name: str):
     """
-    Validates that the given institution is not already
-    registered in the system.
+    Validate that the institution is not registered in the system.
 
     Parameters:
         institution_name (str): The institution to validate.
