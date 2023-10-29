@@ -20,7 +20,7 @@
                     id="inputNameEdit" 
                     name="inputNameEdit" 
                     placeholder="Nombre de la institución"
-                    onblur="validateJustText('inputNameEdit', 'nameErrorEdit')"
+                    onblur="validateJustText('inputNameEdit', 'nameErrorEdit'); allFieldsValid()"
                     aria-describedby="nameErrorEdit"
                 />
                 <small id="nameErrorEdit" class="form-text text-danger"></small>
@@ -35,6 +35,7 @@
                     name="inputInfoEdit" 
                     rows="4" 
                     placeholder="Información de la institución"
+                    onblur="allFieldsValid()"
                 ></textarea>
             </div>
 
@@ -46,7 +47,7 @@
                     id="inputAddressEdit" 
                     name="inputAddressEdit" 
                     placeholder="Ejemplo de dirección: Av San Martin 123"
-                    onblur="validateDireccion('inputAddressEdit', 'addressErrorEdit')"
+                    onblur="validateDireccion('inputAddressEdit', 'addressErrorEdit'); allFieldsValid()"
                     aria-describedby="addressErrorEdit"
                 />
                 <small id="addressErrorEdit" class="form-text text-danger"></small>
@@ -60,7 +61,7 @@
                     id="inputLocationEdit" 
                     name="inputLocationEdit" 
                     placeholder="Ejemplo: CABA"
-                    onblur="validateJustText('inputLocationEdit', 'locationErrorEdit')"
+                    onblur="validateJustText('inputLocationEdit', 'locationErrorEdit'); allFieldsValid()"
                     aria-describedby="locationErrorEdit"
                 />
                 <small id="locationErrorEdit" class="form-text text-danger"></small>
@@ -74,7 +75,7 @@
                     id="inputWebsiteEdit" 
                     name="inputWebsiteEdit" 
                     placeholder="www.ejemplo.com"
-                    onblur="validateWebsite('inputWebsiteEdit', 'websiteErrorEdit')"
+                    onblur="validateWebsite('inputWebsiteEdit', 'websiteErrorEdit'); allFieldsValid()"
                     aria-describedby="websiteErrorEdit"
                 />
                 <small id="websiteErrorEdit" class="form-text text-danger"></small>
@@ -88,7 +89,7 @@
                     id="inputKeywordsEdit" 
                     name="inputKeywordsEdit" 
                     placeholder="Palabras clave"
-                    onblur="validateKeywords('inputKeywordsEdit', 'keywordsErrorEdit')"
+                    onblur="validateKeywords('inputKeywordsEdit', 'keywordsErrorEdit'); allFieldsValid()"
                     aria-describedby="keywordsErrorEdit"
                 />
                 <small id="keywordsErrorEdit" class="form-text text-danger"></small>
@@ -102,6 +103,7 @@
                     name="inputDaysHoursEdit" 
                     rows="4" 
                     placeholder="Ejemplo: Lunes a Viernes de 9:00 a 18:00"
+                    onblur="allFieldsValid()"
                 />
             </div>
 
@@ -113,6 +115,7 @@
                     id="inputContactEdit" 
                     name="inputContactEdit" 
                     placeholder="Ejemplo: Teléfono 123456789"
+                    onblur="allFieldsValid()"
                 />
             </div>
             

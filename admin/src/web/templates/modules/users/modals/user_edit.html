@@ -18,14 +18,14 @@
                 <label for="inputEmail"> Dirección de email</label>
                 <input required type="email" class="form-control" id="inputEmail" name="inputEmail"
                        placeholder="nombre@ejemplo.com"
-                       onblur="validateEmail('inputEmail', 'emailError')"
+                       onblur="validateEmail('inputEmail', 'emailError'); allFieldsValid()"
                        aria-describedby="emailError" />
                 <small id="emailError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="inputName"> Nombre </label>
                 <input required type="text" class="form-control" id="inputName" name="inputName"
-                       placeholder="John" onblur="validateJustText('inputName', 'nameError')"
+                       placeholder="John" onblur="validateJustText('inputName', 'nameError'); allFieldsValid()"
                        aria-describedby="nameError" />
                 <small id="nameError" class="form-text text-danger"></small>
             </div>
@@ -33,7 +33,7 @@
                 <label for="inputSurname"> Apellido </label>
                 <input required type="text" class="form-control" id="inputSurname"
                        name="inputSurname" placeholder="Doe"
-                       onblur="validateJustText('inputSurname', 'surnameError')"
+                       onblur="validateJustText('inputSurname', 'surnameError'); allFieldsValid()"
                        aria-describedby="surnameError" />
                 <small id="surnameError" class="form-text text-danger"></small>
             </div>
@@ -41,14 +41,14 @@
                 <label for="inputUsername"> Nombre de usuario </label>
                 <input required type="text" class="form-control" id="inputUsername"
                        name="inputUsername" placeholder="johndoe"
-                       onblur="validateUsername('inputUsername', 'usernameError')"
+                       onblur="validateUsername('inputUsername', 'usernameError'); allFieldsValid()"
                        aria-describedby="usernameError" />
                 <small id="usernameError" class="form-text text-danger"></small>
             </div>
 
             <div class="form-group">
                 <label for="inputDocumentType">Tipo de Documento</label>
-                <select class="form-control" id="inputDocumentType" name="inputDocumentType">
+                <select onblur="allFieldsValid()" required class="form-control" id="inputDocumentType" name="inputDocumentType">
                     <option value="" disabled selected>Seleccionar un tipo de Documento</option>
                     <option value="DNI">DNI</option>
                     <option value="Pasaporte">Pasaporte</option>
@@ -59,14 +59,14 @@
                 <label for="inputDocument">Número de Documento</label>
                 <input type="text" class="form-control" id="inputDocument" name="inputDocument"
                        placeholder="12345678"
-                       onblur="validateJustNumber('inputDocument', 'documentError')"
+                       onblur="validateJustNumber('inputDocument', 'documentError'); allFieldsValid()"
                        aria-describedby="documentError">
                 <small id="documentError" class="form-text text-danger"></small>
             </div>
 
             <div class="form-group">
                 <label for="inputGender">Género</label>
-                <select class="form-control" id="inputGender" name="inputGender">
+                <select onblur="allFieldsValid()" class="form-control" id="inputGender" name="inputGender">
                     <option value="" disabled selected>Seleccionar un Género</option>
                     <option value="Masculino">Masculino</option>
                     <option value="Femenino">Femenino</option>
@@ -76,7 +76,7 @@
             <div class="form-group">
                 <label for="inputAddress">Dirección</label>
                 <input type="text" class="form-control" id="inputAddress" name="inputAddress"
-                       onblur="validateDireccion('inputAddress', 'addressError')"
+                       onblur="validateDireccion('inputAddress', 'addressError'); allFieldsValid()"
                        aria-describedby="addressError">
                 <small id="addressError" class="form-text text-danger"></small>
             </div>
@@ -85,7 +85,7 @@
                 <label for="inputPhoneNumber">Número de teléfono</label>
                 <input type="text" class="form-control" id="inputPhoneNumber"
                        name="inputPhoneNumber"
-                       onblur="validatePhoneNumber('inputPhoneNumber', 'phoneNumberError')"
+                       onblur="validatePhoneNumber('inputPhoneNumber', 'phoneNumberError'); allFieldsValid()"
                        aria-describedby="phoneNumberError">
                 <small id="phoneNumberError" class="form-text text-danger"></small>
             </div>
