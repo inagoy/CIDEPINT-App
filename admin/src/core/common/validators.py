@@ -207,7 +207,7 @@ def validate_no_username(value):
     Raises:
         ValidationError: If the given text matches an existing username.
     """
-    if User.find_user_by_username(value):
+    if User.find_user_by(field='username', value=value):
         raise ValidationError(
             f"El nombre de usuario '{value}' ya está registrado")
     return value
@@ -227,7 +227,7 @@ def validate_no_email(value):
         ValidationError: If the email is already registered.
 
     """
-    if User.find_user_by_email(value):
+    if User.find_user_by(field='email', value=value):
         raise ValidationError(
             f"El email '{value}' ya está registrado")
     return value
@@ -246,7 +246,7 @@ def validate_no_document(value):
     Returns:
         str: The validated document.
     """
-    if User.find_user_by_document(value):
+    if User.find_user_by(field='document', value=value):
         raise ValidationError(
             f"El documento '{value}' ya está registrado")
     return value
@@ -265,7 +265,7 @@ def validate_no_phone_number(value):
     Raises:
         ValidationError: If the phone number is already registered.
     """
-    if User.find_user_by_phone_number(value):
+    if User.find_user_by(field='phone_number', value=value):
         raise ValidationError(
             f"El número de teléfono '{value}' ya está registrado")
     return value

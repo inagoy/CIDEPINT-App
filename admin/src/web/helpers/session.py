@@ -15,7 +15,7 @@ def superuser_session() -> bool:
     Returns:
         bool: True if the session is a superuser, False otherwise.
     """
-    user = User.find_user_by_email(session.get("user"))
+    user = User.find_user_by(field='email', value=session.get('user'))
     role = User.get_role_in_institution(user_id=user.id)
     if not role:
         return False
@@ -32,7 +32,7 @@ def is_owner(institution_id) -> bool:
     Returns:
         bool: True if the session is an owner, False otherwise.
     """
-    user = User.find_user_by_email(session.get("user"))
+    user = User.find_user_by(field='email', value=session.get('user'))
     role = User.get_role_in_institution(user_id=user.id,
                                         institution_id=institution_id)
     if not role:

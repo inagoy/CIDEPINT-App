@@ -122,7 +122,7 @@ class PermissionWrap(DecoratorManager):
             return False
 
         required_permissions = kwargs["permissions"]
-        user = User.find_user_by_email(session["user"])
+        user = User.find_user_by(field='email', value=session["user"])
 
         institution = session.get("current_institution")
 
