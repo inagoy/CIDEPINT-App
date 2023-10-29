@@ -9,7 +9,7 @@
 			<div class="dropdown-divider pb-4"></div>
 			<form method="POST" action="{{ url_for('register.first_form') }}">
 				<div class="form-group">
-					<label for="inputEmail"> Dirección de email</label>
+					<label for="inputEmail"> Dirección de email *</label>
 					<input
 						required
 						type="email"
@@ -23,12 +23,12 @@
 					<small id="emailError" class="form-text text-danger"></small>
 				</div>
 				<div class="form-group">
-					<label for="inputName"> Nombre </label>
+					<label for="inputName"> Nombre *</label>
 					<input required type="text" class="form-control" id="inputName" name="inputName" placeholder="John" onblur="validateJustText('inputName', 'nameError')" aria-describedby="nameError" />
 					<small id="nameError" class="form-text text-danger"></small>
 				</div>
 				<div class="form-group">
-					<label for="inputSurname"> Apellido </label>
+					<label for="inputSurname"> Apellido * </label>
 					<input required type="text" class="form-control" id="inputSurname" name="inputSurname" placeholder="Doe" onblur="validateJustText('inputSurname', 'surnameError')" aria-describedby="surnameError" />
 					<small id="surnameError" class="form-text text-danger"></small>
 				</div>
