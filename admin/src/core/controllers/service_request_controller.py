@@ -25,7 +25,7 @@ def service_requests():
     """
     institution_id = session['current_institution']
     not_enabled_and_not_owner(institution_id)
-    user = User.find_user_by_email(session.get('user'))
+    user = User.find_user_by(field='email', value=session.get('user'))
     title = "Administración de solicitudes de servicio"
     page = request.args.get("page", 1, type=int)
     institution_id = session['current_institution']
@@ -148,7 +148,7 @@ def new_note(service_request_id):
         redirect: A redirect to the notes page.
     """
     text = request.form.get('message')
-    user_id = User.find_user_by_email(session['user']).id
+    user_id = User.find_user_by(field='email', value=session["user"]).id
     Note.save(text, user_id, service_request_id)
     return redirect(
         url_for(

@@ -26,7 +26,7 @@ def services():
     page = request.args.get("page", 1, type=int)
     services = Service.get_services_of_institution_paginated(
         page=page, institution_id=institution_id)
-    user = User.find_user_by_email(session.get('user'))
+    user = User.find_user_by(field='email', value=session.get('user'))
 
     role_id = User.get_role_in_institution(user_id=user.id,
                                            institution_id=institution_id)
@@ -121,7 +121,7 @@ def service_requests(service_id):
                             page=page,
                             service_id=service_id
                         ))
-    user = User.find_user_by_email(session.get('user'))
+    user = User.find_user_by(field='email', value=session.get('user'))
 
     role_id = User.get_role_in_institution(
                         user_id=user.id,

@@ -13,7 +13,7 @@ def check_user(email, password):
      :rtype: User or None
      """
 
-    user = User.find_user_by_email(email)
+    user = User.find_user_by(field='email', value=email)
 
     if user and bcrypt.check_password_hash(user.password,
                                            password.encode("utf-8")):
