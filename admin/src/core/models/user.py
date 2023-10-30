@@ -164,7 +164,7 @@ class User(BaseModel):
     @classmethod
     def get_inactive_users(cls):
         """Return inactive users."""
-        return cls.get_all().filter(cls.active==False)
+        return cls.get_all().filter(and_(cls.active.is_(False)))
 
     @classmethod
     def get_users_paginated(cls, page, per_page=None,

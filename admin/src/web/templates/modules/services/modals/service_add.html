@@ -8,25 +8,29 @@
     <div class="col">
         <form id="add-form" method="POST" action="{{ url_for('services.add_service') }}">
             <div class="form-group">
-                <label for="inputName"> Nombre </label>
+                <label for="inputName"> Nombre * </label>
                 <input required type="text" class="form-control" id="inputName" name="inputName"
-                       placeholder="Nombre" />
+                       placeholder="Nombre" onblur="allFieldsValid()" />
             </div>
-            <div class="form-group">
-                <label for="inputDescription"> Descripción </label>
+            <div class=" form-group">
+                <label for="inputDescription"> Descripción * </label>
                 <input required type="text" class="form-control" id="inputDescription"
-                       name="inputDescription" placeholder="Descripción" />
+                       name="inputDescription" placeholder="Descripción"
+                       onblur="allFieldsValid()" />
             </div>
             <div class="form-group">
-                <label for="inputKeywords"> Palabras clave </label>
+                <label for="inputKeywords"> Palabras clave * </label>
                 <input required type="text" class="form-control" id="inputKeywords"
-                       name="inputKeywords" placeholder="palabras separadas por coma" onblur="validateKeywords('inputKeywords', 'keywordsError')" aria-describedby="keywordsError"/>
+                       name="inputKeywords" placeholder="palabras separadas por coma"
+                       onblur="validateKeywords('inputKeywords', 'keywordsError'); allFieldsValid()"
+                       aria-describedby="keywordsError" />
                 <small id="keywordsError" class="form-text text-danger"></small>
             </div>
 
             <div class="form-group">
-                <label for="inputServiceType">Tipo de Servicio</label>
-                <select class="form-control" id="inputServiceType" name="inputServiceType">
+                <label for="inputServiceType">Tipo de Servicio *</label>
+                <select onblur="allFieldsValid()" class="form-control" id="inputServiceTypeAdd"
+                        name="inputServiceType">
                     <option value="" disabled selected> Seleccionar un tipo de servicio</option>
                     <option value="Análisis">Análisis</option>
                     <option value="Consultoría">Consultoría</option>
@@ -42,7 +46,7 @@
                 </label>
             </div>
 
-            <button type="submit" class="btn btn-primary"> Registrar Servicio
+            <button type="submit" disabled class="btn btn-primary"> Registrar Servicio
             </button>
 
             <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">

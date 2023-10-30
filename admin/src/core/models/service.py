@@ -213,7 +213,7 @@ class ServiceRequest(BaseModel):
             service_id (int): The ID of the service.
 
         Returns:
-            Pagination: The paginated service requests 
+            Pagination: The paginated service requests
             of the specified service.
         """
         query = cls.query.filter_by(service_id=service_id)
@@ -248,8 +248,8 @@ class ServiceRequest(BaseModel):
         return cls.get_query_paginated(institutions, page)
 
     @classmethod
-    def get_user_sorted_paginated(cls, user_id: int, page: int, per_page: int, sort: str,
-                             order: str):
+    def get_user_sorted_paginated(cls, user_id: int, page: int,
+                                  per_page: int, sort: str, order: str):
         query = cls.query.filter_by(requester_id=user_id).order_by(
             getattr(cls, sort).desc() if order == 'desc' else
             getattr(cls, sort).asc()
