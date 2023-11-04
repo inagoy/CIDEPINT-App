@@ -154,7 +154,7 @@ class User(BaseModel):
     def get_all(cls):
         """Return all users."""
         return cls.query.filter(and_(
-            cls.id != 1, cls.email != session["user"]))
+            cls.id != 1, cls.email != session.get("user")))
 
     @classmethod
     def get_active_users(cls):

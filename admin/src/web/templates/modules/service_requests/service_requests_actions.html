@@ -1,19 +1,18 @@
 <div>
+        {% if permissions.show %}
+        <button type="button" class="btn btn-outline-primary view-button"
+                onclick= "viewServiceRequest(this)" 
+                data-element="{{ parse_service_request(element) }}"
+                data-url="{{ url_for('service_requests.edit_service_request', service_request_id=element['id']) }}">
+                Ver
+        </button>
+        {% endif %}
+
         {% if permissions.update %}
         <a href="{{ url_for('service_requests.notes', service_request_id=element['id']) }}"
         class="btn btn-outline-secondary text-decoration-none">Notas</a>
         {% endif %}
-        {% if permissions.show %}
-        <button type="button" class="btn btn-outline-primary view-button"
-                onclick= "viewServiceRequest(this)"
-                data-element="{{ parse_service_request(element) }}">Ver</button>
-        {% endif %}
-        {% if permissions.update %}
-        <button type="button" class="btn btn-outline-info edit-button"
-                data-element="{{ parse_service_request(element) }}"
-                data-url="{{ url_for('service_requests.edit_service_request', service_request_id=element['id']) }}"
-                onclick="changeStatusServiceRequest(this)">Editar</button>
-        {% endif %}
+
         {% if permissions.destroy %}
         <button type="button" onclick="deleteServiceRequest(this)"
                 data-element="{{ parse_service_request(element) }}"

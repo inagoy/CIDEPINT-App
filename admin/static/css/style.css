@@ -13,6 +13,8 @@ p {
 	text-align: left;
 	font-size: 1rem;
 	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+	word-wrap: break-word; 
+	overflow-wrap: break-word;
 }
 
 i {
@@ -75,6 +77,6 @@ ul {
 }
 
 .modal-scrollable {
-    max-height: 60vh; /* Set the maximum height to your preference */
+    max-height: 60vh;
     overflow-y: auto;
 }

@@ -8,17 +8,17 @@
     <div class="col">
         <form id="edit-form" method="POST">
             <div class="form-group">
-                <label for="inputName"> Nombre </label>
+                <label for="inputName"> Nombre *</label>
                 <input required type="text" class="form-control" id="inputName" name="inputName" onblur="allFieldsValid()"
                        placeholder="Nombre" />
             </div>
             <div class="form-group">
-                <label for="inputDescription"> Descripción </label>
+                <label for="inputDescription"> Descripción *</label>
                 <input required type="text" class="form-control" id="inputDescription" onblur="allFieldsValid()"
                        name="inputDescription" placeholder="Descripción" />
             </div>
             <div class="form-group">
-                <label for="inputKeywords"> Palabras clave </label>
+                <label for="inputKeywords"> Palabras clave *</label>
                 <input required type="text" class="form-control" id="inputEditKeywords" name="inputKeywords"
                        placeholder="palabras separadas por coma"
                        onblur="validateKeywords('inputEditKeywords', 'keywordsErrors'); allFieldsValid()"
@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="inputServiceType2">Tipo de Servicio</label>
                 <select required onblur="allFieldsValid()" class="form-control" id="inputServiceType2" name="inputServiceType2">
-                    <option value="" disabled selected> Seleccionar un tipo de servicio</option>
+                    <option value="" disabled selected> Seleccionar un tipo de servicio *</option>
                     <option value="Análisis">Análisis</option>
                     <option value="Consultoría">Consultoría</option>
                     <option value="Desarrollo">Desarrollo</option>
@@ -43,15 +43,17 @@
                     ¿Servicio Habilitado?
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary"> Guardar Cambios
-            </button>
-
-            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
-                Cerrar </button>
         </form>
     </div>
 </div>
 {% endblock %}
 {% block footer %}
+<button type="submit" form="edit-form" class="btn btn-primary"> 
+    Guardar Cambios
+</button>
+
+<button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+    Cerrar 
+</button>
 
 {% endblock %}

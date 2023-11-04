@@ -2,6 +2,7 @@
 {% block modal_id %}institution_edit{% endblock %}
 {% block header %}Editar Instituci&oacute;n {% endblock %}
 {% block cuerpo %}
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
 <div id="confirm-message" class="modal-body modal-scrollable">
     <div class="col">
         <form id="edit-form" method="POST" action="">
@@ -13,7 +14,7 @@
             </div>
 
             <div class="form-group">
-                <label for="inputNameEdit">Nombre</label>
+                <label for="inputNameEdit">Nombre *</label>
                 <input 
                     required type="text" 
                     class="form-control" 
@@ -27,7 +28,7 @@
             </div>
 
             <div class="form-group">
-                <label for="inputInfoEdit">Informaci&oacute;n</label>
+                <label for="inputInfoEdit">Informaci&oacute;n *</label>
                 <textarea 
                     required type="text"
                     class="form-control" 
@@ -37,6 +38,7 @@
                     placeholder="Información de la institución"
                     onblur="allFieldsValid()"
                 ></textarea>
+                <small id="infoErrorEdit" class="form-text text-danger"></small>
             </div>
 
             <div class="form-group">
@@ -118,14 +120,11 @@
                     onblur="allFieldsValid()"
                 />
             </div>
-            
-            <button type="submit" class="btn btn-primary"> Confirmar Cambios</button>
-
-            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cerrar </button>
         </form>
     </div>
 </div>
 {% endblock %}
-{% block footer %}
-
+{% block footer %}    
+    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Cerrar</button>
+    <button type="submit" form="edit-form" class="btn btn-primary">Confirmar Cambios</button>
 {% endblock %}

@@ -20,7 +20,7 @@ def services():
     Returns
         The rendered template for the services page.
     """
-    institution_id = session['current_institution']
+    institution_id = session.get("current_institution")
     not_enabled_and_not_owner(institution_id)
     title = "Administración de servicios"
     page = request.args.get("page", 1, type=int)
@@ -59,7 +59,7 @@ def add_service():
     data = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
     data["enabled"] = request.form.get('inputEnabled') is not None
-    data['institution_id'] = session['current_institution']
+    data['institution_id'] = session.get("current_institution")
 
     serializer = s.ServiceDataSerializer().validate(data)
     if not serializer["is_valid"]:
@@ -128,7 +128,7 @@ def service_requests(service_id):
                         institution_id=session.get('current_institution')
                     )
 
-    permissions = Role.evaluate_permissions_model("service", role_id)
+    permissions = Role.evaluate_permissions_model("request", role_id)
     return render_template("pages/service_requests.html",
                            title=title,
                            elements=service_requests,
