@@ -3,12 +3,15 @@ from src.core.models.service import ServiceRequest
 from marshmallow import ValidationError
 from src.core.schemas.service_request import ServiceRequestValidateSchema
 from src.core.schemas.service_request import ServiceRequestModelSchema
-from src.web.helpers.api import get_user_if_valid, paginated_response, response_error
+from src.web.helpers.api import get_user_if_valid, paginated_response
+from src.web.helpers.api import response_error
 from flask import Blueprint, request
+from flask_cors import cross_origin
 api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
 
 
 @api_request_bp.route("/me/requests", methods=["GET"])
+@cross_origin()
 def get_requests():
     user = get_user_if_valid(request.args.get('user_id'))
     if not user:
@@ -28,6 +31,7 @@ def get_requests():
 
 
 @api_request_bp.route("/me/requests/<int:request_id>", methods=["GET"])
+@cross_origin()
 def get_request(request_id):
 
     user = get_user_if_valid(request.args.get('user_id'))
