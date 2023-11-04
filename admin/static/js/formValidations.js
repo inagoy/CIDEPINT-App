@@ -114,7 +114,7 @@ function validatePassword(inputId, errorId) {
 	const passwordError = document.getElementById(errorId);
 	const password = passwordInput.value;
 	if (passwordInput.value.length === 0) {
-		passwordError.textContent = "";
+		passwordError.textContent = "Este campo es obligatorio";
 		return false;
 	}
 	if (password.length < 6) {
@@ -179,7 +179,7 @@ function validatePhoneNumber(inputId, errorId) {
 	const phoneNumberPattern = /^\d{9,15}$/; // Change the length requirement as needed
 
 	if (!phoneNumberPattern.test(phoneNumberValue)) {
-		phoneNumberError.textContent = "Por favor ingrese un número de teléfono válido";
+		phoneNumberError.textContent = "Por favor ingrese un número de teléfono válido, de 9 a 15 dígitos";
 		return false;
 	} else {
 		phoneNumberError.textContent = "";
@@ -224,8 +224,6 @@ function validateKeywords(inputId, errorId) {
 	const error = document.getElementById(errorId);
 	const keywordPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
 
-	console.log("test", keywordPattern.test(input.value), input.value);
-
 	if (input.value.length === 0) {
 		error.textContent = "";
 		return false;
@@ -242,7 +240,6 @@ function validateKeywords(inputId, errorId) {
 function emptyInputFields(modal) {
 	let inputs = modal.querySelectorAll("input:required, select:required, textarea:required");
 	for (let element of inputs) {
-		console.log("elemento", element);
 		if (element.tagName.toLowerCase() === "input" || element.tagName.toLowerCase() === "textarea") {
 			if (element.value.length === 0) {
 				return true;
@@ -265,7 +262,7 @@ function allFieldsValid() {
 		}
 	}
 	if (!modal) return;
-	console.log("modal", modal.id, "hay fields vacios", emptyInputFields(modal));
+
 	warnings = modal.querySelectorAll(".text-danger");
 	confirmButton = modal.querySelector("button[type=submit]");
 	if (emptyInputFields(modal)) {
@@ -274,11 +271,32 @@ function allFieldsValid() {
 	}
 	for (const element of warnings) {
 		if (element.textContent != "") {
-			console.log("el warning este no esta vacio", element);
 			confirmButton.disabled = true;
 			return; // This will exit the entire function
 		}
 	}
 	confirmButton.disabled = false;
-	console.log("habilitado?", !confirmButton.disabled, confirmButton);
+
 }
+
+function validateFormInstitution() {
+    const name = document.getElementById('inputNameEdit');
+    const info = document.getElementById('inputInfoEdit');
+    const nameError = document.getElementById('nameErrorEdit');
+    const infoError = document.getElementById('infoErrorEdit');
+	const button = document.querySelector("button[type=submit]");
+
+    let isNameValid = validateJustText('inputNameEdit', 'nameErrorEdit');
+    let infoNotEmpty = info.value.trim().length > 0;
+    if (name.value.trim() == "") {
+        nameError.textContent = "Este campo es obligatorio.";
+        isNameValid = false;
+    }
+    if (!infoNotEmpty) {
+        infoError.textContent = "Este campo es obligatorio.";
+    }
+
+    let isValid = isNameValid && infoNotEmpty;
+	button.disabled = !isValid;
+    return isValid;
+} 

@@ -79,20 +79,17 @@ def change_password(request):
 
         if not (bcrypt.check_password_hash(user.password,
                                            form["current_password"])):
-            flash("Contraseña incorrecta", "danger")
-            return render_template("modules/profile/change_password.html")
+            flash("Contraseña actual incorrecta", "danger")
+            return render_template("modules/profile/change_password.html",
+                                   **context)
 
         serializer = s.ChangePasswordSerializer().validate(form)
 
         if not serializer["is_valid"]:
-            if 'missing_fields' in serializer["errors"]:
-                flash(serializer["errors"]['missing_fields'], "danger")
-            flash("""Ingrese una contraseña válida:
-                          minimo 6 caracteres,
-                          1 mayúscula,
-                          1 minúscula.""", 'danger')
+            for error in serializer["errors"].values():
+                flash(error, 'danger')
+            return redirect(url_for("user.change_password"))
 
-            return render_template("modules/profile/change_password.html")
         if form["new_password"] != form["confirm_password"]:
             flash("Las contraseñas no coinciden", 'danger')
             return redirect(url_for("user.change_password"))

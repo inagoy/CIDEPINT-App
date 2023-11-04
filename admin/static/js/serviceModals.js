@@ -12,9 +12,20 @@ function viewService(button) {
 	modal.querySelector("#service-name").innerHTML = data.name;
 	modal.querySelector("#service-description").innerHTML = data.description;
 	modal.querySelector("#service-keywords").innerHTML = data.keywords;
-	modal.querySelector("#service-type").innerHTML = data.service_type;
-	modal.querySelector("#service-enabled").innerHTML = data.enabled;
+	modal.querySelector("#service-type").innerHTML = data.service_type;    
+	
+	if (data.enabled === "True") {
+        modal.querySelector("#service-enabled").innerHTML = "Habilitado";
+    } else {
+        modal.querySelector("#service-enabled").innerHTML = "Deshabilitado";
+    }
 
+
+    const editButton = modal.querySelector("#edit-button");
+	if (editButton !== null) {
+		editButton.setAttribute('data-element', JSON.stringify(data));
+		editButton.setAttribute('data-url', button.getAttribute("data-url")); 
+	}
 	openModal(modal);
 }
 
@@ -45,6 +56,7 @@ function deleteService(button) {
 }
 
 function editService(button) {
+	document.getElementById("service_view").style.display = "none";
 	let modal = document.getElementById("service_edit");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
 

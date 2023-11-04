@@ -93,7 +93,7 @@ def get_role_of_user(user_id):
             None otherwise.
     """
     user = UserRoleInstitution.get_user_institution_roles(
-        user_id=user_id, institution_id=session["current_institution"])
+        user_id=user_id, institution_id=session.get("current_institution"))
     if user:
         return user.role_id
     else:

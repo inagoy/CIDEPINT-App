@@ -5,102 +5,126 @@
     <script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
 {% endblock %}
 {% block content %}
-<div class="row align-items-center">
-    <div class="col-7 mx-auto">
-        <div class="card bg-light" style="margin-bottom: 20px">
+<div class="row justify-content-center" style="margin: 20px;">
+    <div class="col-lg-8">
+        <div class="card bg-light mb-4 p-3">
             <div class="card-body">
                 <h3 class="mb-4 text-center">Editar Perfil</h3>
-                <form method="POST" action="{{ url_for('user.edit_profile') }}" onsubmit="return validateForm()" id="editProfileForm">
-                    <div class="form-group">
-                        <label for="first_name">Nombre:</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="inputFirstName" 
-                            name="first_name" 
-                            value="{{ user.first_name }}"
-                            onblur="validateJustText('inputFirstName', 'firstNameError')"
-                        />
-                        <small id="firstNameError" class="form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="last_name">Apellido:</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="inputLastName" 
-                            name="last_name" 
-                            value="{{ user.last_name }}" 
-                            onblur="validateJustText('inputLastName', 'lastNameError')"
-                        />
-                        <small id="lastNameError" class="form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Nombre de usuario:</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="inputUsername" 
-                            name="username" 
-                            value="{{ user.username }}"
-                            onblur="validateUsername('inputUsername', 'usernameError')"
-                        />
-                        <small id="usernameError" class="form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Dirección:</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="inputAddress" 
-                            name="address" 
-                            value="{{ user.address }}"
-                            onblur="validateAddress('inputAddress', 'addressError')"
-                        />
-                        <small id="addressError" class="form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone_number">Teléfono:</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="inputPhoneNumber" 
-                            name="phone_number" 
-                            value="{{ user.phone_number }}"
-                            onblur="validatePhoneNumber('inputPhoneNumber', 'phoneNumberError')"
-                        />
-                        <small id="phoneNumberError" class="form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="gender">Género:</label>
-                        <select class="form-control" id="selectGender" name="gender">
-                            {% for gender in genders %}
-                                <option value="{{ gender.value }}" {% if user.gender.value == gender.value %}selected{% endif %}>{{ gender.value.capitalize() }}</option>
-                            {% endfor %}
-                        </select>
-
-                        <small id="genderError" class="form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="document_type">Tipo de Documento:</label>
-                        <select class="form-control" id="selectDocumentType" name="document_type">
-                            {% for type in document_types %}
-                                <option value="{{ type.value }}" {% if user.document_type == type.value %}selected{% endif %}>{{ type.value.capitalize()}}</option>
-                            {% endfor %}
-                        </select>
-                        <small id="documentTypeError" class="form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="document">Número de Documento:</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="inputDocument" 
-                            name="document" 
-                            value="{{ user.document }}"
-                            onblur="validateJustNumber('inputDocument', 'documentError')" 
-                        />
-                        <small id="documentError" class="form-text text-danger"></small>
+                <hr>
+                <form method="POST" action="{{ url_for('user.edit_profile') }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="first_name">Nombre *</label>
+                                <input
+                                    type="text" 
+                                    class="form-control" 
+                                    id="inputFirstName" 
+                                    name="first_name" 
+                                    value="{{ user.first_name }}"
+                                    onblur="validateJustText('inputFirstName', 'firstNameError'); allFieldsValid()"
+                                    required
+                                />
+                                <small id="firstNameError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="last_name">Apellido *</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="inputLastName" 
+                                    name="last_name" 
+                                    value="{{ user.last_name }}" 
+                                    onblur="validateJustText('inputLastName', 'lastNameError'); allFieldsValid()"
+                                    required
+                                />
+                                <small id="lastNameError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="username">Nombre de usuario *</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="inputUsername" 
+                                    name="username" 
+                                    value="{{ user.username }}"
+                                    onblur="validateUsername('inputUsername', 'usernameError'); allFieldsValid()"
+                                    required
+                                />
+                                <small id="usernameError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="address">Dirección *</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="inputAddress" 
+                                    name="address" 
+                                    value="{{ user.address }}"
+                                    onblur="validateDireccion('inputAddress', 'addressError'); allFieldsValid()"
+                                    required
+                                />
+                                <small id="addressError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="phone_number">Teléfono *</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="inputPhoneNumber" 
+                                    name="phone_number" 
+                                    value="{{ user.phone_number }}"
+                                    onblur="validatePhoneNumber('inputPhoneNumber', 'phoneNumberError'); allFieldsValid()"
+                                    required
+                                />
+                                <small id="phoneNumberError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="gender">Género *</label>
+                                <select class="form-control" id="selectGender" name="gender" onblur="allFieldsValid()">
+                                    {% for gender in genders %}
+                                        <option value="{{ gender.value }}" {% if user.gender.value == gender.value %}selected{% endif %}>{{ gender.value.capitalize() }}</option>
+                                    {% endfor %}
+                                </select>
+                                <small id="genderError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="document_type">Tipo de Documento *</label>
+                                <select class="form-control" id="selectDocumentType" name="document_type" onblur="allFieldsValid()">
+                                    {% for type in document_types %}
+                                        <option value="{{ type.value }}" {% if user.document_type == type.value %}selected{% endif %}>{{ type.value.capitalize()}}</option>
+                                    {% endfor %}
+                                </select>
+                                <small id="documentTypeError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <label for="document">Número de Documento *</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="inputDocument" 
+                                    name="document" 
+                                    value="{{ user.document }}"
+                                    onblur="validateJustNumber('inputDocument', 'documentError'); allFieldsValid()"
+                                    required
+                                />
+                                <small id="documentError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-success confirm-button mt-3">
                         Guardar Cambios
@@ -115,16 +139,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    function validateForm() {
-        const first_name = validateJustText('inputFirstName', 'firstNameError');
-        const last_name = validateJustText('inputLastName', 'lastNameError');
-        const username = validateUsername('inputUsername', 'usernameError');
-        const address = validateDireccion('inputAddress', 'addressError');
-        const phone_number = validatePhoneNumber('inputPhoneNumber', 'phoneNumberError');
-        const document = validateJustNumber('inputDocument', 'documentError');
-
-        return first_name && last_name && username && address && phone_number && document;
-    }
-</script>
 {% endblock %}

@@ -205,5 +205,5 @@ class ChangePasswordSerializer(ValidateSerializer):
 
     fields = {
         "new_password": [v.validate_password, "*"],
-        "confirm_password": [v.validate_password, "*"],
+        "confirm_password": ["*"],
     }

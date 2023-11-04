@@ -75,6 +75,14 @@
 </div>
 {% endblock %}
 {% block footer %}
-<button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
-    Cerrar </button>
+    {% if permissions.update %}
+        <button type="button" class="btn btn-outline-info edit-button"
+                id="edit-button"
+                onclick="changeStatusServiceRequest(this)">
+                Editar
+        </button>
+    {% endif %}
+    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+        Cerrar 
+    </button>
 {% endblock %}
