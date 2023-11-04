@@ -14,7 +14,7 @@ def create_admins():
         "last_name": "Admin",
         "email": "admin@example.com",
         "username": "admin_username",
-        "password": "admin123",
+        "password": "Admin123",
         "address": "78 nro 87",
         "phone_number": "2214785685",
         "gender": 'Masculino',

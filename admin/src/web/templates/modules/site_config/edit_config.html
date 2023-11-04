@@ -3,60 +3,65 @@
 {% block head %}
     {{ super() }}
     <script src="{{ url_for('static', filename='js/configFormValidation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
 {% endblock %}
 {% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4">Editar Configuraci&oacute;n</h1>
+{% include "modules/site_config/modals/edit_confirm.html" %}
+
+<div class="container mt-4" style="border: 2px solid #ccc; padding: 20px;">
+    <h2 class="mb-4 text-center">Editar Configuraci&oacute;n</h2>
     <form method="POST" action="{{ url_for('super.edit_config') }}" onsubmit="return validateForm()">
         <div class="form-group">
-            <label for="items_per_page">Elementos por P&aacute;gina:</label>
-            <input 
+            <label for="items_per_page">Elementos por P&aacute;gina *:</label>
+            <input
+                required 
                 type="text" 
                 class="form-control" 
                 id="inputItemsPage" 
                 name="items_per_page" 
                 value="{{ items_per_page }}" 
+                onblur="validateItemsPerPage('inputItemsPage', 'pageError')"
             />
             <small id="pageError" class="form-text text-danger"></small>
         </div>
         <div class="form-group">
-            <label for="maintenance_mode">Modo Mantenimiento:</label>
-            <select class="form-control" id="selectMode" name="maintenance_mode">
-                <option value="True" {% if maintenance_mode %}selected{% endif %}>Activo</option>
-                <option value="False" {% if not maintenance_mode %}selected{% endif %}>Inactivo</option>
+            <label for="maintenance_mode">Modo Mantenimiento *:</label>
+            <select class="form-control" id="selectMode" name="maintenance_mode" onblur="validateMode('selectMode', 'modeError')">
+                <option value="True" {% if maintenance_mode %}selected{% endif %}>Habilitado</option>
+                <option value="False" {% if not maintenance_mode %}selected{% endif %}>Deshabilitado</option>
             </select>
             <small id="modeError" class="form-text text-danger"></small>
         </div>
         <div class="form-group">
-            <label for="maintenance_message">Mensaje de Mantenimiento del Sitio:</label>
-            <textarea 
+            <label for="maintenance_message">Mensaje de Mantenimiento del Sitio *:</label>
+            <textarea
+                    required 
                     class="form-control" 
                     id="inputMessage" 
                     name="maintenance_message"
-                    placeholder="Ingrese un mensaje de mantenimiento" 
+                    placeholder="Ingrese un mensaje de mantenimiento"
+                    onblur="validateMessage('inputMessage', 'messageError')"
             />{% if maintenance_message %}{{ maintenance_message }}{% endif %}</textarea>
             <small id="messageError" class="form-text text-danger"></small>
         </div>
         <div class="form-group">
-            <label for="contact_info">Informaci&oacute;n de Contacto:</label>
-            <input 
+            <label for="contact_info">Informaci&oacute;n de Contacto *:</label>
+            <input
+                required
                 type="text" 
                 class="form-control" 
                 id="inputContact" 
                 name="contact_info" 
                 placeholder="Información de contacto"
+                onblur="validateContact('inputContact', 'contactError')"
                 {% if contact_info %} value={{ contact_info }}{% endif %} 
             />
             <small id="contactError" class="form-text text-danger"></small>
         </div>
         <a href="{{ url_for('super.view_config') }}" class="card-link">
-            <button type="button" class="btn btn-primary close-button mt-3">
-                Cancelar
-            </button>
+            <button type="button" class="btn btn-primary close-button mt-3">Cancelar</button>
         </a>
-        <button type="submit" class="btn btn-success confirm-button mt-3">
-            Guardar Cambios
-        </button>
+        <button type="button" onclick="confirmEdit()" class="btn btn-success confirm-button mt-3">Guardar Cambios</button>
     </form>
 </div>
 {% endblock %}

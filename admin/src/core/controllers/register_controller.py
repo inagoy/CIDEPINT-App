@@ -37,7 +37,7 @@ def first_form(request):
     if not serializer["is_valid"]:
         for error in serializer["errors"].values():
             flash(error, 'danger')
-            return render_template("modules/register/first_registration.html")
+        return render_template("modules/register/first_registration.html")
 
     user = User.save(**form)
     email_hash = uuid.uuid5(uuid.NAMESPACE_DNS, form["email"])
@@ -109,13 +109,15 @@ def second_form(request, hashed_email):
                        'inputAddress': 'address',
                        'inputPhoneNumber': 'phone_number',
                        'inputGender': 'gender'}
+
         form = s.ValidateSerializer.map_keys(request.form, key_mapping)
         serializer = s.SecondRegistrationSerializer().validate(form)
+
         if not serializer["is_valid"]:
             for error in serializer["errors"].values():
                 flash(error, 'danger')
-                return redirect(url_for("register.confirmation",
-                                hashed_email=hashed_email))
+            return redirect(url_for("register.confirmation",
+                            hashed_email=hashed_email))
 
         form['password'] = bcrypt.generate_password_hash(form['password'])
         userUpdated = User.update(user.id, active=True, **form)
@@ -148,14 +150,8 @@ def confirm_password(request, hashed_email):
         serializer = s.ChangePasswordSerializer().validate(form)
 
         if not serializer["is_valid"]:
-            if 'missing_fields' in serializer["errors"]:
-                flash(serializer["errors"]['missing_fields'], "danger")
-            else:
-                flash("""Ingrese una contraseña válida:
-                            minimo 6 caracteres,
-                            1 mayúscula,
-                            1 minúscula.""", 'danger')
-
+            for error in serializer["errors"].values():
+                flash(error, 'danger')
             return redirect(url_for("super.user_added_confirmation",
                                     hashed_email=hashed_email))
 

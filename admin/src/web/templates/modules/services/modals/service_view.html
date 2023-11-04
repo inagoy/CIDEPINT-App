@@ -40,7 +40,7 @@
         </div>
         <div class="row">
             <div class="col-sm">
-                <h6> Habilitado </h6>
+                <h6> Estado </h6>
             </div>
             <div class="col-sm">
                 <p id="service-enabled"> placeholder </p>
@@ -51,6 +51,10 @@
 </div>
 {% endblock %}
 {% block footer %}
-<button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
-    Cerrar </button>
+    {% if permissions.update %}
+        <button type="button" class="btn btn-outline-info edit-button"onclick="editService(this)" id="edit-button">
+            Editar
+        </button>
+    {% endif %}
+    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal"> Cerrar </button>
 {% endblock %}

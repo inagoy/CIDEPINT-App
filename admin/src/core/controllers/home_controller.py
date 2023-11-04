@@ -21,6 +21,7 @@ def home_user():
     Returns:
         The rendered home page HTML.
     """
+
     context = {
         "user_institutions": get_institutions_user(),
         **session

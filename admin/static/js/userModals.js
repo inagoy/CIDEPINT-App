@@ -22,6 +22,10 @@ function viewUser(button) {
 	modal.querySelector("#user-gender").innerHTML = data.gender;
 	modal.querySelector("#user-dni").innerHTML = data.document;
 
+	
+    const editButton = modal.querySelector("#edit-button");
+    editButton.setAttribute('data-element', JSON.stringify(data));
+    editButton.setAttribute('data-url', button.getAttribute("data-url")); 
 	openModal(modal);
 }
 
@@ -32,6 +36,7 @@ function viewUser(button) {
  * @return {void} This function does not return anything.
  */
 function editUser(button) {
+	document.getElementById("user_view").style.display = "none";
 	let modal = document.getElementById("user_edit");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
 

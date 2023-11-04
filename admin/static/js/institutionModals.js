@@ -3,13 +3,14 @@
  *
  * @param {HTMLElement} button - The button element that triggers the function.
  * @return {void} This function does not return a value.
- */function viewInstitution(button) {
+ */
+function viewInstitution(button) {
     const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"'));
     const modal = document.getElementById("institution_view");
 
     function setInnerHTML(elementId, value) {
         const element = modal.querySelector(elementId);
-        element.innerHTML = value === undefined ? "No hay datos ingresados" : value;
+        element.innerHTML = value === undefined || value === null || value === "" ? "No hay datos ingresados" : value;
     }
 
     setInnerHTML("#institution-name", data.name);
@@ -27,6 +28,11 @@
         modal.querySelector("#institution-state").innerHTML = "Deshabilitada";
     }
 
+    // Passing element to edit button
+    const editButton = modal.querySelector("#edit-button");
+    editButton.setAttribute('data-element', JSON.stringify(data));
+    editButton.setAttribute('data-url', button.getAttribute("data-url")); 
+
     openModal(modal);
 }
 
@@ -37,8 +43,9 @@
  * @return {void} This function does not return a value.
  */
 function editInstitution(button) {
+	document.getElementById("institution_view").style.display = "none";
     let modal = document.getElementById("institution_edit");
-	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); // Parse the JSON data
+    const data = JSON.parse(button.getAttribute("data-element"));
 	let checkboxEnabled = document.querySelector("#inputEnabledEdit");
 	const form = modal.querySelector("#edit-form");
 

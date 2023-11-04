@@ -67,17 +67,16 @@
                 <input type="text" class="form-control" id="inputContact" name="inputContact"
                        placeholder="Ejemplo: Teléfono 123456789">
             </div>
-
-            <button type="submit" disabled class="btn btn-primary"> {% if 'edit' in request.endpoint
-                %}Confirmar{% else %}Agregar Instituci&oacute;n{% endif %}
-            </button>
-
-            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
-                Cerrar </button>
         </form>
     </div>
 </div>
 {% endblock %}
 {% block footer %}
+    <button type="submit" form="add-form" disabled class="btn btn-primary"> 
+        Agregar Instituci&oacute;n
+    </button>
 
+    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+        Cerrar 
+    </button>
 {% endblock %}

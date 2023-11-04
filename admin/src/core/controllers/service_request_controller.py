@@ -23,12 +23,12 @@ def service_requests():
     Returns:
         render_template: The rendered HTML of the service requests page.
     """
-    institution_id = session['current_institution']
+    institution_id = session.get("current_institution")
     not_enabled_and_not_owner(institution_id)
     user = User.find_user_by(field='email', value=session.get('user'))
     title = "Administración de solicitudes de servicio"
     page = request.args.get("page", 1, type=int)
-    institution_id = session['current_institution']
+    institution_id = session.get("current_institution")
 
     key_mapping = {
         'service-type': 'service_type',
@@ -104,14 +104,14 @@ def edit_service_request(service_request_id):
             flash("Error al completar la edición", "danger")
     else:
         flash("El servicio no existe", "danger")
-    return redirect(url_for('service_requests.service_requests'))
+    return redirect(request.referrer)
 
 
 def delete_service_request():
     """Delete a service request based on the given service_request_id."""
     service_request_id = request.form.get('request_id')
     ServiceRequest.delete(service_request_id)
-    return redirect(url_for('service_requests.service_requests'))
+    return redirect(request.referrer)
 
 
 def notes(service_request_id):
@@ -133,7 +133,7 @@ def notes(service_request_id):
         user_institutions=get_institutions_user(),
         elements=notes,
         service_request=service_request,
-        user_email=session['user']
+        user_email=session.get("user")
     )
 
 
@@ -148,7 +148,7 @@ def new_note(service_request_id):
         redirect: A redirect to the notes page.
     """
     text = request.form.get('message')
-    user_id = User.find_user_by(field='email', value=session["user"]).id
+    user_id = User.find_user_by(field='email', value=session.get("user")).id
     Note.save(text, user_id, service_request_id)
     return redirect(
         url_for(

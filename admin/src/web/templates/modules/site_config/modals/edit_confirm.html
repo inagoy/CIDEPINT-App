@@ -1,0 +1,16 @@
+{% extends "/components/modals/modal_template.html" %}
+{% block modal_id %}configuration_confirm{% endblock %}
+{% block header %} Confirmar Edición {% endblock %}
+{% block cuerpo %}
+<div id="confirm-message" class="modal-body">
+    ¿Estás seguro de que deseas editar la configuración?
+</div>
+{% endblock %}
+{% block footer %}
+
+<button id="confirm-action" type="button" class="btn btn-primary confirm-button" 
+        onclick="confirmAndSubmit()">Confirmar</button>
+
+<button id="dismiss-action" type="button" class="btn btn-secondary close-button"
+        data-dismiss="modal"> Cerrar </button>
+{% endblock %}
