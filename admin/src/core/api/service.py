@@ -2,7 +2,6 @@ from src.core.models.service import Service
 from src.web.helpers.api import response_error, paginated_response
 from flask import Blueprint, request
 from marshmallow import ValidationError
-from src.core.schemas import IdValidateSchema
 from src.core.schemas.service import ServiceModelSchema
 from src.core.schemas.service import ServicesTypesModelSchema
 from src.core.schemas.service import SearchServicesValidateSchema
@@ -29,13 +28,8 @@ def get_services():
 @api_service_bp.route("/services/<int:service_id>", methods=["GET"])
 @cross_origin()
 def get_service(service_id):
-    validator = IdValidateSchema.get_instance()
     model_schema = ServiceModelSchema.get_instance()
-    try:
-        validated_data = validator.load({"id": service_id})
-    except ValidationError:
-        return response_error()
-    service = Service.get(**validated_data)
+    service = Service.get(service_id)
     if not service:
         return response_error()
     return model_schema.dump(service), 200

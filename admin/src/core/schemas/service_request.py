@@ -1,5 +1,5 @@
 from marshmallow import validates, validate, fields
-from src.core.schemas import BaseSchema, IdValidateSchema
+from src.core.schemas import BaseSchema
 from src.core.schemas import PaginateValidateSchema
 from src.core.common import validators as v
 
@@ -37,13 +37,6 @@ class RequestModelSchema(BaseSchema):
         return obj.status.value
 
     description = fields.String()
-
-
-class RequestValidateSchema(IdValidateSchema):
-    request_id = fields.Int(
-        required=True,
-        validate=validate.Range(min=1)
-    )
 
 
 class PostRequestValidateSchema(BaseSchema):

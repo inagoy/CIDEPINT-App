@@ -1,4 +1,4 @@
-from src.core.schemas import BaseSchema, IdValidateSchema
+from src.core.schemas import BaseSchema
 from marshmallow import fields, validates
 from src.core.common import validators as v
 
@@ -36,9 +36,3 @@ class UserModelSchema(BaseSchema):
 
     def document_type_display(self, obj):
         return obj.document_type.value
-
-
-class UserIdAuthSchema(IdValidateSchema):
-    @validates("id")
-    def validate_user_exists(self, value):
-        v.validate_user_exists(value)
