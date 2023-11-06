@@ -44,17 +44,16 @@ def validate_email(value):
 
 def validate_just_text(value):
     """
-    Validate if the given text contains only alphabetic characters.
-
+    Validate if the given text contains only alphabetic characters from multiple languages.
 
     Args:
-        text (str): The text to be validated.
+        value (str): The text to be validated.
     Returns:
         str: The validated text.
     Raises:
         ValidationError: If the text contains non-alphabetic characters.
     """
-    text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
+    text_pattern = r'^[a-zA-ZáéíóúñÑÁÉÍÓÚüÜ\s,]+$'
     if not re.match(text_pattern, value, re.UNICODE) is not None:
         raise ValidationError(f"El campo '{value}' no puede contener números")
     return value

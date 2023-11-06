@@ -155,29 +155,3 @@ class MaintenanceWrap(DecoratorManager):
     def evaluate_condition(*args, **kwargs):
         """Return True if the site is not in maintenance mode."""
         return not SiteConfig.in_maintenance_mode()
-
-
-class AuthenticationWrap(DecoratorManager):
-    """
-    User authentication decorator.
-
-    Checks if the user is authenticated before accesing API functionality.
-    """
-
-    def evaluate_condition(*args, **kwargs):
-        """
-        Evaluate the condition based on the arguments and keyword arguments.
-
-        Args:
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
-
-        Returns:
-            bool: True if the condition is met, False otherwise.
-        """
-        if "token" not in kwargs:
-            return False
-        user_id = kwargs["token"]
-        if not isinstance(user_id, int) or user_id < 1:
-            return False
-        return session.get(user_id) is not None

@@ -15,8 +15,8 @@ api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
 
 
 @api_request_bp.route("/me/requests", methods=["GET"])
-@jwt_required()
 @cross_origin()
+@jwt_required()
 def get_requests():
     validator = SortedRequestsValidateSchema.get_instance()
     model_schema = RequestModelSchema.get_instance(many=True)
@@ -34,8 +34,8 @@ def get_requests():
 
 
 @api_request_bp.route("/me/requests/<int:request_id>", methods=["GET"])
-@jwt_required()
 @cross_origin()
+@jwt_required()
 def get_request(request_id):
     user_id = get_jwt_identity()
     model_schema = RequestModelSchema.get_instance()
@@ -48,6 +48,7 @@ def get_request(request_id):
 
 
 @api_request_bp.route("/me/requests/", methods=["POST"])
+@cross_origin()
 @jwt_required()
 def post_request():
     validator = PostRequestValidateSchema.get_instance()
@@ -64,6 +65,7 @@ def post_request():
 
 
 @api_request_bp.route("/me/requests/<int:request_id>/notes", methods=["POST"])
+@cross_origin()
 @jwt_required()
 def post_note(request_id):
     validator = PostNoteValidateSchema.get_instance()
@@ -72,7 +74,6 @@ def post_note(request_id):
         validated_data = validator.load(request.get_json())
     except ValidationError:
         return response_error()
-    breakpoint()
     if not ServiceRequest.get_by_id(request_id):
         return response_error()
     user_id = get_jwt_identity()

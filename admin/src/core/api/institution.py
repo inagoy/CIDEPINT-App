@@ -11,7 +11,7 @@ api_institution_bp = Blueprint('api_institution', __name__, url_prefix='/api')
 
 
 @api_institution_bp.route("/institutions", methods=["GET"])
-@cross_origin()  # Apply CORS to this route
+@cross_origin()
 def get_institutions():
     validator = PaginateValidateSchema.get_instance()
     model_schema = InstitutionModelSchema.get_instance(many=True)
