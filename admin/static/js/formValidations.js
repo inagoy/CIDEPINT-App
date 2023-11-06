@@ -34,7 +34,7 @@ function validateEmail(inputId, errorId) {
 function validateJustText(inputId, errorId) {
 	const input = document.getElementById(inputId);
 	const error = document.getElementById(errorId);
-	const pattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$/;
+	const pattern = /^[a-zA-ZáéíóúñÑÁÉÍÓÚüÜ\s,]+$/;
 	if (input.value.length === 0) {
 		error.textContent = "";
 		return false;

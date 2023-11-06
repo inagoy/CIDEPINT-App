@@ -18,6 +18,9 @@ class Config(object):
     MAIL_PASSWORD = 'ihej sxxz scwj bemi '
     MAIL_DEFAULT_SENDER = ('Administración CIDEPINT', 'MAIL_USERNAME')
 
+    JWT_SECRET_KEY = "PSgrupo05"
+    JWT_TOKEN_LOCATION = ["headers"]
+
 
 class ProductionConfig(Config):
     """Production configuration."""

@@ -65,6 +65,8 @@ def logout():
     This function clears the session and displays a flash message indicating
     the successful logout. If there is no session started, it displays a
     flash message indicating that there is no session to logout from.
+    the successful logout. If there is no session started, it displays a
+    flash message indicating that there is no session to logout from.
 
     Returns:
         redirect: A redirect response to the login page.
