@@ -16,7 +16,7 @@ class UserValidateSchema(BaseSchema):
         v.validate_email(value)
 
 
-class UserSchema(BaseSchema):
+class UserModelSchema(BaseSchema):
     user = fields.Str(description="Nombre de usuario.")
     email = fields.Email(description="Correo electrónico.")
     first_name = fields.Str(description="Nombre.")

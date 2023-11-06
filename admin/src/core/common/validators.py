@@ -44,18 +44,16 @@ def validate_email(value):
 
 def validate_just_text(value):
     """
-    Validate if the given text contains only alphabetic characters.
-
+    Validate if the given text contains only alphabetic characters from multiple languages.
 
     Args:
-        text (str): The text to be validated.
+        value (str): The text to be validated.
     Returns:
         str: The validated text.
     Raises:
         ValidationError: If the text contains non-alphabetic characters.
     """
-    text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
-    text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
+    text_pattern = r'^[a-zA-ZáéíóúñÑÁÉÍÓÚüÜ\s,]+$'
     if not re.match(text_pattern, value, re.UNICODE) is not None:
         raise ValidationError(f"El campo '{value}' no puede contener números")
     return value
@@ -207,6 +205,7 @@ def validate_no_username(value):
     """
     Validate that the given text does not match an existing username.
 
+
     Parameters:
         text (str): The text to be validated.
     Returns:
@@ -242,7 +241,7 @@ def validate_no_email(value):
 
 def validate_no_document(value):
     """
-    Validate if a document is already registered in the system.
+    Validates if a document is already registered in the system.
 
     Parameters:
         document (str): The document to validate.
@@ -481,4 +480,11 @@ def validate_order(value):
     if value not in ['asc', 'desc']:
         raise ValidationError(
             f"El orden '{value}' no es valido")
+    return value
+
+
+def validate_service_request_id_exists(value):
+    if not ServiceRequest.get_by_id(value):
+        raise ValidationError(
+            f"El tipo de servicio '{value}' no existe")
     return value

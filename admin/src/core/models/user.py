@@ -14,13 +14,15 @@ class GenderEnum(EnumBase):
 
     MASCULINO = 'Masculino'
     FEMENINO = 'Femenino'
-    NO_BINARIO = 'No binario'
+    NO_BINARIO = 'No Binario'
 
 
 class DocumentEnum(EnumBase):
     """Document enum."""
 
     DNI = 'DNI'
+    LIBRETA_CIVICA = 'Libreta Cívica'
+    LIBRETA_ENROLAMIENTO = 'Libreta de Enrolamiento'
     PASAPORTE = 'Pasaporte'
 
 
