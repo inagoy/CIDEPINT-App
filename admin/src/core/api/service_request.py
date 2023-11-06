@@ -1,5 +1,3 @@
-from src.core.models.user import User
-from src.core.schemas import IdValidateSchema
 from src.core.models.service import Note, ServiceRequest
 from marshmallow import ValidationError
 from src.core.schemas.service_request import NoteModelSchema
@@ -10,25 +8,21 @@ from src.core.schemas.service_request import RequestModelSchema
 from src.web.helpers.api import paginated_response
 from src.web.helpers.api import response_error
 from flask import Blueprint, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
+
 api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
 
 
 @api_request_bp.route("/me/requests", methods=["GET"])
+@jwt_required()
 def get_requests():
-    user_id = request.headers['Authorization']
-
-    id_validator = IdValidateSchema.get_instance()
     validator = SortedRequestsValidateSchema.get_instance()
     model_schema = RequestModelSchema.get_instance(many=True)
     try:
-        id_validator.load(
-            {'id': user_id}
-        )
         validated_data = validator.load(request.args)
     except ValidationError:
         return response_error()
-    if User.get_by_id(user_id) is None:
-        return response_error()
+    user_id = get_jwt_identity()
     service_requests = ServiceRequest.get_user_sorted_paginated(
         user_id=user_id, **validated_data
     )
@@ -38,16 +32,10 @@ def get_requests():
 
 
 @api_request_bp.route("/me/requests/<int:request_id>", methods=["GET"])
+@jwt_required()
 def get_request(request_id):
-    user_id = request.headers['Authorization']
-
-    id_validator = IdValidateSchema.get_instance()
+    user_id = get_jwt_identity()
     model_schema = RequestModelSchema.get_instance()
-    try:
-        id_validator.load({'id': user_id})
-        id_validator.load({"id": request_id})
-    except ValidationError:
-        return response_error()
     service_request = ServiceRequest.get_by_id_and_user(
         user_id=user_id, id=request_id
     )
@@ -57,16 +45,15 @@ def get_request(request_id):
 
 
 @api_request_bp.route("/me/requests/", methods=["POST"])
+@jwt_required()
 def post_request():
-    user_id = request.headers['Authorization']
-    id_validator = IdValidateSchema.get_instance()
     validator = PostRequestValidateSchema.get_instance()
     model_schema = RequestModelSchema.get_instance()
     try:
-        id_validator.load({'id': user_id})
         validated_data = validator.load(request.get_json())
     except ValidationError:
         return response_error()
+    user_id = get_jwt_identity()
     service_request = ServiceRequest.save(
         requester_id=user_id, **validated_data
     )
@@ -74,19 +61,18 @@ def post_request():
 
 
 @api_request_bp.route("/me/requests/<int:request_id>/notes", methods=["POST"])
+@jwt_required()
 def post_note(request_id):
-    user_id = request.headers['Authorization']
-    id_validator = IdValidateSchema.get_instance()
     validator = PostNoteValidateSchema.get_instance()
     model_schema = NoteModelSchema.get_instance()
     try:
-        id_validator.load({'id': user_id})
-        id_validator.load({"id": request_id})
         validated_data = validator.load(request.get_json())
     except ValidationError:
         return response_error()
+    breakpoint()
     if not ServiceRequest.get_by_id(request_id):
         return response_error()
+    user_id = get_jwt_identity()
     note = Note.save(
        **validated_data, service_request_id=request_id,
        user_id=user_id

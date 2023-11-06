@@ -3,6 +3,8 @@ from marshmallow import ValidationError
 from src.core.schemas.user import UserValidateSchema
 from src.web.helpers.auth import check_user
 from src.web.helpers.api import response_error
+from flask_jwt_extended import create_access_token
+
 
 api_auth_bp = Blueprint('api_auth', __name__, url_prefix='/api')
 
@@ -17,4 +19,5 @@ def api_auth():
     user = check_user(parsed.get("user"), parsed.get("password"))
     if not user:
         return response_error()
-    return {"result": "success"}, 200
+    access_token = create_access_token(identity=user.id)
+    return {"access_token": access_token}, 200
