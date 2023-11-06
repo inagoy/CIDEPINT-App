@@ -18,13 +18,14 @@ api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
 @cross_origin()
 @jwt_required()
 def get_requests():
+    user_id = get_jwt_identity()
     validator = SortedRequestsValidateSchema.get_instance()
     model_schema = RequestModelSchema.get_instance(many=True)
+
     try:
         validated_data = validator.load(request.args)
     except ValidationError:
         return response_error()
-    user_id = get_jwt_identity()
     service_requests = ServiceRequest.get_user_sorted_paginated(
         user_id=user_id, **validated_data
     )
@@ -39,6 +40,7 @@ def get_requests():
 def get_request(request_id):
     user_id = get_jwt_identity()
     model_schema = RequestModelSchema.get_instance()
+
     service_request = ServiceRequest.get_by_id_and_user(
         user_id=user_id, id=request_id
     )
@@ -51,13 +53,14 @@ def get_request(request_id):
 @cross_origin()
 @jwt_required()
 def post_request():
+    user_id = get_jwt_identity()
     validator = PostRequestValidateSchema.get_instance()
     model_schema = RequestModelSchema.get_instance()
+
     try:
         validated_data = validator.load(request.get_json())
     except ValidationError:
         return response_error()
-    user_id = get_jwt_identity()
     service_request = ServiceRequest.save(
         requester_id=user_id, **validated_data
     )
@@ -68,15 +71,16 @@ def post_request():
 @cross_origin()
 @jwt_required()
 def post_note(request_id):
+    user_id = get_jwt_identity()
     validator = PostNoteValidateSchema.get_instance()
     model_schema = NoteModelSchema.get_instance()
+
     try:
         validated_data = validator.load(request.get_json())
     except ValidationError:
         return response_error()
     if not ServiceRequest.get_by_id(request_id):
         return response_error()
-    user_id = get_jwt_identity()
     note = Note.save(
        **validated_data, service_request_id=request_id,
        user_id=user_id

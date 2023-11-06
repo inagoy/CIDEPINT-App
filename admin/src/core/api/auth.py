@@ -12,12 +12,14 @@ api_auth_bp = Blueprint('api_auth', __name__, url_prefix='/api')
 @api_auth_bp.route("/auth", methods=["POST"])
 @cross_origin()
 def api_auth():
-    data = request.get_json()
+    validator = UserValidateSchema.get_instance()
     try:
-        parsed = UserValidateSchema.get_instance().load(data)
+        validated_data = validator.load(request.get_json())
     except ValidationError:
         return response_error()
-    user = check_user(parsed.get("user"), parsed.get("password"))
+    user = check_user(
+        validated_data.get("user"), validated_data.get("password")
+    )
     if not user:
         return response_error()
     access_token = create_access_token(identity=user.id)
