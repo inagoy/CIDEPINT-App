@@ -75,19 +75,9 @@ def unique_data_check(user, form, errors):
         str or None: The error message if there is a uniqueness violation,
         None otherwise.
     """
-    if 'email' in errors:
-        # chequear que el mail del usuario y del form sean iguales
-        if user.email != form['email']:
-            return errors['email']
-    if 'username' in errors:
-        if user.username != form['username']:
-            return errors['username']
-    if 'document' in errors:
-        if user.document != form['document']:
-            return errors['document']
-    if 'phone_number' in errors:
-        if user.phone_number != form['phone_number']:
-            return errors['phone_number']
+    for field in errors:
+        if getattr(user, field) != form[field]:
+            return errors[field]
     return None
 
 
@@ -103,7 +93,7 @@ def get_role_of_user(user_id):
             None otherwise.
     """
     user = UserRoleInstitution.get_user_institution_roles(
-        user_id=user_id, institution_id=session["current_institution"])
+        user_id=user_id, institution_id=session.get("current_institution"))
     if user:
         return user.role_id
     else:
@@ -117,7 +107,7 @@ def get_institutions_user() -> list:
     Returns:
         list: The list of institutions.
     """
-    user_id = User.find_user_by_email(session.get("user")).id
+    user_id = User.find_user_by(field='email', value=session.get('user')).id
     active_institutions = (Institution.
                            get_enabled_institutions_for_user(user_id=user_id))
 

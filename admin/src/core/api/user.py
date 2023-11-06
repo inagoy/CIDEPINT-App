@@ -2,12 +2,14 @@ from flask import Blueprint
 from src.core.models.user import User
 from src.core.schemas.user import UserModelSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_cors import cross_origin
 
 api_user_bp = Blueprint('api_user', __name__, url_prefix='/api')
 
 
 @api_user_bp.route("/me/profile", methods=["GET"])
 @jwt_required()
+@cross_origin()
 def get_profile():
     user_id = get_jwt_identity()
     user = User.get_by_id(user_id)

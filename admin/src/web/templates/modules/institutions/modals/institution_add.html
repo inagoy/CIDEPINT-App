@@ -6,115 +6,77 @@
     <div class="col">
         <form id="add-form" method="POST" action="{{ url_for('super.add_institution') }}">
             <div class="form-group form-check">
-                <input class="form-check-input" type="checkbox" value="True" id="inputEnabled" name="inputEnabled" checked>
+                <input class="form-check-input" type="checkbox" value="True" id="inputEnabled"
+                       name="inputEnabled" checked>
                 <label class="form-check-label" for="inputActive">
                     ¿Instituci&oacute;n Habilitada?
                 </label>
             </div>
             <div class="form-group">
-                <label for="inputName">Nombre</label>
-                <input 
-                    required type="text" 
-                    class="form-control" 
-                    id="inputName" 
-                    name="inputName" 
-                    placeholder="Nombre de la institución"
-                    onblur="validateJustText('inputName', 'nameError')"
-                    aria-describedby="nameError"
-                />
+                <label for="inputName">Nombre *</label>
+                <input required type="text" class="form-control" id="inputName" name="inputName"
+                       placeholder="Nombre de la institución"
+                       onblur="validateJustText('inputName', 'nameError'); allFieldsValid()"
+                       aria-describedby="nameError" />
                 <small id="nameError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
-                <label for="inputInfo">Informaci&oacute;n</label>
-                <textarea 
-                    required class="form-control" 
-                    id="inputInfo" 
-                    name="inputInfo" 
-                    rows="4" 
-                    placeholder="Información de la institución"
-                    /></textarea>
+                <label for="inputInfo">Informaci&oacute;n *</label>
+                <textarea required onblur="allFieldsValid()" class="form-control" id="inputInfo" name="inputInfo" rows="4"
+                          placeholder="Información de la institución" /></textarea>
             </div>
             <div class="form-group">
                 <label for="inputAddress">Direcci&oacute;n</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="inputAddress" 
-                    name="inputAddress" 
-                    placeholder="Ejemplo de dirección: Av San Martin 123"
-                    onblur="validateDireccion('inputAddress', 'addressError')"
-                    aria-describedby="addressError"
-                    />
+                <input type="text" class="form-control" id="inputAddress" name="inputAddress"
+                       placeholder="Ejemplo de dirección: Av San Martin 123"
+                       onblur="validateDireccion('inputAddress', 'addressError'); allFieldsValid()"
+                       aria-describedby="addressError" />
                 <small id="addressError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="inputLocation">Locaci&oacute;n</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="inputLocation" 
-                    name="inputLocation" 
-                    placeholder="Ejemplo: CABA"
-                    onblur="validateJustText('inputLocation', 'locationError')"
-                    aria-describedby="locationError"
-                    />
+                <input type="text" class="form-control" id="inputLocation" name="inputLocation"
+                       placeholder="Ejemplo: CABA"
+                       onblur="validateJustText('inputLocation', 'locationError'); allFieldsValid()"
+                       aria-describedby="locationError" />
                 <small id="locationError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="inputWebsite">Sitio web</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="inputWebsite" 
-                    name="inputWebsite" 
-                    placeholder="www.ejemplo.com"
-                    onblur="validateWebsite('inputWebsite', 'websiteError')"
-                    aria-describedby="websiteError"
-                    />
+                <input type="text" class="form-control" id="inputWebsite" name="inputWebsite"
+                       placeholder="www.ejemplo.com"
+                       onblur="validateWebsite('inputWebsite', 'websiteError'); allFieldsValid()"
+                       aria-describedby="websiteError" />
                 <small id="websiteError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="inputKeywords">Palabras de B&uacute;squeda</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="inputKeywords" 
-                    name="inputKeywords" 
-                    placeholder="Palabras clave"
-                    onblur="validateKeywords('inputKeywords', 'keywordsError')"
-                    aria-describedby="keywordsError"
-                    />
+                <input type="text" class="form-control" id="inputKeywords" name="inputKeywords"
+                       placeholder="Palabras clave"
+                       onblur="validateKeywords('inputKeywords', 'keywordsError'); allFieldsValid()"
+                       aria-describedby="keywordsError" />
                 <small id="keywordsError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="inputDaysAndHours">D&iacute;as y Horarios de Atenci&oacute;n</label>
-                <textarea 
-                    class="form-control" 
-                    id="inputDaysHours" 
-                    name="inputDaysHours" 
-                    rows="4" 
-                    placeholder="Ejemplo: Lunes a Viernes de 9:00 a 18:00"
-                    /></textarea>
+                <textarea class="form-control" id="inputDaysHours" name="inputDaysHours" rows="4"
+                          placeholder="Ejemplo: Lunes a Viernes de 9:00 a 18:00" /></textarea>
             </div>
             <div class="form-group">
                 <label for="inputContactInfo">Informaci&oacute;n de contacto</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="inputContact" 
-                    name="inputContact" 
-                    placeholder="Ejemplo: Teléfono 123456789">
+                <input type="text" class="form-control" id="inputContact" name="inputContact"
+                       placeholder="Ejemplo: Teléfono 123456789">
             </div>
-            
-            <button type="submit" class="btn btn-primary"> {% if 'edit' in request.endpoint %}Confirmar{% else %}Agregar Instituci&oacute;n{% endif %}
-            </button>
-
-            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
-                Cerrar </button>
         </form>
     </div>
 </div>
 {% endblock %}
 {% block footer %}
+    <button type="submit" form="add-form" disabled class="btn btn-primary"> 
+        Agregar Instituci&oacute;n
+    </button>
 
+    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
+        Cerrar 
+    </button>
 {% endblock %}

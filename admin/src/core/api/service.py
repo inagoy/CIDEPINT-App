@@ -6,11 +6,13 @@ from src.core.schemas import IdValidateSchema
 from src.core.schemas.service import ServiceModelSchema
 from src.core.schemas.service import ServicesTypesModelSchema
 from src.core.schemas.service import SearchServicesValidateSchema
+from flask_cors import cross_origin
 
 api_service_bp = Blueprint('api_services', __name__, url_prefix='/api')
 
 
 @api_service_bp.route("/services/search", methods=["GET"])
+@cross_origin()
 def get_services():
     validator = SearchServicesValidateSchema.get_instance()
     model_schema = ServiceModelSchema.get_instance(many=True)
@@ -25,6 +27,7 @@ def get_services():
 
 
 @api_service_bp.route("/services/<int:service_id>", methods=["GET"])
+@cross_origin()
 def get_service(service_id):
     validator = IdValidateSchema.get_instance()
     model_schema = ServiceModelSchema.get_instance()
@@ -39,6 +42,7 @@ def get_service(service_id):
 
 
 @api_service_bp.route("/services-types", methods=["GET"])
+@cross_origin()
 def get_services_types():
     model_schema = ServicesTypesModelSchema.get_instance()
     services_types = Service.get_all_service_types()

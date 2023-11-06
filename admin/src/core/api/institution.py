@@ -5,11 +5,13 @@ from src.core.models.institution import Institution
 from src.web.helpers.api import response_error
 from flask import Blueprint, request
 from src.web.helpers.api import paginated_response
+from flask_cors import cross_origin
 
 api_institution_bp = Blueprint('api_institution', __name__, url_prefix='/api')
 
 
 @api_institution_bp.route("/institutions", methods=["GET"])
+@cross_origin()  # Apply CORS to this route
 def get_institutions():
     validator = PaginateValidateSchema.get_instance()
     model_schema = InstitutionModelSchema.get_instance(many=True)

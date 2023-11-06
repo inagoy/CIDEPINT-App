@@ -85,24 +85,9 @@ class User(BaseModel):
         return user
 
     @classmethod
-    def find_user_by_email(cls, email):
-        """Return the user with the given email."""
-        return cls.query.filter_by(email=email).first()
-
-    @classmethod
-    def find_user_by_username(cls, username):
-        """Return the user with the given username."""
-        return cls.query.filter_by(username=username).first()
-
-    @classmethod
-    def find_user_by_document(cls, document):
-        """Return the user with the given document."""
-        return cls.query.filter_by(document=document).first()
-
-    @classmethod
-    def find_user_by_phone_number(cls, phone_number):
-        """Return the user with the given phone number."""
-        return cls.query.filter_by(phone_number=phone_number).first()
+    def find_user_by(cls, field, value):
+        """Return the user with the given attribute and value."""
+        return cls.query.filter_by(**{field: value}).first()
 
     @classmethod
     def get_user_institutions(cls, user_id: int):
@@ -171,7 +156,7 @@ class User(BaseModel):
     def get_all(cls):
         """Return all users."""
         return cls.query.filter(and_(
-            cls.id != 1, cls.email != session["user"]))
+            cls.id != 1, cls.email != session.get("user")))
 
     @classmethod
     def get_active_users(cls):
@@ -181,7 +166,7 @@ class User(BaseModel):
     @classmethod
     def get_inactive_users(cls):
         """Return inactive users."""
-        return cls.get_all().filter(cls.active==False)
+        return cls.get_all().filter(and_(cls.active.is_(False)))
 
     @classmethod
     def get_users_paginated(cls, page, per_page=None,

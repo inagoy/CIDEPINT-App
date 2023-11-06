@@ -54,7 +54,7 @@ def institution_roles():
     title = "Administración de roles"
     page = request.args.get("page", 1, type=int)
     users = User.get_users_by_institution_paginated(
-        page=page, institution_id=session["current_institution"])
+        page=page, institution_id=session.get("current_institution"))
 
     roles = Role.get_all_roles()
 
@@ -65,7 +65,7 @@ def institution_roles():
         elements=users,
         get_name=get_name,
         roles=roles,
-        current_institution=session["current_institution"],
+        current_institution=session.get("current_institution"),
         users_page=False)
 
 
@@ -82,7 +82,7 @@ def update_role():
         response = UserRoleInstitution.update_role(
             user_id=form["user_id"],
             role_id=form["inputRole"],
-            institution_id=session["current_institution"]
+            institution_id=session.get("current_institution")
         )
         if response:
             flash("Rol actualizado", "success")
@@ -92,14 +92,14 @@ def update_role():
     else:
         relationship = UserRoleInstitution.get_user_institution_roles(
             user_id=form["user_id"],
-            institution_id=session["current_institution"]
+            institution_id=session.get("current_institution")
         )
         if not relationship:
             flash("No tiene rol en esta institución", "danger")
         else:
             response = UserRoleInstitution.delete_user_institution_role(
                 user_id=form["user_id"],
-                institution_id=session["current_institution"],
+                institution_id=session.get("current_institution"),
                 role_id=relationship.role_id
             )
             if response:
@@ -126,7 +126,7 @@ def user_search():
         elements=users,
         get_name=get_name,
         roles=roles,
-        current_institution=session["current_institution"],
+        current_institution=session.get("current_institution"),
         users_page=False)
 
 
@@ -147,8 +147,8 @@ def edit_institution():
 
         if request.method == "POST":
             key_mapping = {
-                'inputName': 'name',
-                'inputInfo': 'info',
+                'inputNameEdit': 'name',
+                'inputInfoEdit': 'info',
                 'inputAddress': 'address',
                 'inputLocation': 'location',
                 'inputWebsite': 'website',
@@ -157,8 +157,8 @@ def edit_institution():
                 'inputContact': 'contact_info',
                 'inputEnabled': 'enabled'
             }
-            form = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
+            form = s.ValidateSerializer.map_keys(request.form, key_mapping)
             serializer = s.InstitutionValidator().validate(form)
 
             if not serializer["is_valid"]:
@@ -172,6 +172,8 @@ def edit_institution():
                                     institution_id=institution.id))
 
             form["enabled"] = request.form.get('inputEnabled') is not None
+            form.update({mapped_key: '' for mapped_key in key_mapping.values()
+                         if mapped_key not in form})
 
             updated = Institution.update(entity_id=institution.id, **form)
             if updated:

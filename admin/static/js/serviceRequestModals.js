@@ -17,6 +17,11 @@ function viewServiceRequest(button) {
 	modal.querySelector("#request-service").innerHTML = data.service;
 	modal.querySelector("#request-requester").innerHTML = data.requester;
 
+	const editButton = modal.querySelector("#edit-button");
+	if (editButton !== null) {
+		editButton.setAttribute('data-element', JSON.stringify(data));
+		editButton.setAttribute('data-url', button.getAttribute("data-url")); 
+	}
 	openModal(modal);
 }
 
@@ -29,6 +34,7 @@ function deleteServiceRequest(button) {
 }
 
 function changeStatusServiceRequest(button) {
+	document.getElementById("request_view").style.display = "none";
 	let modal = document.getElementById("request_edit");
 	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"')); 
 

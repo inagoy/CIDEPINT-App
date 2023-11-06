@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container mt-4" style="margin-bottom: 50px; max-width: 800px; border: 2px solid #ccc; padding: 20px;">
     <h1 class="mb-4">Editar Instituci&oacute;n</h1>
-    <form method="POST" action="{{ url_for('institution.edit_institution') }}" >
+    <form method="POST" action="{{ url_for('institution.edit_institution') }}" onsubmit="return validateFormInstitution()">
         <div class="form-group form-check">
             <input class="form-check-input" value="True" type="checkbox" id="inputEnabled" name="inputEnabled"
             {% if institution.enabled %}checked{% endif %}>
@@ -17,30 +17,31 @@
         </div>
 
         <div class="form-group">
-            <label for="inputName">Nombre</label>
-            <input 
-                required type="text" 
+            <label for="inputNameEdit">Nombre *</label>
+            <input
+                 type="text" 
                 class="form-control" 
-                id="inputName" 
-                name="inputName" 
+                id="inputNameEdit" 
+                name="inputNameEdit" 
                 placeholder="Nombre de la institución"
-                onblur="validateJustText('inputName', 'nameError')"
-                aria-describedby="nameError"
+                onblur="validateJustText('inputNameEdit', 'nameErrorEdit'); validateFormInstitution()"
+                aria-describedby="nameErrorEdit"
                 value="{{ institution.name }}" 
             />
-            <small id="nameError" class="form-text text-danger"></small>
+            <small id="nameErrorEdit" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
-            <label for="inputInfo">Informaci&oacute;n</label>
+            <label for="inputInfoEdit">Informaci&oacute;n *</label>
             <textarea 
-                required type="text"
+                type="text"
                 class="form-control" 
-                id="inputInfo" 
-                name="inputInfo" 
+                id="inputInfoEdit" 
+                name="inputInfoEdit" 
                 rows="4" 
                 placeholder="Información de la institución"
             >{{ institution.info }}</textarea>
+            <small id="infoErrorEdit" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
@@ -51,7 +52,7 @@
                 id="inputAddress" 
                 name="inputAddress" 
                 placeholder="Ejemplo de dirección: Av San Martin 123"
-                onblur="validateDireccion('inputAddress', 'addressError')"
+                onblur="validateDireccion('inputAddress', 'addressError'); validateFormInstitution()"
                 aria-describedby="addressError"
                 value="{{ institution.address }}" 
             />
@@ -66,7 +67,7 @@
                 id="inputLocation" 
                 name="inputLocation" 
                 placeholder="Ejemplo: CABA"
-                onblur="validateJustText('inputLocation', 'locationError')"
+                onblur="validateJustText('inputLocation', 'locationError') "
                 aria-describedby="locationError"
                 value="{{ institution.location }}"
             />

@@ -14,32 +14,32 @@
 			<div class="dropdown-divider pb-4"></div>
 			<form method="POST" action="{{ url_for('register.second_form', hashed_email=hashed_email) }}">
 				<div class="form-group">
-					<label for="inputUsername"> Nombre de usuario </label>
+					<label for="inputUsername"> Nombre de usuario * </label>
 					<input required type="text" class="form-control" id="inputUsername" name="inputUsername" placeholder="johndoe" onblur="validateUsername('inputUsername', 'usernameError')" aria-describedby="usernameError"/>
 					<small id="usernameError" class="form-text text-danger"></small>
 				</div>
 				<div class="form-group">
-					<label for="inputPassword"> Contraseña</label>
+					<label for="inputPassword"> Contraseña *</label>
 					<input required type="password" class="form-control" id="inputPassword" name="inputPassword" onblur="validatePassword('inputPassword', 'passwordError')" aria-describedby="passwordError" />
 					<small id="passwordError" class="form-text text-danger"></small>
 				</div>
                 <div class="form-group">
-                    <label for="inputDocumentType">Tipo de Documento</label>
+                    <label for="inputDocumentType">Tipo de Documento *</label>
                     <select class="form-control" id="inputDocumentType" name="inputDocumentType">
                         <option value="" disabled selected>Seleccionar un tipo de Documento</option>
-                        <option value="DNI">DNI</option>
+                        <option value="DNI">DNI *</option>
                         <option value="Pasaporte">Pasaporte</option>
                     </select>
                 </div>
     
                 <div class="form-group">
-                    <label for="inputDocument">Número de Documento</label>
+                    <label for="inputDocument">Número de Documento *</label>
                     <input type="text" class="form-control" id="inputDocument" name="inputDocument" placeholder="12345678" onblur="validateJustNumber('inputDocument', 'documentError')" aria-describedby="documentError" >
                     <small id="documentError" class="form-text text-danger"></small>
                 </div>
                 
                 <div class="form-group">
-                    <label for="inputGender">Género</label>
+                    <label for="inputGender">Género *</label>
                     <select class="form-control" id="inputGender" name="inputGender">
                         <option value="" disabled selected>Seleccionar un Género</option>
                         <option value="Masculino">Masculino</option>
@@ -48,13 +48,13 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="inputAddress">Dirección</label>
+                    <label for="inputAddress">Dirección *</label>
                     <input type="text" class="form-control" id="inputAddress" name="inputAddress" onblur="validateDireccion('inputAddress', 'addressError')" aria-describedby="addressError" >
                     <small id="addressError" class="form-text text-danger"></small>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPhoneNumber">Número de teléfono</label>
+                    <label for="inputPhoneNumber">Número de teléfono *</label>
                     <input type="text" class="form-control" id="inputPhoneNumber" name="inputPhoneNumber" onblur="validatePhoneNumber('inputPhoneNumber', 'phoneNumberError')" aria-describedby="phoneNumberError">
                     <small id="phoneNumberError" class="form-text text-danger"></small>
                 </div>

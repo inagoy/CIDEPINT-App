@@ -38,7 +38,7 @@ def validate_email(value):
     """
     email_pattern = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
     if not re.match(email_pattern, value) is not None:
-        raise ValidationError(f"El campo '{value}' no es un email válido")
+        raise ValidationError(f"El email '{value}' no es válido")
     return value
 
 
@@ -56,7 +56,7 @@ def validate_just_text(value):
     """
     text_pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s,]+$'
     if not re.match(text_pattern, value, re.UNICODE) is not None:
-        raise ValidationError(f"El campo '{value}' no es un texto")
+        raise ValidationError(f"El campo '{value}' no puede contener números")
     return value
 
 
@@ -96,7 +96,8 @@ def validate_username(value):
     text_pattern = r'^[A-Za-z0-9_]+$'
     if not re.match(text_pattern, value):
         raise ValidationError(
-            f"El campo'{value}' no es un nombre de usuario válido")
+            f"El campo'{value}' no es un nombre de usuario válido. " +
+            "Puede contener letras sin acentos, números y guiones")
     return value
 
 
@@ -119,13 +120,16 @@ def validate_password(value):
 
     if not re.match(pattern, value):
         raise ValidationError(
-            f"El campo'{value}' no es una contraseña válida")
+            "La contraseña ingresada no es una contraseña válida: " +
+            "minimo 6 caracteres, 1 mayúscula, 1 número"
+            )
     return value
 
 
 def validate_address(value):
     """
     Validate an address using a regex pattern.
+    The regex pattern checks if there's at least one number and one letter
 
     Args:
         address (str): The address to be validated.
@@ -136,12 +140,13 @@ def validate_address(value):
     Returns:
         str: The validated address.
     """
-    # Define a regex pattern to check if there's at least one number
+
     pattern = r'^[a-zA-Z\s.,-áéíóúÁÉÍÓÚ]*\d+[a-zA-Z0-9\s.,-áéíóúÁÉÍÓÚ]*$'
 
     if not re.match(pattern, value):
         raise ValidationError(
-            f"El campo'{value}' no es una dirección válida")
+            f"La dirección '{value}' no es válida. " +
+            "Debe tener al menos un número.")
     return value
 
 
@@ -163,7 +168,8 @@ def validate_phone_number(value):
 
     if not re.match(phone_number_pattern, value):
         raise ValidationError(
-            f"El campo'{value}' no es un teléfono válido")
+            f"El campo'{value}' no es un teléfono válido. " +
+            "Debe tener entre 9 y 15 digitos")
     return value
 
 
@@ -189,7 +195,8 @@ def validate_form_data(form_data, fields):
     ]
     if missing_parameters:
         raise ValidationError(
-            "Hay campos faltantes"
+            "Hay campos faltantes, compruebe que todos los campos " +
+            "requeridos estan completos"
         )
     else:
         return form_data
@@ -207,7 +214,7 @@ def validate_no_username(value):
     Raises:
         ValidationError: If the given text matches an existing username.
     """
-    if User.find_user_by_username(value):
+    if User.find_user_by(field='username', value=value):
         raise ValidationError(
             f"El nombre de usuario '{value}' ya está registrado")
     return value
@@ -227,7 +234,7 @@ def validate_no_email(value):
         ValidationError: If the email is already registered.
 
     """
-    if User.find_user_by_email(value):
+    if User.find_user_by(field='email', value=value):
         raise ValidationError(
             f"El email '{value}' ya está registrado")
     return value
@@ -246,9 +253,9 @@ def validate_no_document(value):
     Returns:
         str: The validated document.
     """
-    if User.find_user_by_document(value):
+    if User.find_user_by(field='document', value=value):
         raise ValidationError(
-            f"El documento '{value}' ya está registrado")
+            f"El numero de documento '{value}' ya está registrado")
     return value
 
 
@@ -265,7 +272,7 @@ def validate_no_phone_number(value):
     Raises:
         ValidationError: If the phone number is already registered.
     """
-    if User.find_user_by_phone_number(value):
+    if User.find_user_by(field='phone_number', value=value):
         raise ValidationError(
             f"El número de teléfono '{value}' ya está registrado")
     return value
@@ -274,14 +281,14 @@ def validate_no_phone_number(value):
 def validate_document_type(value):
     if value not in DocumentEnum:
         raise ValidationError(
-            f"El tipo de documento '{value}' no es válido")
+            f"El tipo de documento seleccionado '{value}' no es válido")
     return value
 
 
 def validate_gender(value):
     if value not in GenderEnum:
         raise ValidationError(
-            f"El genero '{value}' no es valido")
+            f"El genero seleccionado '{value}' no es valido")
     return value
 
 
@@ -291,7 +298,7 @@ def validate_service_type(value):
         return service_type
     except ValueError:
         raise ValidationError(
-            f"El tipo de servicio '{value}' no es valido")
+            f"El tipo de servicio seleccionado '{value}' no es valido")
 
 
 def validate_string_as_boolean(value):
@@ -312,7 +319,7 @@ def validate_string_as_boolean(value):
         return True
     else:
         raise ValidationError(
-            f"El valor '{value}' no es un verdadero o falso")
+            f"El valor '{value}' no es el valor verdadero ni falso")
 
 
 def validate_string(value):
@@ -353,7 +360,8 @@ def validate_keywords(value):
         return True
     else:
         raise ValidationError(
-            f"El valor '{value}' no cumple con el formato esperado.")
+            f"El valor '{value}' no cumple con el formato esperado." +
+            " Debe tener palabras separadas por comas")
 
 
 def validate_service_request_status(value):
@@ -374,7 +382,7 @@ def validate_service_request_status(value):
         return status
     except ValueError:
         raise ValidationError(
-            f"El tipo de servicio '{value}' no es valido")
+            f"El estado de la solicitud '{value}' no es valido")
 
 
 def validate_date(date: str, date_format: str = '%Y-%m-%d'):
@@ -395,7 +403,7 @@ def validate_date(date: str, date_format: str = '%Y-%m-%d'):
         return date
     except ValueError:
         raise ValidationError(
-            f"El valor '{date}' no es una fecha válida")
+            f"La fecha '{date}' no es una fecha válida")
 
 
 def validate_str_len(value):
@@ -412,7 +420,7 @@ def validate_str_len(value):
     """
     if len(value) >= 255:
         raise ValidationError(
-            f"El valor '{value}' debe tener como máximo 255 caracteres")
+            f"La longitud de '{value}' no puede ser mayor a 255 caracteres")
     return True
 
 
@@ -465,7 +473,7 @@ def validate_no_institution_name(institution_name: str):
 def validate_request_atribute(value):
     if value not in ServiceRequest.__table__.columns.keys():
         raise ValidationError(
-            f"El tipo de servicio '{value}' no es válido")
+            f"El valor '{value}' no es válido")
     return value
 
 

@@ -180,7 +180,7 @@ def edit_user(user_id):
 
     Parameters:
         user_id (int): The ID of the user to be edited.
-  
+
     Returns:
         None
     """

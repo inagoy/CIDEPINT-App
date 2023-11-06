@@ -10,11 +10,13 @@ from src.web.helpers.api import response_error
 from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
+from flask_cors import cross_origin
 api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
 
 
 @api_request_bp.route("/me/requests", methods=["GET"])
 @jwt_required()
+@cross_origin()
 def get_requests():
     validator = SortedRequestsValidateSchema.get_instance()
     model_schema = RequestModelSchema.get_instance(many=True)
@@ -33,6 +35,7 @@ def get_requests():
 
 @api_request_bp.route("/me/requests/<int:request_id>", methods=["GET"])
 @jwt_required()
+@cross_origin()
 def get_request(request_id):
     user_id = get_jwt_identity()
     model_schema = RequestModelSchema.get_instance()
