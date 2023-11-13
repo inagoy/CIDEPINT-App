@@ -80,3 +80,17 @@ ul {
     max-height: 60vh;
     overflow-y: auto;
 }
+
+.custom-divider {
+  text-align: center;
+  margin: 20px 0; /* Espacio entre los párrafos */
+  position: relative;
+}
+
+.custom-divider::before,
+.custom-divider::after {
+  content: "";
+  display: inline-block;
+  width: 40%; /* Ajusta el ancho de las líneas */
+  border-top: 1px solid rgb(163, 162, 162);
+}

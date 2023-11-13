@@ -1,41 +1,76 @@
 {% extends "layout.html" %} {% block title %} CIDEPINT: Registro {% endblock %} {% block head %} {{ super() }}
 <script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
 {% endblock %} {% block content %}
-<div class="card">
-	<div class="card-body text-center row">
-		<div class="d-md-inline d-none col-3"></div>
-		<div class="col">
-			<h4 class="card-title">Registrate con CIDEPINT</h4>
-			<div class="dropdown-divider pb-4"></div>
-			<form method="POST" action="{{ url_for('register.first_form') }}">
-				<div class="form-group">
-					<label for="inputEmail"> Dirección de email *</label>
-					<input
-						required
-						type="email"
-						class="form-control"
-						id="inputEmail"
-						name="inputEmail"
-						placeholder="nombre@ejemplo.com"
-						onblur="validateEmail('inputEmail', 'emailError')"
-						aria-describedby="emailError"
-					/>
-					<small id="emailError" class="form-text text-danger"></small>
+<div class="container">
+	<div class="card">
+		<div class="card-body text-center row">
+			<div class="d-md-inline d-none col-3"></div>
+			<div class="col">
+				<h4 class="card-title">Registrate con CIDEPINT</h4>
+				<div class="dropdown-divider pb-4"></div>
+				<form method="POST" action="{{ url_for('register.first_form', admin_app=admin_app) }}">
+					<div class="form-group">
+						<label for="inputEmail"> Dirección de email *</label>
+						<input
+							required
+							type="email"
+							class="form-control"
+							id="inputEmail"
+							name="inputEmail"
+							placeholder="nombre@ejemplo.com"
+							onblur="validateEmail('inputEmail', 'emailError'); allFieldsValid()"
+							aria-describedby="emailError"
+						/>
+						<small id="emailError" class="form-text text-danger"></small>
+					</div>
+					<div class="form-group">
+						<label for="inputName"> Nombre *</label>
+						<input 
+							required 
+							type="text" 
+							class="form-control" 
+							id="inputName" 
+							name="inputName" 
+							placeholder="John" 
+							onblur="validateJustText('inputName', 'nameError'); allFieldsValid()" 
+							aria-describedby="nameError"
+						/>
+						<small id="nameError" class="form-text text-danger"></small>
+					</div>
+					<div class="form-group">
+						<label for="inputSurname"> Apellido * </label>
+						<input 
+							required 
+							type="text" 
+							class="form-control" 
+							id="inputSurname" 
+							name="inputSurname" 
+							placeholder="Doe" 
+							onblur="validateJustText('inputSurname', 'surnameError'); allFieldsValid()" 
+							aria-describedby="surnameError"
+						/>
+						<small id="surnameError" class="form-text text-danger"></small>
+					</div>
+					<button type="submit" class="btn btn-primary">Registrar usuario</button>
+				</form>
+				<div class="d-md-inline d-none col-3"></div>
+				<div class="card-footer text-muted text-center">
+					<a href="{{ url_for('register.google_register', admin_app=admin_app if admin_app else None) }}">
+						<button class="btn btn-outline-primary" id="google-button">
+							<span data-provider="google"></span>
+							<img src="{{ url_for('static', filename='assets/google-logo.png') }}" alt="Logo de Google" 
+							style="vertical-align: middle; width: 20px; height: 20px; margin-right: 10px;">
+							<span>Registrarse con Google</span>
+						</button>
+					</a>
 				</div>
-				<div class="form-group">
-					<label for="inputName"> Nombre *</label>
-					<input required type="text" class="form-control" id="inputName" name="inputName" placeholder="John" onblur="validateJustText('inputName', 'nameError')" aria-describedby="nameError" />
-					<small id="nameError" class="form-text text-danger"></small>
+				<hr>
+				<div>
+					<p class="text-center">¿Ya tienes una cuenta? <a href={{redirect_url}}>Iniciar Sesión</a></p>
 				</div>
-				<div class="form-group">
-					<label for="inputSurname"> Apellido * </label>
-					<input required type="text" class="form-control" id="inputSurname" name="inputSurname" placeholder="Doe" onblur="validateJustText('inputSurname', 'surnameError')" aria-describedby="surnameError" />
-					<small id="surnameError" class="form-text text-danger"></small>
-				</div>
-				<button type="submit" class="btn btn-primary">Registrar usuario</button>
-			</form>
+			</div>
+			<div class="d-md-inline d-none col-3"></div>
 		</div>
-		<div class="d-md-inline d-none col-3"></div>
 	</div>
 </div>
 {% endblock %}

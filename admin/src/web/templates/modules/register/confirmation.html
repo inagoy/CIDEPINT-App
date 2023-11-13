@@ -1,68 +1,117 @@
 {% extends "layout.html" %} {% block title %} CIDEPINT: Continuación de Registro {% endblock %} {% block head %} {{ super() }}
 <script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
 {% endblock %} {% block content %}
-<div class="card">
-	<div class="card-body text-center row">
-		<div class="d-md-inline d-none col-3"></div>
-		<div class="col">
-            <div class="card-body">
-                <h1 class="card-title">¡Confirmación de Email Exitosa!</h1>
-                <p class="lead"> {{ first_name }} {{ last_name }}!</p>
-                <p>Tu email {{ email }} ha sido confirmado.</p>
-            </div>
-			<h4 class="card-title">Complete los siguientes datos para finalizar el registro</h4>
-			<div class="dropdown-divider pb-4"></div>
-			<form method="POST" action="{{ url_for('register.second_form', hashed_email=hashed_email) }}">
-				<div class="form-group">
-					<label for="inputUsername"> Nombre de usuario * </label>
-					<input required type="text" class="form-control" id="inputUsername" name="inputUsername" placeholder="johndoe" onblur="validateUsername('inputUsername', 'usernameError')" aria-describedby="usernameError"/>
-					<small id="usernameError" class="form-text text-danger"></small>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword"> Contraseña *</label>
-					<input required type="password" class="form-control" id="inputPassword" name="inputPassword" onblur="validatePassword('inputPassword', 'passwordError')" aria-describedby="passwordError" />
-					<small id="passwordError" class="form-text text-danger"></small>
-				</div>
-                <div class="form-group">
-                    <label for="inputDocumentType">Tipo de Documento *</label>
-                    <select class="form-control" id="inputDocumentType" name="inputDocumentType">
-                        <option value="" disabled selected>Seleccionar un tipo de Documento</option>
-                        <option value="DNI">DNI</option>
-                        <option value="Pasaporte">Pasaporte</option>
-                    </select>
-                </div>
-    
-                <div class="form-group">
-                    <label for="inputDocument">Número de Documento *</label>
-                    <input type="text" class="form-control" id="inputDocument" name="inputDocument" placeholder="12345678" onblur="validateJustNumber('inputDocument', 'documentError')" aria-describedby="documentError" >
-                    <small id="documentError" class="form-text text-danger"></small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="inputGender">Género *</label>
-                    <select class="form-control" id="inputGender" name="inputGender">
-                        <option value="" disabled selected>Seleccionar un Género</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="No binario">No binario</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="inputAddress">Dirección *</label>
-                    <input type="text" class="form-control" id="inputAddress" name="inputAddress" onblur="validateDireccion('inputAddress', 'addressError')" aria-describedby="addressError" >
-                    <small id="addressError" class="form-text text-danger"></small>
-                </div>
+<div class="container">
+    <div class="row align-items-center">
+		<div class="col-8 mx-auto">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="card-header">
+                        <h2 class="card-title">¡Confirmación de Email Exitosa!</h2>
+                        <p class="lead text-center"> {{ first_name }} {{ last_name }}!</p>
+                        <p class="text-center">Tu email {{ email }} ha sido confirmado.</p>
+                        <h4 class="card-title">Complete los siguientes datos para finalizar el registro</h4>
+                    </div>
+                    <div class="dropdown-divider pb-4"></div>
+                    <form method="POST" action="{% if auth_method == 'Google' %}{{ url_for('register.google_second_form', hashed_email=hashed_email, admin_app=admin_app, auth_method=auth_method) }}{% else %}{{ url_for('register.second_form', hashed_email=hashed_email, admin_app=admin_app, auth_method=auth_method) }}{% endif %}">
+                        <div class="form-group">
+                            <label for="inputUsername"> Nombre de usuario * </label>
+                            <input 
+                                required 
+                                type="text" 
+                                class="form-control" 
+                                id="inputUsername" 
+                                name="inputUsername" 
+                                placeholder="johndoe" 
+                                onblur="validateUsername('inputUsername', 'usernameError'); allFieldsValid()" 
+                                aria-describedby="usernameError"/>
+                            <small id="usernameError" class="form-text text-danger"></small>
+                        </div>
+                        {% if auth_method == 'App'%}
+                            <div class="form-group">
+                                <label for="inputPassword"> Contraseña *</label>
+                                <input 
+                                    required 
+                                    type="password" 
+                                    class="form-control" 
+                                    id="inputPassword" 
+                                    name="inputPassword" 
+                                    onblur="validatePassword('inputPassword', 'passwordError'); allFieldsValid" 
+                                    aria-describedby="passwordError" />
+                                <small id="passwordError" class="form-text text-danger"></small>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="inputDocumentType">Tipo de Documento *</label>
+                            <select class="form-control" id="inputDocumentType" name="inputDocumentType" onblur="allFieldsValid()">
+                                <option value="" disabled selected>Seleccionar un tipo de Documento</option>
+                                <option value="DNI">DNI </option>
+                                <option value="Pasaporte">Pasaporte</option>
+                            </select>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="inputDocument">Número de Documento *</label>
+                            <input 
+                                required
+                                type="text" 
+                                class="form-control" 
+                                id="inputDocument" 
+                                name="inputDocument" 
+                                placeholder="12345678" 
+                                onblur="validateJustNumber('inputDocument', 'documentError'); allFieldsValid()" 
+                                aria-describedby="documentError" 
+                            />
+                            <small id="documentError" class="form-text text-danger"></small>
+                        </div>
 
-                <div class="form-group">
-                    <label for="inputPhoneNumber">Número de teléfono *</label>
-                    <input type="text" class="form-control" id="inputPhoneNumber" name="inputPhoneNumber" onblur="validatePhoneNumber('inputPhoneNumber', 'phoneNumberError')" aria-describedby="phoneNumberError">
-                    <small id="phoneNumberError" class="form-text text-danger"></small>
+                        <div class="form-group">
+                            <label for="inputGender">Género *</label>
+                            <select class="form-control" 
+                                    id="inputGender" 
+                                    name="inputGender"
+                                    placeholder="Género"
+                                    onblur="allFieldsValid()">
+                                <option value="" disabled selected>Seleccionar un Género</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="No binario">No binario</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Dirección *</label>
+                            <input 
+                                required
+                                type="text" 
+                                class="form-control" 
+                                id="inputAddress" 
+                                name="inputAddress"
+                                placeholder="Ejemplo de dirección: Av San Martin 123"
+                                onblur="validateDireccion('inputAddress', 'addressError'); allFieldsValid()" 
+                                aria-describedby="addressError" >
+                            <small id="addressError" class="form-text text-danger"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPhoneNumber">Número de teléfono *</label>
+                            <input 
+                                required
+                                type="text" 
+                                class="form-control" 
+                                id="inputPhoneNumber" 
+                                name="inputPhoneNumber" 
+                                placeholder="2213456789"
+                                onblur="validatePhoneNumber('inputPhoneNumber', 'phoneNumberError'); allFieldsValid()" 
+                                aria-describedby="phoneNumberError">
+                            <small id="phoneNumberError" class="form-text text-danger"></small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Finalizar Registro</button>
+                    </form>
                 </div>
-                
-				<button type="submit" class="btn btn-primary">Finalizar Registro</button>
-			</form>
-		</div>
-		<div class="d-md-inline d-none col-3"></div>
-	</div>
+            </div>
+            <div class="d-md-inline d-none col-3"></div>
+        </div>
+    </div>
 </div>
 {% endblock %}

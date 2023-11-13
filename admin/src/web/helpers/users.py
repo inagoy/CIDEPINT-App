@@ -3,6 +3,7 @@ from flask import session
 from src.core.models.user import User
 from src.core.models.user_role_institution import UserRoleInstitution
 from src.core.models.institution import Institution
+import json
 
 
 def parse_users_roles(users, institution_id):
@@ -43,18 +44,18 @@ def parse_user(user):
     Returns:
         dict: A dictionary with the user's information
     """
-    return {'id': user.id,
+    data = {'id': user.id,
             'first_name': user.first_name,
             'last_name': user.last_name,
             'email': user.email,
             'username': user.username,
             'document': user.document,
-            'document_type': User.get_document_type_name(user.id),
             'phone': user.phone_number,
             'address': user.address,
             'active': str(user.active),
-            'gender': User.get_gender_name(user.id)
+            'gender': User.get_gender_name(user.id) if user.gender else None,
             }
+    return json.dumps(data)
 
 
 def get_name(user):

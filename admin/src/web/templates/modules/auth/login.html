@@ -45,8 +45,15 @@
 			<div class="row align-items-center vh-100">
 				<div class="col-6 mx-auto">
 					<div class="card-login">
-						<div class="card-body text-center">
-							<i class="bi bi-person-circle" style="font-size: 4rem;"></i>
+						<div class="card-body text-center" style="margin:0">
+							<div class="d-flex">
+								<div class="align-self-start">
+									<a href="{{ url_for('home.home') }}"><i class="bi bi-arrow-left"></i></a>
+								</div>
+								<div class="col text-center">
+									<i class="bi bi-person-circle" style="font-size: 4rem;"></i>
+								</div>
+							</div>
 							<h4 class="card-title">Bienvenido a CIDEPINT</h4>
 							<hr>
 							<form method="POST" action="{{ url_for('auth.authenticate') }}" id="loginForm">
@@ -72,9 +79,21 @@
 								<button type="submit" class="btn btn-primary">Iniciar Sesión</button>
 							</form>
 						</div>
-						<hr>
 						<div>
 							<p class="text-center">¿No tienes una cuenta? <a href="{{ url_for('register.first_registration') }}">Regístrate</a></p>
+						</div>
+						<div class="custom-divider">
+							<span> o </span>
+						</div>
+						<div class="text-center">
+							<a href="{{ url_for('auth.google_login') }}">
+								<button class="btn btn-outline-primary" id="google-login">
+									<span data-provider="google"></span>
+									<img src="{{ url_for('static', filename='assets/google-logo.png') }}" alt="Logo de Google" 
+									style="vertical-align: middle; width: 20px; height: 20px; margin-right: 10px;">
+									<span href>Continuar con Google</span>
+								</button>
+							</a>
 						</div>
 					</div>
 				</div>

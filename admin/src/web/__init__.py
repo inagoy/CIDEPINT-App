@@ -9,6 +9,7 @@ from src.web import seeds
 from src.web.routes import set_routes
 from src.core.bcrypt import bcrypt
 from src.core.jwt import jwt
+from src.core import oauth
 from src.core.common.decorators import LoginWrap
 from src.web.helpers import set_helpers
 
@@ -31,6 +32,8 @@ def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
     CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+    oauth.init_app(app)
 
     set_routes(app)
 
