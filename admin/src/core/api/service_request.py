@@ -18,6 +18,9 @@ api_request_bp = Blueprint('api_requests', __name__, url_prefix='/api')
 @cross_origin()
 @jwt_required()
 def get_requests():
+    """
+    Get all service requests.
+    """
     user_id = get_jwt_identity()
     validator = SortedRequestsValidateSchema.get_instance()
     model_schema = RequestModelSchema.get_instance(many=True)

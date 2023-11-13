@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 const REGISTER_URL = import.meta.env.VITE_REGISTER_URL
 
 const router = createRouter({
@@ -8,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/HomeView.vue')
     },
     {
       path: '/services',
@@ -47,7 +46,13 @@ const router = createRouter({
         window.location.href = REGISTER_URL; // Redirect to register URL
         next(false); // Avoid Vue Router navigation
       }
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/ApiTestView.vue')
     }
+
   ]
 })
 

@@ -11,6 +11,9 @@ api_user_bp = Blueprint('api_user', __name__, url_prefix='/api')
 @cross_origin()
 @jwt_required()
 def get_profile():
+    """
+    Get user profile, only for authenticated users.
+    """
     user_id = get_jwt_identity()
     user = User.get_by_id(user_id)
     return {
