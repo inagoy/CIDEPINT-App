@@ -72,13 +72,12 @@ class FirstRegistrationSerializer(ValidateSerializer):
     }
 
 
-class SecondRegistrationSerializer(ValidateSerializer):
-    """Second registration serializer."""
+class GoogleRegistrationSerializer(ValidateSerializer):
+    """Google registration serializer."""
 
     fields = {
         "username": [v.validate_no_username,
                      v.validate_username, v.validate_not_empty, "*"],
-        "password": [v.validate_password, "*"],
         "address": [v.validate_address, v.validate_not_empty, "*"],
         "phone_number": [v.validate_no_phone_number,
                          v.validate_phone_number, "*"],
@@ -86,6 +85,16 @@ class SecondRegistrationSerializer(ValidateSerializer):
         "document_type": [v.validate_just_text, "*"],
         "document": [v.validate_no_document, v.validate_just_number, "*"],
     }
+
+
+class SecondRegistrationSerializer(GoogleRegistrationSerializer):
+    """Second app registration serializer."""
+
+    @classmethod
+    def validate(cls, data: dict):
+        """Check that the user data is unique in the table."""
+        cls.fields["password"] = [v.validate_password, "*"]
+        return super().validate(data)
 
 
 class UniqueDataProfile(ValidateSerializer):

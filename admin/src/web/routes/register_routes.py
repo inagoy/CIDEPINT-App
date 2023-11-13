@@ -40,3 +40,25 @@ def second_form(hashed_email):
 def confirm_password(hashed_email):
     """Route for the password confirmation."""
     return register_controller.confirm_password(request, hashed_email)
+
+
+@register_bp.route("/google-register", methods=["GET"])
+@MaintenanceWrap.wrap
+def google_register():
+    """Route for google register."""
+    return register_controller.google_register()
+
+
+@register_bp.route("/signup-google", methods=["GET"])
+@MaintenanceWrap.wrap
+def google_callback():
+    """Route for google register callback."""
+    return register_controller.google_callback()
+
+
+@register_bp.route("/second_form/google/<string:hashed_email>",
+                   methods=["POST"])
+@MaintenanceWrap.wrap
+def google_second_form(hashed_email):
+    """Route for google register form."""
+    return register_controller.google_second_form(hashed_email)

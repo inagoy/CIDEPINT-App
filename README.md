@@ -199,4 +199,6 @@ _Obtiene el listado de tipos de servicios._
     - `css/`: archivos CSS
     - `js/`: funciones de Javascript para la funcionalidad del lado del cliente. Muestra de información y validaciones del lado del cliente
 - `app.py`: Punto de entrada principal de la aplicación Flask
-
+- `.env`: Contiene las siguientes variables de entorno:
+    - puerto de la app Vue para la redireccion en desarrollo. Por defecto, es el puerto **5173**, pero debe setearla con su puerto correspondiente.
+    - credenciales de Google Cloud para el registro y autenticación con Google.

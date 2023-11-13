@@ -20,6 +20,7 @@ def create_admins():
         "gender": 'Masculino',
         "document_type": 'DNI',
         "document": '21233566',
+        "auth_method": 'App',
         "active": True
     }
     data["password"] = (bcrypt.generate_password_hash(data["password"]
@@ -53,6 +54,7 @@ def seed_users() -> None:
          "gender": 'Masculino',
          "document_type": 'DNI',
          "document": '40233566',
+         "auth_method": 'App',
          "active": True,
          },
 
@@ -67,6 +69,7 @@ def seed_users() -> None:
          "gender": 'Femenino',
          "document_type": 'DNI',
          "document": '39233566',
+         "auth_method": 'App',
          "active": True,
          }
     ]

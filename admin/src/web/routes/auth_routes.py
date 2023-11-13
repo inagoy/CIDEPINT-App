@@ -22,3 +22,15 @@ def authenticate():
 def logout():
     """Route for logout."""
     return auth_controller.logout()
+
+
+@auth_bp.route("/google-login", methods=["GET"])
+def google_login():
+    """Route for google authentication."""
+    return auth_controller.google_login()
+
+
+@auth_bp.route("/signin-google")
+def google_auth():
+    """Route for google authentication."""
+    return auth_controller.google_auth()

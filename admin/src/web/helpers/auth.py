@@ -1,4 +1,8 @@
 from src.core.bcrypt import bcrypt
+from flask import session, redirect, url_for, flash
+from src.web.helpers.session import superuser_session
+from src.core.models.site_config import SiteConfig
+from src.web.helpers.users import get_institutions_user
 from src.core.models.user import User
 
 
@@ -20,3 +24,29 @@ def check_user(email, password):
         return user
     else:
         return None
+
+
+def log_user(user: object):
+
+    if (user.active is False):
+        flash("Mail o contraseña inválidos. Intente nuevamente", "danger")
+        return redirect(url_for("auth.login"))
+    else:
+        session["user"] = user.email
+        if SiteConfig.in_maintenance_mode():
+            if superuser_session():
+                flash("Sesión iniciada correctamente", "success")
+                return redirect(url_for("home.home_user"))
+            else:
+                session.clear()
+                flash("Mail o contraseña inválidos. Intente nuevamente",
+                      "danger")
+                return redirect(url_for("auth.login"))
+        else:
+            institutions = get_institutions_user()
+            if not (institutions.__len__() == 0 or
+                    institutions[0] is None):
+                session["current_institution"] = institutions[0].id
+
+            flash("Sesión iniciada correctamente", "success")
+            return redirect(url_for("home.home_user"))

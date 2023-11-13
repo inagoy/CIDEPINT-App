@@ -17,6 +17,8 @@ class Config(object):
     MAIL_USERNAME = 'emiliamancini.m@gmail.com'
     MAIL_PASSWORD = 'ihej sxxz scwj bemi '
     MAIL_DEFAULT_SENDER = ('Administración CIDEPINT', 'MAIL_USERNAME')
+    GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET")
 
     JWT_SECRET_KEY = "PSgrupo05"
     JWT_TOKEN_LOCATION = ["headers"]
@@ -33,7 +35,8 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
     )
-    pass
+    PUBLIC_LOGIN_URL = "https://grupo05.proyecto2023.linti.unlp.edu.ar/login"
+    PUBLIC_HOME_URL = "https://grupo05.proyecto2023.linti.unlp.edu.ar/"
 
 
 class DevelopmentConfig(Config):
@@ -44,10 +47,13 @@ class DevelopmentConfig(Config):
     DB_PASS = environ.get("DB_PASS")
     DB_HOST = environ.get("DB_HOST")
     DB_NAME = environ.get("DB_NAME")
+    PUBLIC_APP_PORT = environ.get("PUBLIC_APP_PORT")
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
     )
+    PUBLIC_LOGIN_URL = f"http://localhost:{PUBLIC_APP_PORT}/login"
+    PUBLIC_HOME_URL = f"http://localhost:{PUBLIC_APP_PORT}/"
 
 
 class TestingConfig(Config):
