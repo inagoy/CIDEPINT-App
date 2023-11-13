@@ -46,7 +46,7 @@
         </div>
         <div class="form-group">
             <label for="contact_info">Informaci&oacute;n de Contacto *:</label>
-            <input
+            <textarea
                 required
                 type="text" 
                 class="form-control" 
@@ -54,8 +54,7 @@
                 name="contact_info" 
                 placeholder="Información de contacto"
                 onblur="validateContact('inputContact', 'contactError')"
-                {% if contact_info %} value={{ contact_info }}{% endif %} 
-            />
+            />{% if contact_info %}{{ contact_info }}{% endif %} </textarea>
             <small id="contactError" class="form-text text-danger"></small>
         </div>
         <a href="{{ url_for('super.view_config') }}" class="card-link">

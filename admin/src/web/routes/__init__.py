@@ -13,6 +13,7 @@ from src.core.api.user import api_user_bp
 from src.core.api.service import api_service_bp
 from src.core.api.institution import api_institution_bp
 from src.core.api.service_request import api_request_bp
+from src.core.api.site_config import api_site_config
 
 
 def set_routes(app) -> None:
@@ -43,3 +44,4 @@ def set_routes(app) -> None:
     app.register_blueprint(api_institution_bp)
     app.register_blueprint(api_service_bp)
     app.register_blueprint(api_request_bp)
+    app.register_blueprint(api_site_config)

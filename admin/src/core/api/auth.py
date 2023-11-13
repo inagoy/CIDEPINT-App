@@ -12,6 +12,9 @@ api_auth_bp = Blueprint('api_auth', __name__, url_prefix='/api')
 @api_auth_bp.route("/auth", methods=["POST"])
 @cross_origin()
 def api_auth():
+    """
+    Login, return an access token if credentials are valid.
+    """
     validator = UserValidateSchema.get_instance()
     try:
         validated_data = validator.load(request.get_json())

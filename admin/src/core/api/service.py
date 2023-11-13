@@ -28,6 +28,9 @@ def get_services():
 @api_service_bp.route("/services/<int:service_id>", methods=["GET"])
 @cross_origin()
 def get_service(service_id):
+    """
+    Get a service by its ID.
+    """
     model_schema = ServiceModelSchema.get_instance()
     service = Service.get(service_id)
     if not service:
