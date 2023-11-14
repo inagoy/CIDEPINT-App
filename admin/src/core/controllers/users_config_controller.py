@@ -1,15 +1,14 @@
 """User configuration module controllers."""
 from flask import render_template, request, redirect, url_for, flash
-from src.core.models.user import User
+from src.core.models.user import User, AuthEnum
 from src.core.models.user import UserRoleInstitution
 from src.core.models.institution import Institution
 from src.core.models.privileges import Role
-from src.web.helpers.users import unique_data_check, get_name
-from src.core.common import serializers as s
 from src.core.models.hashed_email import HashedEmail
-from src.core import mail
+from src.web.helpers.users import unique_data_check, get_name
+from src.web.helpers.register import initial_registration
+from src.core.common import serializers as s
 from src.core.bcrypt import bcrypt
-import uuid
 
 
 def users():
@@ -153,24 +152,20 @@ def add_user():
         return redirect(url_for('super.users'))
 
     form['password'] = bcrypt.generate_password_hash(form['password'])
-    user = User.save(**form)
-    email_hash = uuid.uuid5(uuid.NAMESPACE_DNS, form["email"])
-    HashedEmail.save(email_hash, user.id)
+    form['auth_method'] = AuthEnum.APP
 
-    flash('Se ha completado el registro exitosamente', 'success')
+    data = {
+        "user_data": form,
+        "route": "super.user_added_confirmation",
+        "auth_method": AuthEnum.APP.value,
+    }
+    user = initial_registration(**data)
 
-    mail.message(
-        "Confirmación de registro",
-        recipients=[form["email"]],
-        template="modules/register/email.html",
-        first_name=form["first_name"],
-        last_name=form["last_name"],
-        confirmation_link=url_for(
-            "super.user_added_confirmation",
-            hashed_email=email_hash,
-            _external=True
-        )
-    )
+    if not user:
+        flash('Error al registrar el usuario', 'danger')
+    else:
+        flash('Se ha completado el registro exitosamente', 'success')
+
     return redirect(url_for('super.users'))
 
 

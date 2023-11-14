@@ -1,6 +1,6 @@
 """Helpers to be used on client-side app."""
 from src.web.helpers import session
-from src.web.helpers import users, institutions, services
+from src.web.helpers import users, institutions, services, redirection
 
 
 def set_helpers(app) -> None:
@@ -26,3 +26,4 @@ def set_helpers(app) -> None:
         parse_institution=institutions.parse_institution
     )
     app.jinja_env.globals.update(parse_note=services.parse_note)
+    app.jinja_env.globals.update(public_app=redirection.url_to_public_home)

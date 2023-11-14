@@ -21,7 +21,16 @@ class DocumentEnum(EnumBase):
     """Document enum."""
 
     DNI = 'DNI'
+    LIBRETA_CIVICA = 'Libreta Cívica'
+    LIBRETA_ENROLAMIENTO = 'Libreta de Enrolamiento'
     PASAPORTE = 'Pasaporte'
+
+
+class AuthEnum(EnumBase):
+    """Auth enum."""
+
+    GOOGLE = 'Google'
+    APP = 'App'
 
 
 class User(BaseModel):
@@ -43,6 +52,10 @@ class User(BaseModel):
                               values_callable=lambda x:
                               [str(e.value)for e in DocumentEnum]))
     document = db.Column(db.String(31), unique=True)
+
+    auth_method = db.Column(db.Enum(AuthEnum,
+                                    values_callable=lambda x:
+                                    [str(e.value)for e in AuthEnum]))
 
     active = db.Column(db.Boolean, default=False)
 
@@ -142,13 +155,13 @@ class User(BaseModel):
     def get_gender_name(cls, user_id: int):
         """Return the gender associated with the user."""
         gender = cls.query.filter_by(id=user_id).first().gender
-        return GenderEnum(gender).name.capitalize()
+        return GenderEnum(gender).value
 
     @classmethod
     def get_document_type_name(cls, user_id: int):
         """Return the document type associated with the user."""
         document_type = cls.query.filter_by(id=user_id).first().document_type
-        return DocumentEnum(document_type).name
+        return DocumentEnum(document_type).value
 
     @classmethod
     def get_all(cls):

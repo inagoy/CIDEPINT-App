@@ -11,16 +11,22 @@ function viewUser(button) {
 	modal.querySelector("#user-first-name").innerHTML = data.first_name;
 	modal.querySelector("#user-last-name").innerHTML = data.last_name;
 	modal.querySelector("#user-email").innerHTML = data.email;
-	modal.querySelector("#user-username").innerHTML = data.username;
 	if (data.active === "True"){
 		modal.querySelector("#user-active").innerHTML = "Activo";
 	} else {
 		modal.querySelector("#user-active").innerHTML = "Inactivo";
 	}
-	modal.querySelector("#user-phone").innerHTML = data.phone;
-	modal.querySelector("#user-address").innerHTML = data.address;
-	modal.querySelector("#user-gender").innerHTML = data.gender;
-	modal.querySelector("#user-dni").innerHTML = data.document;
+
+	function setInnerHTML(elementId, value) {
+        const element = modal.querySelector(elementId);
+        element.innerHTML = value === undefined || value === null || value === "" ? "No hay datos ingresados" : value;
+    }
+
+	setInnerHTML("#user-username", data.username);
+	setInnerHTML("#user-phone", data.phone);
+	setInnerHTML("#user-address", data.address);
+	setInnerHTML("#user-gender", data.gender);
+	setInnerHTML("#user-dni", data.document);
 
 	
     const editButton = modal.querySelector("#edit-button");

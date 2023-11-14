@@ -102,7 +102,9 @@ def edit_institution(institution_id):
                 return redirect(url_for('super.institutions'))
 
         form["enabled"] = request.form.get('inputEnabledEdit') is not None
-
+        for key in key_mapping.values():
+            if key not in form.keys():
+                form[key] = None
         updated = Institution.update(entity_id=institution.id, **form)
         if updated:
             flash("Se ha completado la edición exitosamente", "success")

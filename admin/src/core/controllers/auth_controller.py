@@ -1,11 +1,10 @@
 """Authentication controllers."""
-from src.web.helpers.users import get_institutions_user
-from src.web.helpers.session import superuser_session
-from src.core.models.site_config import SiteConfig
 from flask import flash, redirect, url_for, render_template
 from flask import session
 from src.core.common.decorators import LoginWrap
-from src.web.helpers.auth import check_user
+from src.web.helpers.auth import check_user, log_user
+from src.core.oauth import oauth
+from src.core.models.user import User, AuthEnum
 
 
 def login():
@@ -31,31 +30,15 @@ def authenticate(request):
     """
     params = request.form
 
-    user = check_user(params["inputEmail"], params["inputPassword"])
+    user = User.find_user_by(field='email', value=params["inputEmail"])
 
-    if not user or user.active is False:
-        flash("Mail o contraseña inválidos. Intente nuevamente", "danger")
-        return redirect(url_for("auth.login"))
+    if user and user.auth_method == AuthEnum.APP and check_user(
+            user.email, params["inputPassword"]
+    ):
+        return log_user(user)
 
-    else:
-        session["user"] = user.email
-        if SiteConfig.in_maintenance_mode():
-            if superuser_session():
-                flash("Sesión iniciada correctamente", "success")
-                return redirect(url_for("home.home_user"))
-            else:
-                session.clear()
-                flash("Mail o contraseña inválidos. Intente nuevamente",
-                      "danger")
-                return redirect(url_for("auth.login"))
-        else:
-            institutions = get_institutions_user()
-            if not (institutions.__len__() == 0 or
-                    institutions[0] is None):
-                session["current_institution"] = institutions[0].id
-
-            flash("Sesión iniciada correctamente", "success")
-            return redirect(url_for("home.home_user"))
+    flash("Contraseña inválida. Intente nuevamente", "danger")
+    return redirect(url_for("auth.login"))
 
 
 def logout():
@@ -63,6 +46,8 @@ def logout():
     Logout the user from the session.
 
     This function clears the session and displays a flash message indicating
+    the successful logout. If there is no session started, it displays a
+    flash message indicating that there is no session to logout from.
     the successful logout. If there is no session started, it displays a
     flash message indicating that there is no session to logout from.
 
@@ -77,3 +62,35 @@ def logout():
         flash("No hay sesión iniciada", "info")
 
     return redirect(url_for("home.home"))
+
+
+def google_login():
+    """
+    Login function that renders the google authorization endpoint.
+    """
+    redirect_uri = url_for('auth.google_auth', _external=True)
+    return oauth.google.authorize_redirect(redirect_uri)
+
+
+def google_auth():
+    """
+    Authenticate by google
+
+    Checks that the user authenticated by google had been
+    registered using Google.
+
+    Returns:
+        redirect: A redirection to the login page if the authentication fails,
+            or a redirection to the home page if the authentication succeeds.
+    """
+
+    token = oauth.google.authorize_access_token()
+
+    email = token['userinfo'].get("email")
+    user = User.find_user_by(field='email', value=email)
+
+    if user and user.auth_method == AuthEnum.GOOGLE:
+        return log_user(user)
+
+    flash("Contraseña inválida. Intente nuevamente", "danger")
+    return redirect(url_for("auth.login"))

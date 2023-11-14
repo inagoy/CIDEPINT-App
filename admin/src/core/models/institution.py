@@ -63,6 +63,10 @@ class Institution(BaseModel):
         return cls.query.filter_by(id=institution_id).first().enabled
 
     @classmethod
+    def get_all_institutions(cls):
+        return cls.query.all()
+
+    @classmethod
     def get_enabled_institutions_for_user(cls, user_id):
         """
         Get the list of enabled institutions for a specific user.
