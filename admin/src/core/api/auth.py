@@ -19,11 +19,11 @@ def api_auth():
     try:
         validated_data = validator.load(request.get_json())
     except ValidationError:
-        return response_error()
+        return {response_error()}
     user = check_user(
         validated_data.get("user"), validated_data.get("password")
     )
     if not user:
-        return response_error()
+        return {"error": "Invalid credentials"}, 401
     access_token = create_access_token(identity=user.id)
-    return {"access_token": access_token}, 200
+    return {"token": access_token}, 201

@@ -46,6 +46,9 @@ import { RouterLink, RouterView } from 'vue-router'
             <li class="nav-item">
               <RouterLink class="nav-link" to="/test">API test</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/login">Log In</RouterLink>
+            </li>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
