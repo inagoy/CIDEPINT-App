@@ -201,5 +201,4 @@ _Obtiene el listado de tipos de servicios._
 - `app.py`: Punto de entrada principal de la aplicación Flask
 - `.env.example`: Contiene las siguientes variables de entorno necesarias para funcionar de forma local:
     - puerto de la app Vue para la redireccion en desarrollo. Por defecto, es el puerto **5173**, pero debe setearla con su puerto correspondiente.
-    - credenciales de Google Cloud para el registro y autenticación con Google.
     - agregar variables para la conexión con la base de datos

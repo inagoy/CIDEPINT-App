@@ -17,8 +17,8 @@ class Config(object):
     MAIL_USERNAME = 'emiliamancini.m@gmail.com'
     MAIL_PASSWORD = 'ihej sxxz scwj bemi '
     MAIL_DEFAULT_SENDER = ('Administración CIDEPINT', 'MAIL_USERNAME')
-    GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID")
-    GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET")
+    GOOGLE_CLIENT_ID = '316562793636-roasn9t2um4fcgimahvnv1g3fcqseu7l.apps.googleusercontent.com'
+    GOOGLE_CLIENT_SECRET = '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'
 
     JWT_SECRET_KEY = "PSgrupo05"
     JWT_TOKEN_LOCATION = ["headers"]
