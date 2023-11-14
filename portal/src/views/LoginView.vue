@@ -1,28 +1,22 @@
-<script>
-  import axios from 'axios'
-  
-  const API_URL = import.meta.env.VITE_API_URL
+<script setup>
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
 
-  export default {
-    name: 'LoginView',
-    data() {
-      return {
-        email: '',
-        password: ''
-      }
-    },
-    methods: {
-      async handleSubmit() {
-        const response = await axios.post(API_URL+'/auth', {
-          user: this.email,
-          password: this.password
-        })
-        console.log(response)
-      }
-    }
-  }
+import { useAuthStore } from '@/stores/auth';
+
+const schema = Yup.object().shape({
+    email: Yup.string().email('Ingrese un Email válido').required('Ingrese un Email'),
+    password: Yup.string().required('Ingrese una contraseña')
+});
+
+function onSubmit(values, { setErrors }) {
+    const authStore = useAuthStore();
+    const { email, password } = values;
+
+    return authStore.login(email, password)
+        .catch(error => setErrors({ apiError: error }));
+}
 </script>
-
 
 <template>
   <main class="container">
@@ -40,34 +34,25 @@
             </div>
             <h4 class="card-title">Bienvenido a CIDEPINT</h4>
             <hr>
-            <form @submit.prevent="handleSubmit()">
-              <div class="form-group-login">
-                <label for="inputEmail">Dirección de email</label>
-                <input
-                  name="inputEmail"
-                  required
-                  type="email"
-                  class="form-control"
-                  id="inputEmail"
-                  v-model="email"
-                  aria-describedby="emailHelp"
-                  placeholder="nombre@ejemplo.com"
-                />
-                <small id="emailError" class="form-text text-danger"></small>
-              </div>
-              <div class="form-group-login">
-                <label for="inputPassword">Contraseña</label>
-                <input 
-                  name="inputPassword" 
-                  required type="password" 
-                  v-model="password" 
-                  class="form-control" 
-                  id="inputPassword" 
-                  />
-              </div>
-              <small id="loginError" class="form-text text-danger"></small>
-              <button class="btn btn-primary mb-4">Iniciar Sesión</button>
-            </form>
+            <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+                <div class="form-group-login">
+                    <label>Dirección de Email</label>
+                    <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
+                    <div class="invalid-feedback">{{errors.email}}</div>
+                </div>            
+                <div class="form-group-login">
+                    <label>Contraseña</label>
+                    <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" />
+                    <div class="invalid-feedback">{{errors.password}}</div>
+                </div>            
+                <div class="form-group">
+                    <button class="btn btn-primary  mb-4" :disabled="isSubmitting">
+                        <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+                        Ingresar
+                    </button>
+                </div>
+                <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{errors.apiError}}</div>
+            </Form>
           </div>
           <div>
             <p class="text-center">¿No tienes una cuenta? <RouterLink to="/register">Regístrate</RouterLink></p>
