@@ -48,19 +48,23 @@ function onSubmit(values, { setErrors }) {
                 <div class="form-group">
                     <button class="btn btn-primary" :disabled="isSubmitting">
                         <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-                        Ingresar
+                        Iniciar Sesión
                     </button>
                 </div>
                 <div v-if="errors.apiError" class="alert alert-danger mt-3">{{errors.apiError}}</div>
             </Form>
           </div>
           <div>
-            <p class="text-center mt-5 mb-0">¿No tienes una cuenta? <RouterLink to="/register">Regístrate</RouterLink></p>
+            <p class="text-center mt-3">¿No tienes una cuenta? <RouterLink to="/register">Regístrate</RouterLink></p>
           </div>
-          <div class="custom-divider text-center">
-            <span> o </span>
-          </div>
-          <div class="text-center">
+          <table width="100%">
+          <tr>
+            <td><hr></td>
+            <td style="width:1px; padding: 0 10px; white-space: nowrap;">o</td>
+            <td><hr /></td>
+          </tr>
+        </table>
+          <div class="text-center m-2">
             <a href="#">
               <button class="btn btn-outline-primary" id="google-login">
                 <span data-provider="google"></span>

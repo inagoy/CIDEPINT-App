@@ -38,7 +38,7 @@ const authStore = useAuthStore();
               <RouterLink class="nav-link" to="/register">Registrarse</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/login">Log In</RouterLink>
+              <RouterLink class="nav-link" to="/login">Ingresar</RouterLink>
             </li>
           </ul>
           <ul v-show="authStore.user" class="navbar-nav">
