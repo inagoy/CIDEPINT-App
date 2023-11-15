@@ -4,36 +4,47 @@
  * @param {HTMLElement} button - The button element that triggers the function.
  * @return {void} This function does not return a value.
  */
+var map;
+
 function viewInstitution(button) {
-    const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"'));
-    const modal = document.getElementById("institution_view");
+	const data = JSON.parse(button.getAttribute("data-element").replace(/'/g, '"'));
 
-    function setInnerHTML(elementId, value) {
-        const element = modal.querySelector(elementId);
-        element.innerHTML = value === undefined || value === null || value === "" ? "No hay datos ingresados" : value;
-    }
+	const modal = document.getElementById("institution_view");
 
-    setInnerHTML("#institution-name", data.name);
-    setInnerHTML("#institution-info", data.info);
-    setInnerHTML("#institution-address", data.address);
-    setInnerHTML("#institution-location", data.location);
-    setInnerHTML("#institution-website", data.website);
-    setInnerHTML("#institution-keywords", data.search_keywords);
-    setInnerHTML("#institution-days-hours", data.days_and_hours);
-    setInnerHTML("#institution-contact", data.contact_info);
+	function setInnerHTML(elementId, value) {
+		const element = modal.querySelector(elementId);
+		element.innerHTML = value === undefined || value === null || value === "" ? "No hay datos ingresados" : value;
+	}
 
-    if (data.enabled === "True") {
-        modal.querySelector("#institution-state").innerHTML = "Habilitada";
-    } else {
-        modal.querySelector("#institution-state").innerHTML = "Deshabilitada";
-    }
+	setInnerHTML("#institution-name", data.name);
+	setInnerHTML("#institution-info", data.info);
+	setInnerHTML("#institution-address", data.address);
+	setInnerHTML("#institution-location", data.location);
+	setInnerHTML("#institution-website", data.website);
+	setInnerHTML("#institution-keywords", data.search_keywords);
+	setInnerHTML("#institution-days-hours", data.days_and_hours);
+	setInnerHTML("#institution-contact", data.contact_info);
 
-    // Passing element to edit button
-    const editButton = modal.querySelector("#edit-button");
-    editButton.setAttribute('data-element', JSON.stringify(data));
-    editButton.setAttribute('data-url', button.getAttribute("data-url")); 
+	if (data.enabled === "True") {
+		modal.querySelector("#institution-state").innerHTML = "Habilitada";
+	} else {
+		modal.querySelector("#institution-state").innerHTML = "Deshabilitada";
+	}
 
-    openModal(modal);
+	// Passing element to edit button
+	const editButton = modal.querySelector("#edit-button");
+	editButton.setAttribute("data-element", JSON.stringify(data));
+	editButton.setAttribute("data-url", button.getAttribute("data-url"));
+
+	openModal(modal);
+	if (data.coordinates) {
+		document.getElementById("viewMapContainer").style.display = "block";
+		console.log("coordinates", data.coordinates);
+
+		document.addEventListener("DOMContentLoaded", loadMap(data.coordinates));
+	} else {
+		document.getElementById("viewMapContainer").style.display = "none";
+	}
 }
 
 /**
@@ -44,32 +55,33 @@ function viewInstitution(button) {
  */
 function editInstitution(button) {
 	document.getElementById("institution_view").style.display = "none";
-    let modal = document.getElementById("institution_edit");
-    const data = JSON.parse(button.getAttribute("data-element"));
+	let modal = document.getElementById("institution_edit");
+	const data = JSON.parse(button.getAttribute("data-element"));
 	let checkboxEnabled = document.querySelector("#inputEnabledEdit");
 	const form = modal.querySelector("#edit-form");
 
 	function setInputValue(inputId, value) {
-        const input = modal.querySelector(inputId);
-        input.value = value || ''; // Set value to an empty string if value is falsy
-    }
+		const input = modal.querySelector(inputId);
+		input.value = value || ""; // Set value to an empty string if value is falsy
+	}
 
-    setInputValue("#inputNameEdit", data.name);
-    setInputValue("#inputInfoEdit", data.info);
-    setInputValue("#inputAddressEdit", data.address);
-    setInputValue("#inputLocationEdit", data.location);
-    setInputValue("#inputWebsiteEdit", data.website);
-    setInputValue("#inputKeywordsEdit", data.search_keywords);
-    setInputValue("#inputDaysHoursEdit", data.days_and_hours);
-    setInputValue("#inputContactEdit", data.contact_info);
+	setInputValue("#inputNameEdit", data.name);
+	setInputValue("#inputInfoEdit", data.info);
+	setInputValue("#inputAddressEdit", data.address);
+	setInputValue("#inputLocationEdit", data.location);
+	setInputValue("#inputWebsiteEdit", data.website);
+	setInputValue("#inputKeywordsEdit", data.search_keywords);
+	setInputValue("#inputDaysHoursEdit", data.days_and_hours);
+	setInputValue("#inputContactEdit", data.contact_info);
 
 	if (data.enabled.toLowerCase() === "true") {
 		checkboxEnabled.checked = true;
 	}
 
-	form.action = button.getAttribute("data-url")
-	
+	form.action = button.getAttribute("data-url");
+
 	openModal(modal);
+	document.addEventListener("DOMContentLoaded", viewEditMap(data.coordinates));
 }
 
 /**

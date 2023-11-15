@@ -1,4 +1,5 @@
 """Helpers for institutions."""
+import json
 
 
 def parse_institution(institution):
@@ -12,6 +13,7 @@ def parse_institution(institution):
     Returns:
         dict: A dictionary with the institution's information
     """
+    # raise NotImplementedError
     data = {
         'id': institution.id,
         'name': institution.name,
@@ -22,7 +24,10 @@ def parse_institution(institution):
         'search_keywords': institution.search_keywords,
         'days_and_hours': institution.days_and_hours,
         'contact_info': institution.contact_info,
-        'enabled': str(institution.enabled)
+        'enabled': str(institution.enabled),
+        'coordinates': json.loads(institution.coordinates
+                                  ) if institution.coordinates is not None
+        else None,
     }
 
     return {key: value for key, value in data.items() if value is not None}

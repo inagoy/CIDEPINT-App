@@ -45,8 +45,10 @@ def add_institution():
         'inputKeywords': 'search_keywords',
         'inputDaysHours': 'days_and_hours',
         'inputContact': 'contact_info',
-        'inputEnabled': 'enabled'
+        'inputEnabled': 'enabled',
+        'inputCoordinates': 'coordinates'
     }
+    print("holaaaa", request.form)
     form = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
     serializer = s.InstitutionValidator().validate(form)
@@ -62,7 +64,7 @@ def add_institution():
         flash('Se ha completado el registro exitosamente', 'success')
     else:
         flash('Error al completar el registro', 'danger')
-
+    # raise NotImplementedError
     return redirect(url_for('super.institutions'))
 
 
@@ -86,7 +88,8 @@ def edit_institution(institution_id):
                        'inputKeywordsEdit': 'search_keywords',
                        'inputDaysHoursEdit': 'days_and_hours',
                        'inputContactEdit': 'contact_info',
-                       'inputEnabledEdit': 'enabled'
+                       'inputEnabledEdit': 'enabled',
+                       'inputCoordinatesEdit': 'coordinates'
                        }
         form = s.ValidateSerializer.map_keys(request.form, key_mapping)
 
