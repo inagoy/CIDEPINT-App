@@ -11,13 +11,23 @@ const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 const id = route.params.id
 const serviceData = ref([])
+const institutionData = ref([])
 
 onMounted(() => {
-  axios.get(API_URL + '/services/' + id).then((response) => {
-    serviceData.value = response.data
-    console.log(API_URL + '/services/' + id)
-    console.log(serviceData.value)
-  })
+  axios
+    .get(API_URL + '/services/' + id)
+    .then((response) => {
+      serviceData.value = response.data
+      console.log(API_URL + '/services/' + id)
+      console.log(serviceData.value)
+    })
+    .then(() => {
+      axios.get(API_URL + '/institutions/' + serviceData.value.laboratory).then((response) => {
+        institutionData.value = response.data
+        console.log(API_URL + '/institutions/' + serviceData.value.laboratory)
+        console.log('coordenadas', institutionData.value.coordinates)
+      })
+    })
 })
 </script>
 
@@ -28,12 +38,12 @@ onMounted(() => {
     >
       <div class="w-100">
         <ServiceInfoCard :service="serviceData" />
-        <InstitutionInfo :institution="serviceData" />
+        <InstitutionInfo :institution="institutionData" />
       </div>
       <div class="flex-shrink-1 px-4 d-flex flex-column justify-content-start h-100">
         <p class="fst-italic">Debe iniciar sesión para poder solicitar un servicio</p>
         <ServiceRequestButton :serviceID="id" :serviceEnabled="serviceData.enabled" />
-        <Map :location="serviceData.location" />
+        <Map v-if="institutionData.coordinates !== null" :institution="institutionData" />
       </div>
     </div>
   </main>

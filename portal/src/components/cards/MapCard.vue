@@ -1,31 +1,44 @@
 <script>
-import { onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 export default {
   name: 'Map',
   props: {
-    location: {
-      type: String
+    institution: {
+      type: Object
     }
   },
-  setup() {
+  setup(props) {
     let map, marker
-    onMounted(() => {
-      map = L.map('map').setView([-34.9223, -57.9546], 12)
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map)
-      marker = L.marker([-34.9223, -57.9546]).addTo(map);
-      marker.bindPopup("<b>Dirección:</b> aaaaa <br/> <b>Contacto:</b> aaaaa").openPopup();
-    })
+
+    watch(
+      () => props.institution,
+      (newVal, oldVal) => {
+        if (newVal) {
+          // Props are available
+          console.log('aca las coord', props.institution)
+          map = L.map('map').setView([-34.9223, -57.9546], 12)
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(map)
+          marker = L.marker([-34.9223, -57.9546]).addTo(map)
+          marker
+            .bindPopup('<b>Dirección: </b>' + props.institution.address + '<br/> <b>Contacto: </b>' + props.institution.email)
+            .openPopup()
+        } else {
+          // Props are not available
+          console.log('esperando prop!!!!')
+        }
+      }
+    )
   }
 }
 </script>
 
 <template>
-  <div class=" my-4">
-    <h6 class="fw-bold"> Cómo llegar </h6>
+  <div class="my-4">
+    <h6 class="fw-bold">Cómo llegar</h6>
     <div id="map"></div>
   </div>
 </template>
@@ -33,5 +46,12 @@ export default {
 <style scoped>
 #map {
   height: 220px;
+  width: 25vw;
+}
+@media screen and (max-width: 768px) {
+  #map {
+    width: 90vw;
+  }
+  
 }
 </style>
