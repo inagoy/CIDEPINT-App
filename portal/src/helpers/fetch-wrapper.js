@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/stores/auth';
 
+
 export const fetchWrapper = {
     get: request('GET'),
     post: request('POST'),
@@ -21,12 +22,11 @@ function request(method) {
     }
 }
 
-// helper functions
-
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
     const { user } = useAuthStore();
     const isLoggedIn = !!user?.token;
+    console.log(isLoggedIn)
     const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
     if (isLoggedIn && isApiUrl) {
         return { Authorization: `Bearer ${user.token}` };
@@ -40,7 +40,8 @@ function handleResponse(response) {
         const data = text && JSON.parse(text);
         
         if (!response.ok) {
-            return Promise.reject("El usuario o la contraseña son incorrectos");
+            const error = data.error
+            return Promise.reject(error);
         }
         return data;
     });

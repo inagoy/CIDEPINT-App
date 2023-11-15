@@ -46,16 +46,16 @@ function onSubmit(values, { setErrors }) {
                     <div class="invalid-feedback">{{errors.password}}</div>
                 </div>            
                 <div class="form-group">
-                    <button class="btn btn-primary  mb-4" :disabled="isSubmitting">
+                    <button class="btn btn-primary" :disabled="isSubmitting">
                         <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
                         Ingresar
                     </button>
                 </div>
-                <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{errors.apiError}}</div>
+                <div v-if="errors.apiError" class="alert alert-danger mt-3">{{errors.apiError}}</div>
             </Form>
           </div>
           <div>
-            <p class="text-center">¿No tienes una cuenta? <RouterLink to="/register">Regístrate</RouterLink></p>
+            <p class="text-center mt-5 mb-0">¿No tienes una cuenta? <RouterLink to="/register">Regístrate</RouterLink></p>
           </div>
           <div class="custom-divider text-center">
             <span> o </span>
@@ -78,7 +78,7 @@ function onSubmit(values, { setErrors }) {
 
 <style>
   .card-login {
-    background-color: lightblue;
+    background-color: whitesmoke;
     padding: 20px;
     border-radius: 5px;
     height: 100%;
