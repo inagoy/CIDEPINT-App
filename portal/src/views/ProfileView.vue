@@ -1,16 +1,5 @@
 <script setup>
-
-import { watchEffect, ref } from 'vue';
-import { fetchWrapper } from '@/helpers/fetch-wrapper';
-
-
-const profile = ref(null)
-
-watchEffect(async () => {
-  const res = await fetchWrapper.get(`${import.meta.env.VITE_API_URL}/me/profile`);
-  profile.value = res.data;
-})
-
+const profile = JSON.parse(localStorage.getItem('user')).profile;
 </script>
 
 <template>

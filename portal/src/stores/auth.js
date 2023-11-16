@@ -11,20 +11,25 @@ export const useAuthStore = defineStore({
     }),
     actions: {
         async login(email, password) {
-            const user = await fetchWrapper.post(`${API_URL}/auth`, {
+            const auth = await fetchWrapper.post(`${API_URL}/auth`, {
                 "user": email, "password": password 
             });
-
-            this.user = user;
-
-            localStorage.setItem('user', JSON.stringify(user));
-
+            this.user = auth;
+            
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.userProfile()
             router.push('/');
+
+        },
+        async userProfile(){
+            const profile = await fetchWrapper.get(`${API_URL}/me/profile`);
+            this.user.profile = profile.data;
+            localStorage.setItem('user', JSON.stringify(this.user)); 
         },
         logout() {
+            router.push('/');
             this.user = null;
             localStorage.removeItem('user');
-            router.push('/');
         }
     }
 });

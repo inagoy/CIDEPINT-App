@@ -12,9 +12,8 @@ const schema = Yup.object().shape({
 function onSubmit(values, { setErrors }) {
     const authStore = useAuthStore();
     const { email, password } = values;
-
     return authStore.login(email, password)
-        .catch(error => setErrors({ apiError: error }));
+          .catch(error => setErrors({ apiError: error }))
 }
 </script>
 
