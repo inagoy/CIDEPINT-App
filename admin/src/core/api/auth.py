@@ -2,7 +2,6 @@ from flask import Blueprint, request
 from marshmallow import ValidationError
 from src.core.schemas.user import UserValidateSchema
 from src.web.helpers.auth import check_user
-from src.web.helpers.api import response_error
 from flask_jwt_extended import create_access_token
 from flask_cors import cross_origin
 
@@ -19,11 +18,11 @@ def api_auth():
     try:
         validated_data = validator.load(request.get_json())
     except ValidationError:
-        return response_error()
+        return {"error": "El usuario o la contraseña son incorrectos"}, 401
     user = check_user(
         validated_data.get("user"), validated_data.get("password")
     )
     if not user:
-        return response_error()
+        return {"error": "El usuario o la contraseña son incorrectos"}, 401
     access_token = create_access_token(identity=user.id)
-    return {"access_token": access_token}, 200
+    return {"token": access_token}, 201
