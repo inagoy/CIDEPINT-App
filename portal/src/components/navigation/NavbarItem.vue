@@ -1,5 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -30,7 +33,15 @@ import { RouterLink, RouterView } from 'vue-router'
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-          <ul class="navbar-nav">
+          <ul v-show="!authStore.user" class="navbar-nav">
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/register">Registrarse</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/login">Ingresar</RouterLink>
+            </li>
+          </ul>
+          <ul v-show="authStore.user" class="navbar-nav">
             <li class="nav-item">
               <RouterLink class="nav-link" to="/services">Servicios</RouterLink>
             </li>
@@ -39,9 +50,6 @@ import { RouterLink, RouterView } from 'vue-router'
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/register">Registrarse</RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" to="/test">API test</RouterLink>
@@ -59,7 +67,7 @@ import { RouterLink, RouterView } from 'vue-router'
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><RouterLink class="dropdown-item" to="/profile">Ver perfil</RouterLink></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                <li @click="authStore.logout()" class="dropdown-item" >Cerrar sesión</li>
               </ul>
             </li>
           </ul>
