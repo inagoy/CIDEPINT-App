@@ -1,9 +1,9 @@
 from flask import url_for, request
-import app
+from flask import current_app as app
 
 
 def url_to_public_login():
-    URL = app.app.config["PUBLIC_LOGIN_URL"]
+    URL = app.config["PUBLIC_LOGIN_URL"]
     return URL
 
 
@@ -19,7 +19,7 @@ def url_to_login(private: str = None):
 
 
 def url_to_public_home():
-    URL = app.app.config["PUBLIC_HOME_URL"]
+    URL = app.config["PUBLIC_HOME_URL"]
     return URL
 
 
