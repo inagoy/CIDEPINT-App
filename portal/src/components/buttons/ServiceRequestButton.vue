@@ -4,7 +4,7 @@ export default {
   props: {
     // estoy pasando el ID del servicio aca, para poder hacer la solicitud
     serviceID: {
-      type: String,
+      type: Number,
       required: true
     },
     serviceEnabled: {
