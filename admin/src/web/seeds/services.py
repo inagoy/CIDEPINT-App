@@ -23,7 +23,14 @@ def seed_services() -> None:
             "enabled": True,
             "institution_id": 1,
         },
-
+        {
+            "name": "Envejecimiento acelerado",
+            "description": "Servicio de Cámara de envejecimiento UV",
+            "keywords": "envejecimiento, acelerado, luz,condensación",
+            "service_type": ServiceTypeEnum.DESARROLLO.value,
+            "enabled": True,
+            "institution_id": 1,
+        },
     ]
 
     for service_data in services_data:
@@ -66,6 +73,30 @@ def seed_service_requests() -> None:
             "observations": "Sin observaciones adicionales",
             "service_id": 2,
             "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 4",
+            "description": "Esta es una cuarta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 1,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 5",
+            "description": "Esta es una quinta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 6",
+            "description": "Esta es una sexta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 3,
             "status": StatusEnum.EN_PROCESO.value,
         },
     ]

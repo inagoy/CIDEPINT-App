@@ -1,5 +1,6 @@
 from src.core.models.service import Service
 from src.web.helpers.api import response_error, paginated_response
+from src.web.helpers.api import convert_to_percentage
 from flask import Blueprint, request
 from marshmallow import ValidationError
 from src.core.schemas.service import ServiceModelSchema
@@ -44,3 +45,15 @@ def get_services_types():
     model_schema = ServicesTypesModelSchema.get_instance()
     services_types = Service.get_all_service_types()
     return model_schema.dump({"data": services_types}), 200
+
+
+@api_service_bp.route("/services/top-requested", methods=["GET"])
+@cross_origin()
+def get_most_popular_services():
+    populars = Service.get_top_requested_services()
+    res = convert_to_percentage(populars['requests'])
+    populars['requests'] = res['percentages']
+    populars['total'] = res['total']
+    return {
+        "data": populars
+    }, 200

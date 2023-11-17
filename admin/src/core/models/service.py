@@ -2,7 +2,7 @@
 from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
 
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from src.core.database import db
 from src.core.models.base_model import BaseModel
 from sqlalchemy import and_
@@ -125,6 +125,25 @@ class Service(BaseModel):
     def get_all_service_types(cls):
         service_types = db.session.query(cls.service_type).distinct().all()
         return [type_[0].value for type_ in service_types]
+
+    @classmethod
+    def get_top_requested_services(cls, limit=10):
+        result = (
+            db.session.query(cls.name, func.count(ServiceRequest.id))
+            .join(cls.has_service_requests)
+            .group_by(cls.name)
+            .order_by(func.count(ServiceRequest.id).desc())
+            .limit(limit)
+            .all()
+        )
+
+        services = [name for name, _ in result]
+        requests = [requests for _, requests in result]
+
+        most_requested_services = {
+            'services': services, 'requests': requests
+        }
+        return most_requested_services
 
 
 class StatusEnum(EnumBase):
