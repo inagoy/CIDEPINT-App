@@ -1,8 +1,10 @@
 <script setup>
+import ChartRequests from '../components/charts/ChartRequests.vue'
 </script>
 
 <template>
   <main class="container">
-    <h1> STATS </h1>
+    <h4 class="text-center"> Servicios más solicitados </h4>
+    <ChartRequests/>
   </main>
 </template>
