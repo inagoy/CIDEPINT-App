@@ -52,8 +52,17 @@ def get_services_types():
 def get_most_popular_services():
     populars = Service.get_top_requested_services()
     res = convert_to_percentage(populars['requests'])
-    populars['requests'] = res['percentages']
+    populars['percentages'] = res['percentages']
     populars['total'] = res['total']
     return {
         "data": populars
+    }, 200
+
+
+@api_service_bp.route("/services/requests-by-type", methods=["GET"])
+@cross_origin()
+def get_requests_per_service():
+    by_type = Service.get_request_count_by_service_type()
+    return {
+        "data": by_type
     }, 200

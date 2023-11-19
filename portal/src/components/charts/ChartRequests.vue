@@ -11,30 +11,50 @@ const API_URL = import.meta.env.VITE_API_URL
 onMounted(async () => {
     const response = await fetchWrapper.get(`${API_URL}/services/top-requested`);
     const data = response.data;
-    series.value = data.requests;
+    series.value = data.percentages;
     chartOptions.value = {
       ...chartOptions.value,
       labels: data.services,
       plotOptions: {
         radialBar: {
+          endAngle: 270,
           dataLabels: {
             name: {
               fontSize: '22px',
             },
             value: {
               fontSize: '16px',
+              formatter: function (value) {
+                return value + '% de las solicitudes';
+              }
             },
             total: {
               show: true,
               label: 'Total de Solicitudes',
               color: '#333',
               formatter: function (w) {
-                // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
                 return data.total
               }
             }
           }
         }
+      },
+      legend: {
+          show: true,
+          floating: true,
+          fontSize: '16px',
+          position: 'left',
+          offsetX: 50,
+          offsetY: 20,
+          labels: {
+            useSeriesColors: true,
+          },
+          formatter: function(seriesName, opts) {
+            return seriesName + ": " + data.requests[opts.seriesIndex]
+          },
+          itemMargin: {
+            vertical: 3
+          }
       },
     }
     status.value = "loaded";
@@ -52,7 +72,8 @@ const chartOptions = ref({
 </script>
 
 <template>
-    <div>
+  <h2 class="text-center mt-4"> Servicios más solicitados </h2>
+    <div class="mt-2 w-50 mx-auto">
       <h4 v-if="status === 'loading'">loading...</h4>
       <apexchart
         height="600"

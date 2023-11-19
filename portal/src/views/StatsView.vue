@@ -1,10 +1,10 @@
 <script setup>
 import ChartRequests from '../components/charts/ChartRequests.vue'
+import ChartRequestsType from '../components/charts/ChartRequestsType.vue';
+
 </script>
 
 <template>
-  <main class="container">
-    <h4 class="text-center"> Servicios más solicitados </h4>
-    <ChartRequests/>
-  </main>
+  <ChartRequests></ChartRequests>
+  <ChartRequestsType></ChartRequestsType>
 </template>

@@ -31,6 +31,14 @@ def seed_services() -> None:
             "enabled": True,
             "institution_id": 1,
         },
+        {
+            "name": "Consultoria de Pinturas",
+            "description": "Servicio de Consultoria de pinturas",
+            "keywords": "pinturas, consultor",
+            "service_type": ServiceTypeEnum.CONSULTORIA.value,
+            "enabled": True,
+            "institution_id": 1,
+        },
     ]
 
     for service_data in services_data:

@@ -127,13 +127,13 @@ class Service(BaseModel):
         return [type_[0].value for type_ in service_types]
 
     @classmethod
-    def get_top_requested_services(cls, limit=10):
+    def get_top_requested_services(cls):
         result = (
             db.session.query(cls.name, func.count(ServiceRequest.id))
-            .join(cls.has_service_requests)
+            .outerjoin(cls.has_service_requests)
             .group_by(cls.name)
             .order_by(func.count(ServiceRequest.id).desc())
-            .limit(limit)
+            .limit(10)
             .all()
         )
 
@@ -144,6 +144,18 @@ class Service(BaseModel):
             'services': services, 'requests': requests
         }
         return most_requested_services
+
+    @classmethod
+    def get_request_count_by_service_type(cls):
+        result = (
+            db.session.query(cls.service_type, func.count(ServiceRequest.id))
+            .outerjoin(cls.has_service_requests)
+            .group_by(cls.service_type)
+            .all()
+        )
+        service_types = [service_type.value for service_type, _ in result]
+        requests = [requests for _, requests in result]
+        return {'types': service_types, 'requests': requests}
 
 
 class StatusEnum(EnumBase):
