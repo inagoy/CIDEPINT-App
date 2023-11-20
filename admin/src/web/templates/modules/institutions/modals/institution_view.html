@@ -37,6 +37,10 @@
                 <p id="institution-location"> placeholder </p>
             </div>
         </div>
+        <div id="viewMapContainer" class="pb-3">
+            <h6> Mapa </h6>
+            <div id="viewMap" style="height: 180px;"></div>
+        </div>
         <div class="row">
             <div class="col-sm-4">
                 <h6> Sitio Web </h6>
@@ -82,9 +86,10 @@
 {% endblock %}
 
 {% block footer %}
-    <button type="button" id="edit-button" class="btn btn-outline-info edit-button" onclick="editInstitution(this)">
-        Editar
-    </button>
+<button type="button" id="edit-button" class="btn btn-outline-info edit-button"
+        onclick="editInstitution(this)">
+    Editar
+</button>
 
-    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal"> Cerrar </button>
+<button type="button" class="btn btn-secondary close-button" data-dismiss="modal"> Cerrar </button>
 {% endblock %}

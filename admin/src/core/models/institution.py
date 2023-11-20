@@ -14,6 +14,7 @@ class Institution(BaseModel):
     info = db.Column(db.Text, nullable=False)
     address = db.Column(db.String(255))
     location = db.Column(db.String(255))
+    coordinates = db.Column(db.String(255))
     website = db.Column(db.String(255))
     search_keywords = db.Column(db.String(255))
     days_and_hours = db.Column(db.Text)

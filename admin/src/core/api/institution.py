@@ -28,3 +28,17 @@ def get_institutions():
     return paginated_response(
         institutions, model_schema
     )
+
+
+@api_institution_bp.route(
+    "/institutions/<string:institution_name>", methods=["GET"])
+@cross_origin()
+def get_institution(institution_name):
+    """
+    Get a institution by its name.
+    """
+    model_schema = InstitutionModelSchema.get_instance()
+    institution = Institution.get_by(field='name', data=institution_name)
+    if not institution:
+        return response_error()
+    return model_schema.dump(institution), 200
