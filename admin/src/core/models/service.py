@@ -2,10 +2,9 @@
 from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
 
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from src.core.database import db
 from src.core.models.base_model import BaseModel
-from sqlalchemy import and_
 
 
 class ServiceTypeEnum(EnumBase):
@@ -109,7 +108,7 @@ class Service(BaseModel):
                 cls.description.ilike(f"%{q}%")
             )
         )
-        if type is not None:
+        if type:
             base_query = base_query.filter(
                 cls.service_type == type
             )
@@ -123,8 +122,8 @@ class Service(BaseModel):
 
     @classmethod
     def get_all_service_types(cls):
-        service_types = db.session.query(cls.service_type).distinct().all()
-        return [type_[0].value for type_ in service_types]
+        """Get all service types."""
+        return [type_.value for type_ in ServiceTypeEnum]
 
 
 class StatusEnum(EnumBase):
