@@ -1,5 +1,5 @@
-
 <script setup>
+
 import { onMounted, ref } from 'vue';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import VueApexCharts from 'vue3-apexcharts';
@@ -44,17 +44,13 @@ onMounted(async () => {
           floating: true,
           fontSize: '16px',
           position: 'left',
-          offsetX: 50,
-          offsetY: 20,
+          offsetX: 300,
           labels: {
             useSeriesColors: true,
           },
           formatter: function(seriesName, opts) {
             return seriesName + ": " + data.requests[opts.seriesIndex]
           },
-          itemMargin: {
-            vertical: 3
-          }
       },
     }
     status.value = "loaded";
@@ -72,15 +68,14 @@ const chartOptions = ref({
 </script>
 
 <template>
-  <h2 class="text-center mt-4"> Servicios más solicitados </h2>
-    <div class="mt-2 w-50 mx-auto">
-      <h4 v-if="status === 'loading'">loading...</h4>
-      <apexchart
-        height="600"
-        type="radialBar"
-        :options="chartOptions"
-        :series="series"
-        v-if="series"
-      ></apexchart>
-    </div>
-  </template>
+  <div>
+    <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
+    <apexchart
+      height="500"
+      type="radialBar"
+      :options="chartOptions"
+      :series="series"
+      v-if="series"
+    ></apexchart>
+  </div>
+</template>

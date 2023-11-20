@@ -13,8 +13,8 @@ onMounted(async () => {
     const data = response.data;
     series.value = data.requests;
     chartOptions.value = {
-      ...chartOptions.value,
-      labels: data.types,
+        ...chartOptions.value,
+        labels: data.types,
 
     };
     status.value = "loaded";
@@ -24,7 +24,8 @@ const status = ref("loading");
 const series = ref(null)
 const chartOptions = ref({
     chart: {
-        type: 'polarArea'
+        type: 'polarArea',
+
     },
     labels: null,
     fill: {
@@ -35,11 +36,11 @@ const chartOptions = ref({
         colors: undefined
     },
     yaxis: {
-        show: false
+        show: false,
     },
     legend: {
         position: 'bottom',
-
+        fontSize: '16px',
     },
     plotOptions: {
         polarArea: {
@@ -57,15 +58,10 @@ const chartOptions = ref({
 </script>
 
 <template>
-    <h2 class="text-center mt-4"> Solicitudes por tipo de servicio </h2>
-    <div class="mt-2 mx-auto">
-    <h4 v-if="status === 'loading'">loading...</h4>
-        <apexchart
-            type="polarArea" 
-            width="500"
-            :options="chartOptions"
-            :series="series"
-            v-if="series"
-        ></apexchart>
+    <div>
+        <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
+        <div class="mx-auto" style="max-width: 600px;">
+            <apexchart type="polarArea" width="600" :options="chartOptions" :series="series" v-if="series"></apexchart>
+        </div>
     </div>
 </template>
