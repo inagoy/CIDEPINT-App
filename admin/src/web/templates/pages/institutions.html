@@ -3,7 +3,10 @@
 {% block head %}{{ super() }}
 <script src="{{ url_for('static', filename='js/openModal.js') }}"></script>
 <script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
-<script src="{{ url_for('static', filename='js/institutionModals.js') }}"></script>
+<script src="{{ url_for('static', filename='js/institutionModals.js') }}">
+</script>
+<script src="{{ url_for('static', filename='js/leafletMap.js') }}">
+</script>
 {% endblock %}
 {% block content %}
 {% include "modules/institutions/institutions_list.html" %}

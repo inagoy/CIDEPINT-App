@@ -1,11 +1,19 @@
-<script setup>
-const props = defineProps({
-  service: {
-    type: Object
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import ServiceRequestButton from '../buttons/ServiceRequestButton.vue'
+export default {
+  props: {
+    service: {
+      type: Object
+    }
+  },
+  components: {
+    ServiceRequestButton
+  },
+  setup(props) {
+    console.log(props.foo)
   }
-})
-
-console.log(props.foo)
+}
 </script>
 
 <template>
@@ -21,7 +29,16 @@ console.log(props.foo)
       <p class="card-text">
         {{ service.keywords }}
       </p>
-      <button class="btn btn-primary" :disabled="!service.enabled">Solicitar servicio</button>
+      <div class="">
+        <RouterLink
+          :to="{ name: 'service', params: { id: service.id } }"
+          class="btn btn-primary me-2 mt-1"
+          :disabled="!service.enabled"
+          >Ver servicio</RouterLink
+        >
+        <RouterView />
+        <ServiceRequestButton :serviceID="service.id" :serviceEnabled="service.enabled" />
+      </div>
     </div>
   </div>
 </template>

@@ -33,6 +33,11 @@ const authStore = useAuthStore();
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/services">Servicios</RouterLink>
+            </li>
+          </ul>
           <ul v-show="!authStore.user" class="navbar-nav">
             <li class="nav-item">
               <RouterLink class="nav-link" to="/register">Registrarse</RouterLink>
@@ -43,16 +48,10 @@ const authStore = useAuthStore();
           </ul>
           <ul v-show="authStore.user" class="navbar-nav">
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/services">Servicios</RouterLink>
-            </li>
-            <li class="nav-item">
               <RouterLink class="nav-link" to="/requests">Solicitudes</RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/test">API test</RouterLink>
             </li>
             <li class="nav-item dropdown">
               <a
