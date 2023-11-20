@@ -12,7 +12,9 @@ def seed_institutions() -> None:
     institutions_data = [
         {"name": "Centro de Investigación en Pinturas Avanzadas",
          "info": "Centro líder en tecnología de pinturas",
-         "address": "Av. Tecnología 1234", "location": "Buenos Aires",
+         "address": "Av. Tecnología 1234",
+         "location": "Buenos Aires",
+         "coordinates": "{\"lat\":-34.72863401788879, \"lng\":-58.26324462890626}",
          "website": "www.centropinturas.com",
          "search_keywords":
             "investigación, desarrollo, tecnología, pinturas, Buenos Aires",
@@ -21,7 +23,9 @@ def seed_institutions() -> None:
 
         {"name": "Laboratorio de Pinturas Innovadoras",
          "info": "Laboratorio especializado en pinturas avanzadas",
-         "address": "Calle Innovación 567", "location": "Córdoba",
+         "address": "Calle Innovación 567",
+         "location": "Córdoba",
+         "coordinates": "{\"lat\":-34.92123209151683,\"lng\":-57.95451164245606}",
          "website": "www.labpinturas.com",
          "search_keywords": "laboratorio, innovación, pinturas, Córdoba",
          "days_and_hours": "Lun-Vie: 8:30am-4:30pm",

@@ -1,28 +1,20 @@
 <script>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import ServiceCard from '../cards/ServiceCard.vue'
-const API_URL = import.meta.env.VITE_API_URL
-
 export default {
-  setup() {
-    const posts = ref([])
-    onMounted(() => {
-      axios.get(API_URL + '/services/search?q=').then((response) => {
-        posts.value = response.data.data
-      })
-    })
-    return {
-      posts
-    }
+  name: 'ServicesList',
+  props: {
+    services: Array,
   },
-  components: { ServiceCard }
+  components: {
+    ServiceCard
+  }
 }
 </script>
 
 <template>
-  <h4 class="text-center">Todos los servicios</h4>
-  <div v-for="post in posts" :key="post.id">
-    <ServiceCard :service="post" />
+  <h4 v-if="services.length === 0" class="text-center">No hay servicios disponibles para mostrar</h4>
+  <h4 v-else class="text-center">Servicios</h4>
+  <div v-for="service in services" :key="service.id">
+    <ServiceCard :service="service" />
   </div>
 </template>
