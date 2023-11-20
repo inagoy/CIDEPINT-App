@@ -39,7 +39,6 @@ function viewInstitution(button) {
 	openModal(modal);
 	if (data.coordinates) {
 		document.getElementById("viewMapContainer").style.display = "block";
-		console.log("coordinates", data.coordinates);
 
 		document.addEventListener("DOMContentLoaded", loadMap(data.coordinates));
 	} else {

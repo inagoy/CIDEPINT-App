@@ -64,7 +64,6 @@ def add_institution():
         flash('Se ha completado el registro exitosamente', 'success')
     else:
         flash('Error al completar el registro', 'danger')
-    # raise NotImplementedError
     return redirect(url_for('super.institutions'))
 
 

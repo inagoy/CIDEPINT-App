@@ -16,7 +16,6 @@ export default {
       (newVal, oldVal) => {
         if (newVal) {
           // Props are available
-          console.log('aca las coord', props.institution)
           map = L.map('map').setView([-34.9223, -57.9546], 12)
           L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,

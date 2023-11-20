@@ -13,7 +13,6 @@ def parse_institution(institution):
     Returns:
         dict: A dictionary with the institution's information
     """
-    # raise NotImplementedError
     data = {
         'id': institution.id,
         'name': institution.name,

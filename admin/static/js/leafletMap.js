@@ -45,8 +45,6 @@ function addMarker(e) {
 		map.removeLayer(marker);
 	}
 	marker = new L.marker(e.latlng).addTo(map);
-	console.log(JSON.stringify(marker.getLatLng()));
-	console.log(JSON.parse(JSON.stringify(marker.getLatLng())));
 }
 
 function removeMarker() {
