@@ -4,6 +4,7 @@ from marshmallow import fields, validates
 
 
 class ServiceModelSchema(BaseSchema):
+    id = fields.Int()
     name = fields.Str()
     description = fields.Str()
     keywords = fields.Str()

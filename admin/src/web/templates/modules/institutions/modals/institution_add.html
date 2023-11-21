@@ -22,7 +22,8 @@
             </div>
             <div class="form-group">
                 <label for="inputInfo">Informaci&oacute;n *</label>
-                <textarea required onblur="allFieldsValid()" class="form-control" id="inputInfo" name="inputInfo" rows="4"
+                <textarea required onblur="allFieldsValid()" class="form-control" id="inputInfo"
+                          name="inputInfo" rows="4"
                           placeholder="Información de la institución" /></textarea>
             </div>
             <div class="form-group">
@@ -32,6 +33,12 @@
                        onblur="validateDireccion('inputAddress', 'addressError'); allFieldsValid()"
                        aria-describedby="addressError" />
                 <small id="addressError" class="form-text text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label> Mapa </label>
+                <div id="addMap" class="map" style="height: 180px;"></div>
+                <input type="text" hidden class="form-control" id="inputCoordinates" name="inputCoordinates">
+                <small id="removeMap" style="cursor: pointer;" class="form-text" onclick="removeMarker()"> Eliminar marcador del mapa</small>
             </div>
             <div class="form-group">
                 <label for="inputLocation">Locaci&oacute;n</label>
@@ -72,11 +79,11 @@
 </div>
 {% endblock %}
 {% block footer %}
-    <button type="submit" form="add-form" disabled class="btn btn-primary"> 
-        Agregar Instituci&oacute;n
-    </button>
+<button type="submit" form="add-form" disabled class="btn btn-primary">
+    Agregar Instituci&oacute;n
+</button>
 
-    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">
-        Cerrar 
-    </button>
+<button type="button" class="btn btn-secondary close-button" data-dismiss="modal" onclick="removeMarker()">
+    Cerrar
+</button>
 {% endblock %}

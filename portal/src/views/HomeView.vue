@@ -1,18 +1,16 @@
 <script>
 import SearchItem from '@/components/navigation/SearchItem.vue';
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { fetchWrapper } from '@/helpers/fetch-wrapper'
 const API_URL = import.meta.env.VITE_API_URL
 
 export default {
   setup() {
     const contact_info = ref(null)
-    onMounted(() => {
-      axios
-        .get(API_URL+'/contact-info')
-        .then((response) => {
-          contact_info.value = response.data.contact_info
-        })
+    onMounted(async () => {
+      const response = await fetchWrapper.get(API_URL+'/contact-info')
+      console.log(response.contact_info)
+      contact_info.value = response.contact_info
     })
     return {
       contact_info
@@ -24,7 +22,6 @@ export default {
 
 <template>
   <main class="container">
-    <SearchItem />
     <div class="card text-start p-4">
       <h3>Bienvenido al sitio de CIDEPINT</h3>
       <p class="card-text">
