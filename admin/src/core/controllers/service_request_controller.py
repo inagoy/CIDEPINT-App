@@ -4,7 +4,7 @@ from datetime import datetime
 from src.core.models.user import User
 from src.core.models.privileges import Role
 from flask import redirect, render_template, session, request, url_for, flash
-from src.core.models.service import Note, ServiceRequest
+from src.core.models.service import Note, ServiceRequest, StatusEnum
 from src.core.common import serializers as s
 from src.web.helpers.services import filter_conditions
 from src.web.helpers.users import get_institutions_user
@@ -96,6 +96,10 @@ def edit_service_request(service_request_id):
 
         if service_request.status != data['status']:
             data['status_at'] = datetime.utcnow()
+            if (data['status'] == StatusEnum.FINALIZADA.value or
+                    data['status'] == StatusEnum.CANCELADA.value or
+                    data['status'] == StatusEnum.RECHAZADA.value):
+                data['closed_at'] = datetime.utcnow()
 
         updated = ServiceRequest.update(entity_id=service_request.id, **data)
         if updated:

@@ -2,7 +2,7 @@
 from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
 
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, func, and_
 from src.core.database import db
 from src.core.models.base_model import BaseModel
 
@@ -122,8 +122,70 @@ class Service(BaseModel):
 
     @classmethod
     def get_all_service_types(cls):
-        """Get all service types."""
-        return [type_.value for type_ in ServiceTypeEnum]
+        service_types = db.session.query(cls.service_type).distinct().all()
+        return [type_[0].value for type_ in service_types]
+
+    @classmethod
+    def get_top_requested_services(cls):
+        result = (
+            db.session.query(cls.name, func.count(ServiceRequest.id))
+            .outerjoin(cls.has_service_requests)
+            .group_by(cls.name)
+            .order_by(func.count(ServiceRequest.id).desc())
+            .limit(10)
+            .all()
+        )
+
+        services = [name for name, _ in result]
+        requests = [requests for _, requests in result]
+
+        most_requested_services = {
+            'services': services, 'requests': requests
+        }
+        return most_requested_services
+
+    @classmethod
+    def get_request_count_by_service_type(cls):
+        result = (
+            db.session.query(cls.service_type, func.count(ServiceRequest.id))
+            .outerjoin(cls.has_service_requests)
+            .group_by(cls.service_type)
+            .all()
+        )
+        service_types = [service_type.value for service_type, _ in result]
+        requests = [requests for _, requests in result]
+        return {'types': service_types, 'requests': requests}
+
+    @classmethod
+    def get_top_requested_services(cls):
+        result = (
+            db.session.query(cls.name, func.count(ServiceRequest.id))
+            .outerjoin(cls.has_service_requests)
+            .group_by(cls.name)
+            .order_by(func.count(ServiceRequest.id).desc())
+            .limit(10)
+            .all()
+        )
+
+        services = [name for name, _ in result]
+        requests = [requests for _, requests in result]
+
+        most_requested_services = {
+            'services': services, 'requests': requests
+        }
+        return most_requested_services
+
+    @classmethod
+    def get_request_count_by_service_type(cls):
+        result = (
+            db.session.query(cls.service_type, func.count(ServiceRequest.id))
+            .outerjoin(cls.has_service_requests)
+            .group_by(cls.service_type)
+            .all()
+        )
+        service_types = [service_type.value for service_type, _ in result]
+        requests = [requests for _, requests in result]
+        return {'types': service_types, 'requests': requests}
 
 
 class StatusEnum(EnumBase):
@@ -167,7 +229,7 @@ class ServiceRequest(BaseModel):
 
     inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
     closed_at = db.Column(
-        db.DateTime, default=(date.today() + timedelta(days=62)),
+        db.DateTime, nullable=True, default=None
     )
     status_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -258,6 +320,14 @@ class ServiceRequest(BaseModel):
     @classmethod
     def get_by_id_and_user(cls, user_id: int, id: int):
         return cls.query.filter_by(id=id, requester_id=user_id).first()
+
+    def get_response_time(self):
+        """Calculate the response time in days for a service request."""
+        return round(
+            (
+                (self.closed_at - self.inserted_at)
+                .total_seconds() / (24*3600)
+            ), 2)
 
 
 class Note(BaseModel):
