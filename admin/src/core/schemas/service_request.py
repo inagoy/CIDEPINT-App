@@ -27,7 +27,7 @@ class RequestModelSchema(BaseSchema):
         format='%Y-%m-%d', required=True, attribute="inserted_at"
         )
     close_date = fields.Date(
-        format='%Y-%m-%d', required=True, attribute="closed_at"
+        format='%Y-%m-%d', required=False, attribute="closed_at"
         )
     status = fields.Method(
         "status_display", description="Status"

@@ -30,6 +30,15 @@ def seed_institutions() -> None:
          "search_keywords": "laboratorio, innovación, pinturas, Córdoba",
          "days_and_hours": "Lun-Vie: 8:30am-4:30pm",
          "contact_info": "info@labpinturas.com", "enabled": True},
+        {
+         "name": "Centro de Desarrollo en Pinturas Sustentables",
+         "info": "Centro dedicado al desarrollo de pinturas ecológicas y sostenibles",
+         "address": "Ruta Sustentabilidad 789", "location": "Rosario",
+         "website": "www.cidepintsustentables.com",
+         "search_keywords": "desarrollo, pinturas, sustentables, Rosario",
+         "days_and_hours": "Lun-Vie: 9:30am-5:30pm",
+         "contact_info": "info@cidepintsustentables.com", "enabled": True
+        }
     ]
 
     for institution_data in institutions_data:
