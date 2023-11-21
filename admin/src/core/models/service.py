@@ -2,10 +2,9 @@
 from datetime import datetime, date, timedelta
 from enum import Enum as EnumBase
 
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, and_
 from src.core.database import db
 from src.core.models.base_model import BaseModel
-from sqlalchemy import and_
 
 
 class ServiceTypeEnum(EnumBase):
@@ -199,7 +198,7 @@ class ServiceRequest(BaseModel):
 
     inserted_at = db.Column(db.DateTime, default=datetime.utcnow)
     closed_at = db.Column(
-        db.DateTime, default=(date.today() + timedelta(days=62)),
+        db.DateTime, nullable=True, default=None
     )
     status_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -290,6 +289,14 @@ class ServiceRequest(BaseModel):
     @classmethod
     def get_by_id_and_user(cls, user_id: int, id: int):
         return cls.query.filter_by(id=id, requester_id=user_id).first()
+
+    def get_response_time(self):
+        """Calculate the response time in days for a service request."""
+        return round(
+            (
+                (self.closed_at - self.inserted_at)
+                .total_seconds() / (24*3600)
+            ), 2)
 
 
 class Note(BaseModel):

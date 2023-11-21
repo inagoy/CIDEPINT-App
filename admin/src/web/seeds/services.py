@@ -1,4 +1,5 @@
 """Services seeds."""
+from src.web.helpers.services import add_days_to_today
 from src.core.models.service import Note, Service, ServiceTypeEnum
 from src.core.models.service import ServiceRequest, StatusEnum
 
@@ -37,8 +38,16 @@ def seed_services() -> None:
             "keywords": "pinturas, consultor",
             "service_type": ServiceTypeEnum.CONSULTORIA.value,
             "enabled": True,
-            "institution_id": 1,
+            "institution_id": 2,
         },
+        {
+            "name": "Análisis de Resistencia a la Abrasión",
+            "description": "Servicio de evaluación de la resistencia a la abrasión de recubrimientos",
+            "keywords": "análisis, resistencia, abrasión, recubrimientos",
+            "service_type": ServiceTypeEnum.ANALISIS.value,
+            "enabled": True,
+            "institution_id": 3
+        }
     ]
 
     for service_data in services_data:
@@ -89,7 +98,9 @@ def seed_service_requests() -> None:
             "observations": "Sin observaciones adicionales",
             "service_id": 3,
             "requester_id": 1,
-            "status": StatusEnum.EN_PROCESO.value,
+            "status": StatusEnum.FINALIZADA.value,
+            "closed_at": add_days_to_today(5)
+
         },
         {
             "title": "Solicitud de Servicio de Ejemplo 5",
@@ -106,6 +117,24 @@ def seed_service_requests() -> None:
             "service_id": 3,
             "requester_id": 3,
             "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 7",
+            "description": "Esta es una septima solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 4,
+            "requester_id": 3,
+            "status": StatusEnum.FINALIZADA.value,
+            "closed_at": add_days_to_today(10)
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 8",
+            "description": "Esta es una octava solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 5,
+            "requester_id": 3,
+            "status": StatusEnum.FINALIZADA.value,
+            "closed_at": add_days_to_today(3)
         },
     ]
 

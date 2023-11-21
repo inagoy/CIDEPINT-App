@@ -1,4 +1,5 @@
 """Helpers for services."""
+from datetime import datetime, timedelta
 from src.core.models.service import Service, ServiceRequest
 
 
@@ -100,3 +101,9 @@ def filter_conditions(filters):
         conditions.append(filter_conditions[key](value))
 
     return conditions
+
+
+def add_days_to_today(days):
+    """Add days to a date."""
+    result = datetime.now() + timedelta(days=days)
+    return result.strftime("%Y-%m-%d %H:%M:%S")

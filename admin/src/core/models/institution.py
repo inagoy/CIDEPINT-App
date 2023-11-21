@@ -1,5 +1,7 @@
 """Institution model."""
 from datetime import datetime
+
+from src.core.models.service import Service
 from src.core.database import db
 from src.core.models.base_model import BaseModel
 from src.core.models.user_role_institution import UserRoleInstitution
@@ -100,3 +102,33 @@ class Institution(BaseModel):
             UserRoleInstitution.role_id == 2
         ).all()
         return institutions
+
+    def average_response_time(self):
+        """Calculate the average response time for service requests."""
+        total_response_time = 0
+        total_requests = 0
+        for service in self.has_services:
+            for service_request in service.has_service_requests:
+                if service_request.closed_at:
+                    total_response_time += service_request.get_response_time()
+                    total_requests += 1
+        return total_response_time / total_requests
+
+    @classmethod
+    def get_ordered_by_average_response_time(cls):
+        """Get instances of the class ordered by average response time."""
+        query = (
+            db.session.query(cls)
+            .filter(cls.has_services.any(Service.has_service_requests.any()))
+        )
+
+        instances = query.all()
+        result = {
+            instance.name:
+            instance.average_response_time() for instance in instances
+        }
+        sorted_result = dict(sorted(result.items(), key=lambda item: item[1]))
+        institutions = list(sorted_result.keys())
+        averages = list(sorted_result.values())
+
+        return {"institutions": institutions, "averages": averages}

@@ -1,3 +1,4 @@
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
@@ -12,16 +13,39 @@ onMounted(async () => {
     const response = await fetchWrapper.get(`${API_URL}/services/requests-by-type`);
     const data = response.data;
     series.value = data.requests;
+    total.value = series.value.reduce((partialSum, a) => partialSum + a, 0);
     chartOptions.value = {
         ...chartOptions.value,
         labels: data.types,
 
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, { seriesIndex, dataPointIndex, w }) {
+                return data.requests[seriesIndex]
+            },
+            background: {
+                enabled: true,
+                foreColor: '#555',
+                borderWidth: 0,
+                borderRadius: 2,
+                padding: 10,
+                dropShadow: {
+                    enabled: true,
+                }
+            },
+            style: {
+                fontSize: '20px',
+            },
+        }
     };
+    
     status.value = "loaded";
 })
 
 const status = ref("loading");
 const series = ref(null)
+const total = ref(null)
+
 const chartOptions = ref({
     chart: {
         type: 'polarArea',
@@ -41,6 +65,9 @@ const chartOptions = ref({
     legend: {
         position: 'bottom',
         fontSize: '16px',
+        itemMargin: {
+          horizontal: 20,
+        },
     },
     plotOptions: {
         polarArea: {
@@ -52,6 +79,8 @@ const chartOptions = ref({
             },
         }
     },
+
+
 })
 
 
@@ -60,6 +89,7 @@ const chartOptions = ref({
 <template>
     <div>
         <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
+        <p v-if="series" class="text-center "> Total de Solicitudes: {{ total }} </p>
         <div class="mx-auto" style="max-width: 600px;">
             <apexchart type="polarArea" width="600" :options="chartOptions" :series="series" v-if="series"></apexchart>
         </div>

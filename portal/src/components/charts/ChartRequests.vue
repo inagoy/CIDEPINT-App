@@ -71,7 +71,7 @@ const chartOptions = ref({
   <div>
     <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
     <apexchart
-      height="500"
+      height="510"
       type="radialBar"
       :options="chartOptions"
       :series="series"

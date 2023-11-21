@@ -28,3 +28,12 @@ def get_institutions():
     return paginated_response(
         institutions, model_schema
     )
+
+
+@api_institution_bp.route("/institutions/by-response-time", methods=["GET"])
+@cross_origin()
+def get_ordered_by_response_time():
+    by_response_time = Institution.get_ordered_by_average_response_time()
+    return {
+        "data": by_response_time
+    }, 200

@@ -1,9 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+
+
+
 import ChartRequests from '../components/charts/ChartRequests.vue'
 import ChartRequestsType from '../components/charts/ChartRequestsType.vue';
+import ChartInstitutionsResponse from '../components/charts/ChartInstitutionsResponse.vue';
+import { useChartsStore } from '@/stores/charts';
 
-const selected = ref(0)
+const charts = useChartsStore()
 
 </script>
 
@@ -11,21 +15,22 @@ const selected = ref(0)
   <main class="container">
     <div class="box">
       <div class="content">
-        <ChartRequests v-if="selected === 0"></ChartRequests>
-        <ChartRequestsType v-if="selected === 1"></ChartRequestsType>
+        <ChartRequests v-if="charts.actualChart === 1"></ChartRequests>
+        <ChartRequestsType v-if="charts.actualChart === 2"></ChartRequestsType>
+        <ChartInstitutionsResponse v-if="charts.actualChart === 3"></ChartInstitutionsResponse>
       </div>
     </div>
   </main>
   <div class="btn-group btn-group-toggle mx-auto" data-toggle="buttons">
-    <label class="btn btn-outline-secondary">
-      <input @click="selected = 0" type="radio" name="options" id="option1" autocomplete="off" checked> Servicios más solicitados
-    </label>
-    <label class="btn btn-outline-secondary">
-      <input @click="selected = 1" type="radio" name="options" id="option2" autocomplete="off"> Solicitudes por tipo de servicio
-    </label>
-    <label class="btn btn-outline-secondary">
-      <input @click="selected = 2" type="radio" name="options" id="option3" autocomplete="off"> Instituciones más rápidas
-    </label>
+    <button  @click="charts.chartOne()" :class= "{ active: charts.actualChart === 1 }" class="btn btn-outline-secondary">
+      Servicios más solicitados
+    </button >
+    <button  @click="charts.chartTwo()" :class= "{ active: charts.actualChart === 2 }" class="btn btn-outline-secondary">
+      Solicitudes por tipo de Servicio
+    </button >
+    <button  @click="charts.chartThree()" :class= "{ active: charts.actualChart === 3 }" class="btn btn-outline-secondary">
+      Instituciones más rápidas
+    </button >
   </div>
   
 </template>
