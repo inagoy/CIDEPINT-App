@@ -1,4 +1,8 @@
 <script>
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+
 export default {
   name: 'ServiceRequestButton',
   props: {
@@ -12,11 +16,21 @@ export default {
       required: true,
       default: true
     }
+  },
+  methods: {
+    redirectPage() {
+      if (authStore.user) {
+        this.$router.push({ name: 'serviceRequest', params: { id: this.serviceID } })
+      } else {
+        this.$router.push({ name: 'login' })
+      }
+    }
   }
 }
-// Falta agregar de que no pueda solicitar si esta iniciada la sesion
 </script>
 
 <template>
-  <button class="btn btn-success me-2 mt-1" :disabled="!serviceEnabled">Solicitar servicio</button>
+  <button class="btn btn-success me-2 mt-1" :disabled="!serviceEnabled" @click="redirectPage">
+    Solicitar servicio
+  </button>
 </template>

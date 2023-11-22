@@ -27,6 +27,7 @@ export default {
 
 <template>
   <main class="container">
+    <h4 class="text-center">Servicios</h4>
     <SearchItem @search-results="updateSearchResults"/>
     <ServicesList :services="searchResults"/>
   </main>
