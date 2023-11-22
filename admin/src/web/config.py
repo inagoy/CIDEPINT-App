@@ -1,4 +1,5 @@
 """App configuration."""
+from datetime import timedelta
 from os import environ
 
 
@@ -22,6 +23,7 @@ class Config(object):
 
     JWT_SECRET_KEY = "PSgrupo05"
     JWT_TOKEN_LOCATION = ["headers"]
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=60)
 
 
 class ProductionConfig(Config):
