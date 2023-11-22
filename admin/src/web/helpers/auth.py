@@ -3,7 +3,7 @@ from flask import session, redirect, url_for, flash
 from src.web.helpers.session import superuser_session
 from src.core.models.site_config import SiteConfig
 from src.web.helpers.users import get_institutions_user
-from src.core.models.user import User
+from src.core.models.user import AuthEnum, User
 
 
 def check_user(email, password):
@@ -21,6 +21,14 @@ def check_user(email, password):
 
     if user and bcrypt.check_password_hash(user.password,
                                            password.encode("utf-8")):
+        return user
+    else:
+        return None
+
+
+def check_google_user(email):
+    user = User.find_user_by(field='email', value=email)
+    if user and user.active and user.auth_method == AuthEnum.GOOGLE:
         return user
     else:
         return None

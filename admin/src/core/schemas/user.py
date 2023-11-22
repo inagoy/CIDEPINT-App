@@ -16,6 +16,10 @@ class UserValidateSchema(BaseSchema):
         v.validate_email(value)
 
 
+class GoogleUserValidateSchema(BaseSchema):
+    token = fields.Str(description="Google token", required=True)
+
+
 class UserModelSchema(BaseSchema):
     user = fields.Str(description="Nombre de usuario.")
     email = fields.Email(description="Correo electrónico.")

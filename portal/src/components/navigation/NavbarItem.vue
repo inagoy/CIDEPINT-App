@@ -77,7 +77,7 @@ export default {
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><RouterLink class="dropdown-item" to="/profile">Ver perfil</RouterLink></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li @click="authStore.logout()" class="dropdown-item" >Cerrar sesión</li>
+                <li type="button" @click="authStore.logout()" class="dropdown-item" >Cerrar sesión</li>
               </ul>
             </li>
           </ul>
