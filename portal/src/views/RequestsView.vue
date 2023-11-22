@@ -1,8 +1,9 @@
 <script setup>
+import RequestList from '../components/api/RequestList.vue'
 </script>
 
 <template>
   <main class="container">
-    <h1> REQUESTS </h1>
+    <RequestList />
   </main>
 </template>

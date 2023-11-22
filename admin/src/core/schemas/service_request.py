@@ -22,10 +22,15 @@ class SortedRequestsValidateSchema(PaginateValidateSchema):
 
 
 class RequestModelSchema(BaseSchema):
+    id = fields.Int(required=True)
+    service = fields.Nested(
+        "ServiceModelSchema",
+        only=["id", "name"],
+    )
     title = fields.String(required=True)
     creation_date = fields.Date(
         format='%Y-%m-%d', required=True, attribute="inserted_at"
-        )
+    )
     close_date = fields.Date(
         format='%Y-%m-%d', required=False, attribute="closed_at"
         )
@@ -69,3 +74,11 @@ class PostNoteValidateSchema(BaseSchema):
 class NoteModelSchema(BaseSchema):
     text = fields.Str()
     id = fields.Int()
+
+
+class NotesModelSchema(NoteModelSchema):
+    user = fields.Nested(
+        "UserModelSchema",
+        only=["email", "first_name", "last_name"],
+    )
+    inserted_at = fields.Date()
