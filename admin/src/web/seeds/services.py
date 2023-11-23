@@ -1,4 +1,5 @@
 """Services seeds."""
+from src.web.helpers.services import add_days_to_today
 from src.core.models.service import Note, Service, ServiceTypeEnum
 from src.core.models.service import ServiceRequest, StatusEnum
 
@@ -23,7 +24,38 @@ def seed_services() -> None:
             "enabled": True,
             "institution_id": 1,
         },
-
+        {
+            "name": "Envejecimiento acelerado",
+            "description": "Servicio de Cámara de envejecimiento UV",
+            "keywords": "envejecimiento, acelerado, luz,condensación",
+            "service_type": ServiceTypeEnum.DESARROLLO.value,
+            "enabled": True,
+            "institution_id": 1,
+        },
+        {
+            "name": "Consultoria de Pinturas",
+            "description": "Servicio de Consultoria de pinturas",
+            "keywords": "pinturas, consultor",
+            "service_type": ServiceTypeEnum.CONSULTORIA.value,
+            "enabled": True,
+            "institution_id": 2,
+        },
+        {
+            "name": "Análisis de Resistencia a la Abrasión",
+            "description": "Servicio de evaluación de la resistencia a la abrasión de recubrimientos",
+            "keywords": "análisis, resistencia, abrasión, recubrimientos",
+            "service_type": ServiceTypeEnum.ANALISIS.value,
+            "enabled": True,
+            "institution_id": 3
+        },
+        {
+            "name": "Análisis de Suelos",
+            "description": "Evaluación de la resistencia a los recubrimientos de suelos",
+            "keywords": "análisis, resistencia, suelos, recubrimientos",
+            "service_type": ServiceTypeEnum.ANALISIS.value,
+            "enabled": True,
+            "institution_id": 3
+        }
     ]
 
     for service_data in services_data:
@@ -67,6 +99,74 @@ def seed_service_requests() -> None:
             "service_id": 2,
             "requester_id": 2,
             "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 4",
+            "description": "Esta es una cuarta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 1,
+            "status": StatusEnum.FINALIZADA.value,
+            "closed_at": add_days_to_today(5)
+
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 5",
+            "description": "Esta es una quinta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 6",
+            "description": "Esta es una quinta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 4,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 7",
+            "description": "Esta es una quinta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 5,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 8",
+            "description": "Esta es una sexta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 9",
+            "description": "Esta es una sexta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 3,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 10",
+            "description": "Esta es una septima solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 4,
+            "requester_id": 3,
+            "status": StatusEnum.FINALIZADA.value,
+            "closed_at": add_days_to_today(10)
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 11",
+            "description": "Esta es una octava solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 5,
+            "requester_id": 3,
+            "status": StatusEnum.FINALIZADA.value,
+            "closed_at": add_days_to_today(3)
         },
     ]
 

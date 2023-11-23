@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 const REGISTER_URL = import.meta.env.VITE_REGISTER_URL
 
 const router = createRouter({
@@ -17,6 +18,16 @@ const router = createRouter({
     {
       path: '/requests',
       name: 'requests',
+      beforeEnter: (to, from, next) => {
+        // Check if the user is logged in
+        if (useAuthStore().user) {
+          // User is logged in, allow access to the route
+          next()
+        } else {
+          // User is not logged in, redirect to the login page or another page
+          next('/login')
+        }
+      },
       component: () => import('../views/RequestsView.vue')
     },
     {
@@ -40,11 +51,26 @@ const router = createRouter({
       component: () => import('../views/ServiceView.vue')
     },
     {
+      path: '/service-request/:id',
+      name: 'serviceRequest',
+      beforeEnter: (to, from, next) => {
+        // Check if the user is logged in
+        if (useAuthStore().user) {
+          // User is logged in, allow access to the route
+          next()
+        } else {
+          // User is not logged in, redirect to the login page or another page
+          next('/login')
+        }
+      },
+      component: () => import('../views/ServiceRequestView.vue')
+    },
+    {
       path: '/register',
       name: 'register',
       beforeEnter: (to, from, next) => {
-        window.location.href = REGISTER_URL; // Redirect to register URL
-        next(false); // Avoid Vue Router navigation
+        window.location.href = REGISTER_URL // Redirect to register URL
+        next(false) // Avoid Vue Router navigation
       }
     },
     {
@@ -56,8 +82,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
-    }    
-
+    }
   ]
 })
 

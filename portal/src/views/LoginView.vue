@@ -1,8 +1,13 @@
 <script setup>
+import { ref } from 'vue';
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 
 import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+
+const googleError = ref(null);
 
 const schema = Yup.object().shape({
     email: Yup.string().email('Ingrese un Email válido').required('Ingrese un Email'),
@@ -10,11 +15,17 @@ const schema = Yup.object().shape({
 });
 
 function onSubmit(values, { setErrors }) {
-    const authStore = useAuthStore();
     const { email, password } = values;
     return authStore.login(email, password)
           .catch(error => setErrors({ apiError: error }))
 }
+
+function loginWithGoogle(response){
+  return authStore.loginWithGoogle(response)
+          .catch(error => googleError.value = error)
+}
+
+
 </script>
 
 <template>
@@ -64,14 +75,8 @@ function onSubmit(values, { setErrors }) {
           </tr>
         </table>
           <div class="text-center m-2">
-            <a href="#">
-              <button class="btn btn-outline-primary" id="google-login">
-                <span data-provider="google"></span>
-                <img src="@/assets/google-logo.png" alt="Logo de Google" 
-                style="vertical-align: middle; width: 20px; height: 20px; margin-right: 10px;">
-                <span href>Continuar con Google</span>
-              </button>
-            </a>
+            <GoogleLogin :callback="loginWithGoogle"/>
+            <div v-if="googleError" class="alert alert-danger mt-3">{{ googleError }}</div>
           </div>
         </div>
       </div>

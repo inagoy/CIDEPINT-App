@@ -1,8 +1,19 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-const authStore = useAuthStore();
+export default {
+  components: {
+    RouterLink,
+    RouterView
+  },
+  setup() {
+    const authStore = useAuthStore();  
+    return { 
+      authStore 
+    };
+  }
+}
 </script>
 
 <template>
@@ -37,6 +48,9 @@ const authStore = useAuthStore();
             <li class="nav-item">
               <RouterLink class="nav-link" to="/services">Servicios</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
+            </li>
           </ul>
           <ul v-show="!authStore.user" class="navbar-nav">
             <li class="nav-item">
@@ -49,9 +63,6 @@ const authStore = useAuthStore();
           <ul v-show="authStore.user" class="navbar-nav">
             <li class="nav-item">
               <RouterLink class="nav-link" to="/requests">Solicitudes</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -66,7 +77,7 @@ const authStore = useAuthStore();
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><RouterLink class="dropdown-item" to="/profile">Ver perfil</RouterLink></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li @click="authStore.logout()" class="dropdown-item" >Cerrar sesión</li>
+                <li type="button" @click="authStore.logout()" class="dropdown-item" >Cerrar sesión</li>
               </ul>
             </li>
           </ul>

@@ -9,9 +9,6 @@ export default {
   },
   components: {
     ServiceRequestButton
-  },
-  setup(props) {
-    console.log(props.foo)
   }
 }
 </script>
@@ -22,12 +19,14 @@ export default {
       <h5 class="card-title">
         {{ service.name }} <span class="badge bg-secondary"> {{ service.service_type }}</span>
       </h5>
-      <h6 class="card-subtitle mb-2 text-body-secondary">{{ service.laboratory }}</h6>
+      <h6 class="card-subtitle mb-2 text-body-secondary">
+        <u>Institución:</u> {{ service.laboratory }}
+      </h6>
       <p class="card-text">
-        {{ service.description }}
+        <u>Descripción:</u> {{ service.description }}
       </p>
       <p class="card-text">
-        {{ service.keywords }}
+        <u>Palabras claves para la búsqueda:</u> {{ service.keywords }}
       </p>
       <div class="">
         <RouterLink

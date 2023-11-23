@@ -1,6 +1,6 @@
 from src.core.models.service import Note, ServiceRequest
 from marshmallow import ValidationError
-from src.core.schemas.service_request import NoteModelSchema
+from src.core.schemas.service_request import NoteModelSchema, NotesModelSchema
 from src.core.schemas.service_request import PostNoteValidateSchema
 from src.core.schemas.service_request import PostRequestValidateSchema
 from src.core.schemas.service_request import SortedRequestsValidateSchema
@@ -89,3 +89,13 @@ def post_note(request_id):
        user_id=user_id
     )
     return model_schema.dump(note), 200
+
+
+@api_request_bp.route("/me/requests/<int:request_id>/notes", methods=["GET"])
+@cross_origin()
+@jwt_required()
+def get_notes(request_id):
+    model_schema = NotesModelSchema.get_instance(many=True)
+
+    notes = Note.get_notes_of_service_request(request_id)
+    return {"data": model_schema.dump(notes)}, 200

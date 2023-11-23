@@ -12,3 +12,9 @@ def paginated_response(paginated_data, schema):
         "per_page": paginated_data.per_page,
         "total": paginated_data.total
     }, 200
+
+
+def convert_to_percentage(int_list):
+    total = sum(int_list)
+    percentages = [round(((value / total) * 100), 2) for value in int_list]
+    return {'percentages': percentages, 'total': total}

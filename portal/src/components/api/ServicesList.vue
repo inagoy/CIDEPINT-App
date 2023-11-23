@@ -1,28 +1,26 @@
-<script>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import ServiceCard from '../cards/ServiceCard.vue'
-const API_URL = import.meta.env.VITE_API_URL
+<script setup>
+import ServiceCard from '@/components/cards/ServiceCard.vue'
+import PageItemsSelector from '@/components/buttons/PageItemsSelector.vue'
+import { usePaginationStore } from '@/stores/pagination';
+import { watch, onBeforeMount } from 'vue';
 
-export default {
-  setup() {
-    const posts = ref([])
-    onMounted(() => {
-      axios.get(API_URL + '/services/search?q=').then((response) => {
-        posts.value = response.data.data
-      })
-    })
-    return {
-      posts
-    }
-  },
-  components: { ServiceCard }
-}
+const pagination = usePaginationStore();
+
+onBeforeMount(() => {
+  pagination.reset();
+})
+
 </script>
 
 <template>
-  <h4 class="text-center">Todos los servicios</h4>
-  <div v-for="post in posts" :key="post.id">
-    <ServiceCard :service="post" />
+  <div>
+    <h4 v-if="!pagination.data" class="text-center mt-4 mb-2">Cargando...</h4>
+    <h4 v-else-if="pagination.data.length === 0" class="text-center mt-4 mb-2">No hay servicios disponibles para mostrar</h4>
+    <template v-else>
+      <PageItemsSelector/>
+      <div v-for="service in pagination.data" :key="service.id" class="mb-3">
+        <ServiceCard :service="service" />
+      </div>
+    </template>
   </div>
 </template>
