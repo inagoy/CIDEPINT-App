@@ -129,7 +129,7 @@ class Institution(BaseModel):
             instance.average_response_time() for instance in instances
         }
         sorted_result = dict(sorted(result.items(), key=lambda item: item[1]))
-        institutions = list(sorted_result.keys())
-        averages = list(sorted_result.values())
+        institutions = list(sorted_result.keys())[:10]
+        averages = list(sorted_result.values())[:10]
 
         return {"institutions": institutions, "averages": averages}

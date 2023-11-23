@@ -1,5 +1,5 @@
 """Service model."""
-from datetime import datetime, date, timedelta
+from datetime import datetime
 from enum import Enum as EnumBase
 
 from sqlalchemy import or_, func, and_
@@ -129,41 +129,10 @@ class Service(BaseModel):
     def get_top_requested_services(cls):
         result = (
             db.session.query(cls.name, func.count(ServiceRequest.id))
-            .outerjoin(cls.has_service_requests)
+            .join(cls.has_service_requests)
             .group_by(cls.name)
             .order_by(func.count(ServiceRequest.id).desc())
-            .limit(10)
-            .all()
-        )
-
-        services = [name for name, _ in result]
-        requests = [requests for _, requests in result]
-
-        most_requested_services = {
-            'services': services, 'requests': requests
-        }
-        return most_requested_services
-
-    @classmethod
-    def get_request_count_by_service_type(cls):
-        result = (
-            db.session.query(cls.service_type, func.count(ServiceRequest.id))
-            .outerjoin(cls.has_service_requests)
-            .group_by(cls.service_type)
-            .all()
-        )
-        service_types = [service_type.value for service_type, _ in result]
-        requests = [requests for _, requests in result]
-        return {'types': service_types, 'requests': requests}
-
-    @classmethod
-    def get_top_requested_services(cls):
-        result = (
-            db.session.query(cls.name, func.count(ServiceRequest.id))
-            .outerjoin(cls.has_service_requests)
-            .group_by(cls.name)
-            .order_by(func.count(ServiceRequest.id).desc())
-            .limit(10)
+            .limit(6)
             .all()
         )
 

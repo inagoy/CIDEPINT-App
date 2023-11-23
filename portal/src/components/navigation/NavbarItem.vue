@@ -48,6 +48,9 @@ export default {
             <li class="nav-item">
               <RouterLink class="nav-link" to="/services">Servicios</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
+            </li>
           </ul>
           <ul v-show="!authStore.user" class="navbar-nav">
             <li class="nav-item">
@@ -60,9 +63,6 @@ export default {
           <ul v-show="authStore.user" class="navbar-nav">
             <li class="nav-item">
               <RouterLink class="nav-link" to="/requests">Solicitudes</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
             </li>
             <li class="nav-item dropdown">
               <a
