@@ -88,10 +88,10 @@ const chartOptions = ref({
 
 <template>
     <div>
-        <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
-        <p v-if="series" class="text-center "> Total de Solicitudes: {{ total }} </p>
-        <div class="mx-auto" style="max-width: 600px;">
-            <apexchart type="polarArea" width="600" :options="chartOptions" :series="series" v-if="series"></apexchart>
+        <div class="mx-auto" style="max-width: 600px; height: 70vh">
+            <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
+            <p v-if="series" class="text-center "> Total de Solicitudes: {{ total }} </p>
+            <apexchart type="polarArea" height="90%" :options="chartOptions" :series="series" v-if="series"></apexchart>
         </div>
     </div>
 </template>
