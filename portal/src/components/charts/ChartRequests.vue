@@ -44,7 +44,6 @@ onMounted(async () => {
           floating: true,
           fontSize: '16px',
           position: 'left',
-          offsetX: 300,
           labels: {
             useSeriesColors: true,
           },
@@ -69,13 +68,15 @@ const chartOptions = ref({
 
 <template>
   <div>
-    <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
-    <apexchart
-      height="510"
+    <div class="mx-auto" style="max-width: 700px; height: 70vh">
+      <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
+      <apexchart
+      height="100%"
       type="radialBar"
       :options="chartOptions"
       :series="series"
       v-if="series"
-    ></apexchart>
+      ></apexchart>
+    </div>
   </div>
 </template>

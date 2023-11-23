@@ -36,11 +36,6 @@ const charts = useChartsStore()
 </template>
 
 <style>
-.container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .box {
   height: 100%; /* Make all boxes the same height */
   display: flex;
