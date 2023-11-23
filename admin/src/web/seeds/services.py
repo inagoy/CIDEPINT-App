@@ -47,6 +47,14 @@ def seed_services() -> None:
             "service_type": ServiceTypeEnum.ANALISIS.value,
             "enabled": True,
             "institution_id": 3
+        },
+        {
+            "name": "Análisis de Suelos",
+            "description": "Evaluación de la resistencia a los recubrimientos de suelos",
+            "keywords": "análisis, resistencia, suelos, recubrimientos",
+            "service_type": ServiceTypeEnum.ANALISIS.value,
+            "enabled": True,
+            "institution_id": 3
         }
     ]
 
@@ -112,6 +120,30 @@ def seed_service_requests() -> None:
         },
         {
             "title": "Solicitud de Servicio de Ejemplo 6",
+            "description": "Esta es una quinta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 4,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 7",
+            "description": "Esta es una quinta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 5,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 8",
+            "description": "Esta es una sexta solicitud de servicio",
+            "observations": "Sin observaciones adicionales",
+            "service_id": 3,
+            "requester_id": 2,
+            "status": StatusEnum.EN_PROCESO.value,
+        },
+        {
+            "title": "Solicitud de Servicio de Ejemplo 9",
             "description": "Esta es una sexta solicitud de servicio",
             "observations": "Sin observaciones adicionales",
             "service_id": 3,
@@ -119,7 +151,7 @@ def seed_service_requests() -> None:
             "status": StatusEnum.EN_PROCESO.value,
         },
         {
-            "title": "Solicitud de Servicio de Ejemplo 7",
+            "title": "Solicitud de Servicio de Ejemplo 10",
             "description": "Esta es una septima solicitud de servicio",
             "observations": "Sin observaciones adicionales",
             "service_id": 4,
@@ -128,7 +160,7 @@ def seed_service_requests() -> None:
             "closed_at": add_days_to_today(10)
         },
         {
-            "title": "Solicitud de Servicio de Ejemplo 8",
+            "title": "Solicitud de Servicio de Ejemplo 11",
             "description": "Esta es una octava solicitud de servicio",
             "observations": "Sin observaciones adicionales",
             "service_id": 5,

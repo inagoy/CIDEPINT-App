@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '@/stores/auth'
 const REGISTER_URL = import.meta.env.VITE_REGISTER_URL
 
 const router = createRouter({

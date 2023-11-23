@@ -1,8 +1,11 @@
 <script>
-import { ref, onMounted, watch } from 'vue'
-import { fetchWrapper } from '@/helpers/fetch-wrapper'
+import { ref, watch, onBeforeMount } from 'vue'
+import RequestCard from '@/components/cards/RequestCard.vue'
+import PageItemsSelector from '@/components/buttons/PageItemsSelector.vue'
+import { usePaginationStore } from '@/stores/pagination';
 
-import RequestCard from '../cards/RequestCard.vue'
+const pagination = usePaginationStore();
+
 const API_URL = import.meta.env.VITE_API_URL
 
 export default {
@@ -11,16 +14,15 @@ export default {
     const sortBy = ref('status') // Default value for sorting
     const sortOrder = ref('desc') // Default value for ordering
 
-    onMounted(async () => {
-      await fetchData()
+    onBeforeMount(() => {
+      pagination.reset();
+      fetchData();
     })
 
     const fetchData = async () => {
-      const request = await fetchWrapper.get(
-        `${API_URL}/me/requests?sort=${sortBy.value}&order=${sortOrder.value}`
-      )
-      posts.value = request.data
-      console.log('posts: ', posts)
+     let URL  = `${API_URL}/me/requests?sort=${sortBy.value}&order=${sortOrder.value}&`
+      pagination.setUrl(URL);
+      pagination.fetchData();
     }
 
     // Watch for changes in sortBy or sortOrder and fetch data accordingly
@@ -31,15 +33,18 @@ export default {
     return {
       posts,
       sortBy,
-      sortOrder
+      sortOrder,
+      pagination
     }
   },
-  components: { RequestCard }
+  components: { 
+    RequestCard,
+    PageItemsSelector
+  }
 }
 </script>
 
 <template>
-  <h4 class="text-center">Solicitudes</h4>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end align-items-center">
     <h6 class="mb-0"><b> Ordenar por: </b></h6>
     <select v-model="sortBy" class="form-select w-md-25" aria-label="Default select example">
@@ -53,7 +58,21 @@ export default {
       <option value="asc">Ascendiente</option>
     </select>
   </div>
-  <div v-for="post in posts" :key="post.id">
-    <RequestCard :request="post" />
+  <div id="requestList">
+    <h4 v-if="!pagination.data" class="text-center mt-4 mb-2">Cargando...</h4>
+    <h4 v-else-if="pagination.data.length === 0" class="text-center mt-4 mb-2">No hay solicitudes disponibles para mostrar</h4>
+    <template v-else>
+      <PageItemsSelector/>
+      <div v-for="post in pagination.data" :key="post.id" class="mb-3">
+        <RequestCard :request="post" />
+      </div>
+    </template>
   </div>
 </template>
+
+<style scoped>
+#requestList {
+  margin-top: 20px;
+
+}
+</style>

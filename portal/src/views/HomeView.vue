@@ -8,8 +8,7 @@ export default {
   setup() {
     const contact_info = ref(null)
     onMounted(async () => {
-      const response = await fetchWrapper.get(API_URL+'/contact-info')
-      console.log(response.contact_info)
+      const response = await fetchWrapper.get(API_URL+'/contact-info');
       contact_info.value = response.contact_info
     })
     return {
