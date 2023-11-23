@@ -1,11 +1,14 @@
 <script>
 import { ref, computed, onMounted } from "vue";
 import { fetchWrapper } from "@/helpers/fetch-wrapper";
+import { usePaginationStore } from '@/stores/pagination';
+
 const API_URL = import.meta.env.VITE_API_URL;
+const pagination = usePaginationStore()
 
 export default {
   name: "SearchItem",
-  setup(props, { emit }) {
+  setup() {
     const servicesTypes = ref([]);
 
     const inputSearch = ref("");
@@ -23,12 +26,12 @@ export default {
     };
 
     const search =  async () => {
-      let URL = API_URL + "/services/search?q=" + inputSearch.value;
+      let URL = API_URL + "/services/search?q=" + inputSearch.value + "&";
       if (type.value) {
-        URL += "&type=" + type.value;
+        URL += "type=" + type.value + "&";
       }
-      const response = await fetchWrapper.get(URL);
-      emit('search-results', response.data);
+      pagination.setUrl(URL);
+      pagination.fetchData();
     };
 
     onMounted(() => {

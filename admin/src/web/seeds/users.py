@@ -79,3 +79,10 @@ def seed_users() -> None:
                                  (user_data["password"].encode("utf-8")))
         user = User.save(**user_data)
         print(f"Created user: {user.first_name} {user.last_name}")
+
+    owner = Role.query.filter_by(name="Owner").first()
+    UserRoleInstitution.insert(
+        role_id=owner.id,
+        user_id=2,
+        institution_id=1
+    )

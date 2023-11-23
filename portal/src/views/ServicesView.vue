@@ -1,34 +1,20 @@
-<script>
-import SearchItem from '../components/navigation/SearchItem.vue'
-import ServicesList from '../components/api/ServicesList.vue'
-import { ref } from 'vue';
+<script setup>
+import SearchItem from '@/components/navigation/SearchItem.vue'
+import ServicesList from '@/components/api/ServicesList.vue'
+import PaginationItem from '@/components/navigation/PaginationItem.vue'
+import { usePaginationStore } from '@/stores/pagination';
 
-export default {
-  name: 'ServicesView',
-  components: {
-    SearchItem,
-    ServicesList
-  },
-
-  setup() {
-    const searchResults = ref([]);
-    const updateSearchResults = (results) => {
-      searchResults.value = results;
-    };
-    
-    return {
-      searchResults,
-      updateSearchResults,
-    };
-  },
-};
+const pagination = usePaginationStore();
 
 </script>
 
 <template>
   <main class="container">
     <h4 class="text-center">Servicios</h4>
-    <SearchItem @search-results="updateSearchResults"/>
-    <ServicesList :services="searchResults"/>
+    <SearchItem/>
+    <div style="margin-bottom: 10px;">
+      <ServicesList/>
+      <PaginationItem v-if="pagination.data && pagination.data.length > 0"/>
+    </div>
   </main>
-</template>
+</template> 
