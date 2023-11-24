@@ -8,10 +8,10 @@ export default {
     RouterView
   },
   setup() {
-    const authStore = useAuthStore();  
-    return { 
-      authStore 
-    };
+    const authStore = useAuthStore()
+    return {
+      authStore
+    }
   }
 }
 </script>
@@ -46,10 +46,10 @@ export default {
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/services">Servicios</RouterLink>
+              <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/stats">Estadísticas</RouterLink>
+              <RouterLink class="nav-link" to="/services">Servicios</RouterLink>
             </li>
           </ul>
           <ul v-show="!authStore.user" class="navbar-nav">
@@ -77,7 +77,9 @@ export default {
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><RouterLink class="dropdown-item" to="/profile">Ver perfil</RouterLink></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li type="button" @click="authStore.logout()" class="dropdown-item" >Cerrar sesión</li>
+                <li type="button" @click="authStore.logout()" class="dropdown-item">
+                  Cerrar sesión
+                </li>
               </ul>
             </li>
           </ul>

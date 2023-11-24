@@ -34,7 +34,7 @@ export default {
         description: this.message
       })
       console.log('request: ', request)
-      // router.push('/')
+      router.push('/requests')
     }
   }
 }
@@ -53,10 +53,11 @@ export default {
         placeholder="Resumen..."
         aria-describedby="requestDetailHelp"
       ></textarea>
-      <div v-show="message.length === 0" id="requestDetailHelp" class="form-text">
-        Este campo no puede estar vacio
+      <div v-show="disableButton" id="requestDetailHelp" class="form-text">
+        Complete todos los datos para solicitar el servicio
       </div>
     </div>
+
     <div class="d-flex justify-content-end gap-2">
       <button :disabled="disableButton" @click="onSubmit" type="button" class="btn btn-success">
         Solicitar

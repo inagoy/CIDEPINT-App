@@ -57,7 +57,8 @@ def parse_service_request(service_request):
             'requester': service_request.requester.email,
             'status': service_request.status.value,
             'inserted_at': service_request.inserted_at.strftime("%d-%m-%Y"),
-            'closed_at': service_request.closed_at.strftime("%d-%m-%Y"),
+            'closed_at': (service_request.closed_at.strftime("%d-%m-%Y") if
+                          service_request.closed_at else None),
             }
 
 
