@@ -72,16 +72,6 @@ const router = createRouter({
         window.location.href = REGISTER_URL // Redirect to register URL
         next(false) // Avoid Vue Router navigation
       }
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: () => import('../views/ApiTestView.vue')
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue')
     }
   ]
 })

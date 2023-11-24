@@ -13,15 +13,8 @@ const charts = useChartsStore()
 
 <template>
   <main class="container">
-    <div class="box">
-      <div class="content">
-        <ChartRequests v-if="charts.actualChart === 1"></ChartRequests>
-        <ChartRequestsType v-if="charts.actualChart === 2"></ChartRequestsType>
-        <ChartInstitutionsResponse v-if="charts.actualChart === 3"></ChartInstitutionsResponse>
-      </div>
-    </div>
-  </main>
-  <div class="btn-group btn-group-toggle mx-auto" data-toggle="buttons">
+    <h4 class="text-center">Estadísticas</h4>
+    <div class="btn-group btn-group-toggle mx-auto" data-toggle="buttons">
     <button  @click="charts.chartOne()" :class= "{ active: charts.actualChart === 1 }" class="btn btn-outline-secondary">
       Servicios más solicitados
     </button >
@@ -32,6 +25,15 @@ const charts = useChartsStore()
       Instituciones más rápidas
     </button >
   </div>
+    <div class="box">
+      <div class="content">
+        <ChartRequests v-if="charts.actualChart === 1"></ChartRequests>
+        <ChartRequestsType v-if="charts.actualChart === 2"></ChartRequestsType>
+        <ChartInstitutionsResponse v-if="charts.actualChart === 3"></ChartInstitutionsResponse>
+      </div>
+    </div>
+  </main>
+  
   
 </template>
 

@@ -34,7 +34,7 @@ export default {
         description: this.message
       })
       console.log('request: ', request)
-      // router.push('/')
+       router.push('/requests')
     }
   }
 }

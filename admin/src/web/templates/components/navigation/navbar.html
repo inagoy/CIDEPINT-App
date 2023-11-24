@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-fluid">
 	<a class="navbar-brand"
 	   href="{% if is_authenticated(session) %}{{ url_for('home.home_user') }}{% else %}{{ url_for('home.home') }}{% endif %}">
 		<img src="../../../../static/assets/logo-completo.png" alt="CIDEPINT"
@@ -6,22 +7,24 @@
 		<img src="../../../../static/assets/logo.png" alt="CIDEPINT"
 			 class="img-fluid logo d-md-none d-inline" />
 	</a>
-	<div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-		<ul class="navbar-nav">
-			{% if not is_authenticated(session) %}
-			<!-- Visible for not logged -->
-			<li id="app-publica" class="nav-item active">
-				<a class="nav-link d-flex align-items-center" href={{ public_app() }}><i
-						class="bi bi-door-open"></i>
-					<span class="ml-2"> Aplicación Pública </span>
-				</a>
-			</li>
-			<!-- Visible for everyone -->
-			{% else %}
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-					aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+	{% if not is_authenticated(session) %}
+	<!-- Visible for not logged -->
+	<ul class="navbar-nav">
+		<li id="app-publica" class="nav-item active">
+			<a class="nav-link d-flex align-items-center" href={{ public_app() }}><i
+					class="bi bi-door-open"></i>
+				<span class="ml-2"> Aplicación Pública </span>
+			</a>
+		</li>
+	</ul>
+	<!-- Visible for everyone -->
+	{% else %}
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+				aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+			<ul class="navbar-nav">
 			{% if superuser_session() %}
 				<!-- Visible for superuser -->
 				<li id="menu-instituciones" class="nav-item active">
@@ -91,7 +94,8 @@
 					<a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
 				</div>
 			</li>
-		</ul>
-	</div>
+			</ul>
+		</div>
 	{% endif %}
+	</div>
 </nav>

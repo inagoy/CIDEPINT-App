@@ -72,7 +72,7 @@ const chartOptions = ref({
 <template>
     <div>
         <div class="mx-auto" style="max-width: 1000px; height: 70vh">
-            <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
+            <h4 class="text-center" v-if="status === 'loading'">Cargando...</h4>
             <apexchart type="bar" height="100%" :options="chartOptions" :series="series" v-if="series"></apexchart>
         </div>
     </div>

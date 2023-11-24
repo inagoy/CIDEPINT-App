@@ -69,7 +69,7 @@ const chartOptions = ref({
 <template>
   <div>
     <div class="mx-auto" style="max-width: 700px; height: 70vh">
-      <h4 class="text-center" v-if="status === 'loading'">loading...</h4>
+      <h4 class="text-center" v-if="status === 'loading'">Cargando...</h4>
       <apexchart
       height="100%"
       type="radialBar"

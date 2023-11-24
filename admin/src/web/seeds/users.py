@@ -71,6 +71,20 @@ def seed_users() -> None:
          "document": '39233566',
          "auth_method": 'App',
          "active": True,
+         },
+
+        {"first_name": "Juan Ignacio",
+         "last_name": "Perez",
+         "email": "juaniperez@example.com",
+         "username": "juaniperez",
+         "password":  "Password123",
+         "address": "78 nro 87",
+         "phone_number": "2214785685",
+         "gender": 'Masculino',
+         "document_type": 'DNI',
+         "document": '21233566',
+         "auth_method": 'App',
+         "active": True
          }
     ]
 
@@ -81,8 +95,20 @@ def seed_users() -> None:
         print(f"Created user: {user.first_name} {user.last_name}")
 
     owner = Role.query.filter_by(name="Owner").first()
+    administrator = Role.query.filter_by(name="Administrator").first()
+    operator = Role.query.filter_by(name="Operator").first()
     UserRoleInstitution.insert(
         role_id=owner.id,
         user_id=2,
+        institution_id=1
+    )
+    UserRoleInstitution.insert(
+        role_id=administrator.id,
+        user_id=3,
+        institution_id=1
+    )
+    UserRoleInstitution.insert(
+        role_id=operator.id,
+        user_id=4,
         institution_id=1
     )
