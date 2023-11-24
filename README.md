@@ -20,7 +20,7 @@ las instituciones registradas. Utilizaremos una base de datos PostgreSQL y se im
 
 # Cómo acceder
 
-### 
+### Links a las aplicaciones
 URL del sitio de administración: [**App privada**](https://admin-grupo05.proyecto2023.linti.unlp.edu.ar/)
 URL del portal público: [**App pública**](https://grupo05.proyecto2023.linti.unlp.edu.ar/)
 
