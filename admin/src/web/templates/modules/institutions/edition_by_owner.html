@@ -1,16 +1,26 @@
 {% extends "layout.html" %}
 {% block title %} Editar Instituci&oacute;n {% endblock %}
 {% block head %}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+{{ super() }}
+<script src="{{ url_for('static', filename='js/formValidations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/leafletMap.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let data = document.getElementById("coordinates").innerHTML;
+        console.log('data', data);
+        viewEditMap(JSON.parse(data));
+    });
+</script>
 {% endblock %}
 {% block content %}
-<div class="container mt-4" style="margin-bottom: 50px; max-width: 800px; border: 2px solid #ccc; padding: 20px;">
+<div class="container mt-4"
+     style="margin-bottom: 50px; max-width: 800px; border: 2px solid #ccc; padding: 20px;">
     <h1 class="mb-4">Editar Instituci&oacute;n</h1>
-    <form method="POST" action="{{ url_for('institution.edit_institution') }}" onsubmit="return validateFormInstitution()">
+    <form method="POST" action="{{ url_for('institution.edit_institution') }}"
+          onsubmit="return validateFormInstitution()">
         <div class="form-group form-check">
-            <input class="form-check-input" value="True" type="checkbox" id="inputEnabled" name="inputEnabled"
-            {% if institution.enabled %}checked{% endif %}>
+            <input class="form-check-input" value="True" type="checkbox" id="inputEnabled"
+                   name="inputEnabled" {% if institution.enabled %}checked{% endif %}>
             <label class="form-check-label" for="inputEnabled">
                 ¿Instituci&oacute;n Habilitada?
             </label>
@@ -18,119 +28,86 @@
 
         <div class="form-group">
             <label for="inputNameEdit">Nombre *</label>
-            <input
-                 type="text" 
-                class="form-control" 
-                id="inputNameEdit" 
-                name="inputNameEdit" 
-                placeholder="Nombre de la institución"
-                onblur="validateJustText('inputNameEdit', 'nameErrorEdit'); validateFormInstitution()"
-                aria-describedby="nameErrorEdit"
-                value="{{ institution.name }}" 
-            />
+            <input type="text" class="form-control" id="inputNameEdit" name="inputNameEdit"
+                   placeholder="Nombre de la institución"
+                   onblur="validateJustText('inputNameEdit', 'nameErrorEdit'); validateFormInstitution()"
+                   aria-describedby="nameErrorEdit" value="{{ institution.name }}" />
             <small id="nameErrorEdit" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
             <label for="inputInfoEdit">Informaci&oacute;n *</label>
-            <textarea 
-                type="text"
-                class="form-control" 
-                id="inputInfoEdit" 
-                name="inputInfoEdit" 
-                rows="4" 
-                placeholder="Información de la institución"
-            >{{ institution.info }}</textarea>
+            <textarea type="text" class="form-control" id="inputInfoEdit" name="inputInfoEdit"
+                      rows="4"
+                      placeholder="Información de la institución">{{ institution.info }}</textarea>
             <small id="infoErrorEdit" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
             <label for="inputAddress">Direcci&oacute;n</label>
-            <input 
-                type="text" 
-                class="form-control" 
-                id="inputAddress" 
-                name="inputAddress" 
-                placeholder="Ejemplo de dirección: Av San Martin 123"
-                onblur="validateDireccion('inputAddress', 'addressError'); validateFormInstitution()"
-                aria-describedby="addressError"
-                value="{{ institution.address }}" 
-            />
+            <input type="text" class="form-control" id="inputAddress" name="inputAddress"
+                   placeholder="Ejemplo de dirección: Av San Martin 123"
+                   onblur="validateDireccion('inputAddress', 'addressError'); validateFormInstitution()"
+                   aria-describedby="addressError" value="{{ institution.address }}" />
             <small id="addressError" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
             <label for="inputLocation">Locaci&oacute;n</label>
-            <input 
-                type="text" 
-                class="form-control" 
-                id="inputLocation" 
-                name="inputLocation" 
-                placeholder="Ejemplo: CABA"
-                onblur="validateJustText('inputLocation', 'locationError') "
-                aria-describedby="locationError"
-                value="{{ institution.location }}"
-            />
+            <input type="text" class="form-control" id="inputLocation" name="inputLocation"
+                   placeholder="Ejemplo: CABA"
+                   onblur="validateJustText('inputLocation', 'locationError') "
+                   aria-describedby="locationError" value="{{ institution.location }}" />
             <small id="locationError" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
+            <label> Mapa </label>
+            <p id="coordinates" hidden> {{ institution.coordinates }} </p>
+            <div id="editMap" class="map" style="height: 180px;"></div>
+            <input type="text" hidden class="form-control" id="inputCoordinatesEdit"
+                   name="inputCoordinatesEdit">
+            <small id="removeMap" style="cursor: pointer;" class="form-text"
+                   onclick="removeMarker()"> Eliminar marcador del mapa</small>
+        </div>
+
+        <div class="form-group">
             <label for="inputWebsite">Sitio web</label>
-            <input 
-                type="text" 
-                class="form-control" 
-                id="inputWebsite" 
-                name="inputWebsite" 
-                placeholder="www.ejemplo.com"
-                onblur="validateWebsite('inputWebsite', 'websiteError')"
-                aria-describedby="websiteError"
-                value="{{ institution.website }}"
-            />
+            <input type="text" class="form-control" id="inputWebsite" name="inputWebsite"
+                   placeholder="www.ejemplo.com"
+                   onblur="validateWebsite('inputWebsite', 'websiteError')"
+                   aria-describedby="websiteError" value="{{ institution.website }}" />
             <small id="websiteError" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
             <label for="inputKeywords">Palabras de B&uacute;squeda</label>
-            <input 
-                type="text" 
-                class="form-control" 
-                id="inputKeywords" 
-                name="inputKeywords" 
-                placeholder="Palabras clave"
-                onblur="validateKeywords('inputKeywords', 'keywordsError')"
-                aria-describedby="keywordsError"
-                value="{{ institution.search_keywords }}"
-            />
+            <input type="text" class="form-control" id="inputKeywords" name="inputKeywords"
+                   placeholder="Palabras clave"
+                   onblur="validateKeywords('inputKeywords', 'keywordsError')"
+                   aria-describedby="keywordsError" value="{{ institution.search_keywords }}" />
             <small id="keywordsError" class="form-text text-danger"></small>
         </div>
 
         <div class="form-group">
             <label for="inputDaysAndHours">D&iacute;as y Horarios de Atenci&oacute;n</label>
-            <input
-                class="form-control" 
-                id="inputDaysHours" 
-                name="inputDaysHours" 
-                rows="4" 
-                placeholder="Ejemplo: Lunes a Viernes de 9:00 a 18:00"
-                value ="{{ institution.days_and_hours }}"
-            />
+            <input class="form-control" id="inputDaysHours" name="inputDaysHours" rows="4"
+                   placeholder="Ejemplo: Lunes a Viernes de 9:00 a 18:00"
+                   value="{{ institution.days_and_hours }}" />
         </div>
 
         <div class="form-group">
             <label for="inputContactInfo">Informaci&oacute;n de contacto</label>
-            <input 
-                type="text" 
-                class="form-control" 
-                id="inputContact" 
-                name="inputContact" 
-                placeholder="Ejemplo: Teléfono 123456789"
-                value="{{ institution.contact_info }}"
-            />
+            <input type="text" class="form-control" id="inputContact" name="inputContact"
+                   placeholder="Ejemplo: Teléfono 123456789"
+                   value="{{ institution.contact_info }}" />
         </div>
-        
-        <button type="submit" class="btn btn-success confirm-button mt-3"> Confirmar Cambios</button>
 
-        <a href="{{ url_for('institution.institution', institution_id=institution.id) }}" class="card-link">
+        <button type="submit" class="btn btn-success confirm-button mt-3"> Confirmar
+            Cambios</button>
+
+        <a href="{{ url_for('institution.institution', institution_id=institution.id) }}"
+           class="card-link">
             <button type="button" class="btn btn-primary close-button mt-3">
                 Cancelar
             </button>
