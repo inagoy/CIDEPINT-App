@@ -174,7 +174,7 @@ class ServiceRequest(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    observations = db.Column(db.Text)
+    observations = db.Column(db.Text, default="Sin observaciones adicionales")
     service_id = db.Column(db.Integer,
                            db.ForeignKey('services.id', ondelete='CASCADE'),
                            nullable=False
