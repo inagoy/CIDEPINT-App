@@ -78,7 +78,7 @@ def seed_users() -> None:
          "email": "juaniperez@example.com",
          "username": "juaniperez",
          "password":  "Password123",
-         "address": "78 nro 87",
+         "address": "13 nro 789",
          "phone_number": "2214785686",
          "gender": 'Masculino',
          "document_type": 'DNI',
