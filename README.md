@@ -79,10 +79,6 @@ npm run dev
 - email: **juaniperez@example.com**
 - password: **Password123**
 
-# App pública
-
-Ir al README dentro de portal/ para más información sobre el proyecto
-
 # Dependencias del Proyecto
 
 ### Manejo de Dependencias y Entorno
