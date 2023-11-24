@@ -16,7 +16,6 @@ onMounted(async () => {
     labels: data.services,
     plotOptions: {
       radialBar: {
-        endAngle: 270,
         dataLabels: {
           name: {
             fontSize: '22px'
