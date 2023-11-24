@@ -155,7 +155,8 @@ def edit_institution():
                 'inputKeywords': 'search_keywords',
                 'inputDaysHours': 'days_and_hours',
                 'inputContact': 'contact_info',
-                'inputEnabled': 'enabled'
+                'inputEnabled': 'enabled',
+                'inputCoordinatesEdit': 'coordinates'
             }
 
             form = s.ValidateSerializer.map_keys(request.form, key_mapping)
